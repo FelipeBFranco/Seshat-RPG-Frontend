@@ -1,0 +1,61 @@
+@font-face {
+  font-family: 'Beaufort for LOL Italic';
+  src: url("../../../assets/fonts/BeaufortForLol/BeaufortforLOL-Italic.ttf");
+}
+
+.mainContainer {
+  padding: 0;
+  margin: 0;
+  background-image: url('../../../assets/imgs/login-background.jpg'), linear-gradient(#000000e9 75%, #000000fe 100%);
+  background-size: cover;
+  background-blend-mode: color;
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .loginContainer {
+    color: #fff;
+    background-image: linear-gradient(rgb(0, 0, 0), #000 40%, #2c0033);
+    padding: 20px;
+    min-width: 20vw;
+    min-height: 30vw;
+    border-radius: 40px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.259));
+    .loginForm{
+      align-items: center;
+      justify-content: center;
+      display: flex;
+    }
+    .loginTitle {
+      margin-top: 20%;
+      text-align: center;
+      font-size: 24pt;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .loginInputs {
+      justify-content: center;
+      margin-bottom: 10%;
+      display: flex;
+    }
+    .loginButton {
+      width: 100%;
+      margin-top: 20px;
+    }
+    .loginRegister {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .formButton {
+      min-width: 100%;
+      margin-top: 70%;
+    }
+    .submitButton {
+      font-family: 'Beaufort for LOL Italic';
+      font-size: 16pt;
+      border-radius: 40px;
+    }
+  }
+}

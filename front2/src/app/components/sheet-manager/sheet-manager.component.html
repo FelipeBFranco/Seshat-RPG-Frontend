@@ -1,0 +1,42 @@
+<div class="mainContainer">
+  <div class="sidebarPersonagens">
+    <div class="personagensHeader">
+      <h1 class="personagensTitle">Jogadores</h1>
+    </div>
+    <div class="personagensList">
+      <div class="personagem" *ngFor="let player of players">
+        <div class="personagemHeader">
+          <h2 class="personagemTitle">{{ player.nome }}</h2>
+          <div
+            class="personagensPlayer"
+            *ngFor="let personagem of player.personagens"
+          >
+            <p class="personagemPlayer">{{ personagem.nome }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sheetManagerContainer">
+    <div class="contentContainer">
+      <div class="sheetManagerHeader">
+        <h1 class="sheetManagerTitle">
+          {{
+            playerSelected
+              ? "Editar ficha de " + playerSelected
+              : "Selecione um personagem"
+          }}
+        </h1>
+      </div>
+      <div class="sheetManagerForm">
+        <p-floatLabel class="sheetManagerInputs">
+          <input pInputText id="sheetName" />
+          <label for="sheetName">Nome da Ficha</label>
+        </p-floatLabel>
+        <div class="sheetManagerForm sheetManagerInputs formButton">
+          <p-button label="Criar Ficha" [raised]="true" class="submitButton" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

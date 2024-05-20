@@ -1,0 +1,25 @@
+@import "primeng/resources/themes/vela-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
+@font-face {
+  font-family: 'Beaufort for LOL';
+  src: url(assets/fonts/BeaufortForLol/BeaufortforLOL-Bold.ttf);
+}
+
+@font-face {
+  font-family: 'Beaufort for LOL Italic';
+  src: url(assets/fonts/BeaufortForLol/BeaufortforLOL-BoldItalic.ttf);
+}
+
+* {
+  font-family: 'Beaufort for LOL', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.p-button-label {
+  font-family: 'Beaufort for LOL Italic';
+  font-weight: 800;
+}
