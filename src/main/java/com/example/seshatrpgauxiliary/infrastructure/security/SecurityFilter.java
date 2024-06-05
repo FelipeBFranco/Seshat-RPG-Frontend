@@ -1,8 +1,7 @@
-package com.example.seshatrpgauxiliary.infra.security;
+package com.example.seshatrpgauxiliary.infrastructure.security;
 
-
-import com.example.seshatrpgauxiliary.domain.usuario.Usuario;
-import com.example.seshatrpgauxiliary.repositories.UsuarioRepository;
+import com.example.seshatrpgauxiliary.infrastructure.persistence.entity.User;
+import com.example.seshatrpgauxiliary.infrastructure.persistence.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,19 +18,18 @@ import java.util.Collections;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
-
     @Autowired
     TokenService tokenService;
     @Autowired
-    UsuarioRepository userRepository;
+    UserRepository userRepository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException, ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
-        var login = tokenService.validadorDeToken(token);
+        var login = tokenService.validateToken(token);
 
         if(login != null){
-            Usuario user = userRepository.findByEmail(login).orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+            User user = userRepository.findByEmail(login).orElseThrow(() -> new RuntimeException("User Not Found"));
             var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
             var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);

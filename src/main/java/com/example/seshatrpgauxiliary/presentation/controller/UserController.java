@@ -1,5 +1,4 @@
-package com.example.seshatrpgauxiliary.controllers;
-
+package com.example.seshatrpgauxiliary.presentation.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,11 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/usuario")
-public class UsuarioController {
+@RequestMapping("/user")
+public class UserController {
     @GetMapping
-    public ResponseEntity<String> getUsuario(){
+    public ResponseEntity<String> getUser(){
         return ResponseEntity.ok("sucesso!");
     }
 }
-

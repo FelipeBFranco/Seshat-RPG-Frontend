@@ -1,4 +1,4 @@
-package com.example.seshatrpgauxiliary.infra.security;
+package com.example.seshatrpgauxiliary.infrastructure.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

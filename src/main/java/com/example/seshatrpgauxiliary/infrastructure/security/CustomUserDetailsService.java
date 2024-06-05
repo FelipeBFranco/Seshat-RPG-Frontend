@@ -1,25 +1,22 @@
-package com.example.seshatrpgauxiliary.infra.security;
+package com.example.seshatrpgauxiliary.infrastructure.security;
 
-import com.example.seshatrpgauxiliary.domain.usuario.Usuario;
-import com.example.seshatrpgauxiliary.repositories.UsuarioRepository;
+import com.example.seshatrpgauxiliary.infrastructure.persistence.entity.User;
+import com.example.seshatrpgauxiliary.infrastructure.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
-
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
+    private UserRepository repository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
-        return new org.springframework.security.core.userdetails.User(usuario.getEmail(), usuario.getSenha(), new ArrayList<>());
+        User user = this.repository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
 }
