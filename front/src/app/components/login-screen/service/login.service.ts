@@ -11,7 +11,7 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   loginRequest(email: string, senha: string) {
-    return this.http.post(`${this.baseUrl}/auth/token`, {
+    return this.http.post(`${this.baseUrl}/auth/login`, {
       username: email,
       password: senha,
       grant_type: 'password'
