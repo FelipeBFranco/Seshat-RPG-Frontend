@@ -16,7 +16,7 @@ export class LoginScreenComponent implements OnInit {
 
   formularioLogin: FormGroup = new FormGroup({
     email: new FormControl(''),
-    senha: new FormControl(''),
+    password: new FormControl(''),
   });
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private tokenService: TokenService, private servidorService: ServidorService, private LoginService: LoginService) {
@@ -50,12 +50,13 @@ export class LoginScreenComponent implements OnInit {
 
   // Login com validação de token JWT e redirecionamento
   enviarRequisicaoDeLogin() {
-    // Requisicao no service
-    console.log(this.formularioLogin.value)
-    this.LoginService.loginRequest(this.formularioLogin.value).subscribe(
+    this.LoginService.login(this.formularioLogin.value.email, this.formularioLogin.value.password).subscribe(
       (success) => {
-        // Se a requisição for bem sucedida, armazenar o token no localStorage
         localStorage.setItem('token', `${(success as any)['token']}`);
-      });
+        localStorage.setItem('name', `${(success as any)['name']}`);
+        localStorage.setItem('id', `${(success as any)['id']}`);
+      }
+    
+    );
   }
 }
