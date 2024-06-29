@@ -10,11 +10,10 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  loginRequest(email: string, senha: string) {
+  loginRequest(formularioLogin: any) {
     return this.http.post(`${this.baseUrl}/auth/login`, {
-      username: email,
-      password: senha,
-      grant_type: 'password'
+      email: formularioLogin.email,
+      password: formularioLogin.password,
     });
   }
 }
