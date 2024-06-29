@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'Beaufort for LOL Italic';
+  font-family: "Beaufort for LOL Italic";
   src: url("../../../assets/fonts/BeaufortForLol/BeaufortforLOL-Italic.ttf");
 }
 * {
@@ -7,7 +7,6 @@
 }
 
 body {
-  background-color: #000000 !important;
   font-family: "Beaufort for LOL Italic", sans-serif;
   margin: 0;
   padding: 0;
@@ -49,7 +48,7 @@ body {
   animation: normal 0.5s;
   transition: background-color 0.3s ease-in-out;
   width: 100%;
-  margin-top: 25%;
+  margin-top: 10%;
 }
 
 .botaoLogin:hover {
@@ -114,10 +113,15 @@ body {
 }
 
 .cadastrar-text,
-.entrar-text {
+.entrar-text,
+.esqueceu-text {
   cursor: pointer;
 }
 
 #texto-cadastro {
   margin-top: 5%;
+}
+
+#input-senha {
+  color: #f1f1f1;
 }

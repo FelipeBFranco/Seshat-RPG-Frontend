@@ -15,8 +15,8 @@ import { ServidorService } from '../shared/services/servidor.service';
 export class LoginScreenComponent implements OnInit {
 
   formularioLogin: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    senha: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    email: new FormControl(''),
+    senha: new FormControl(''),
   });
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private tokenService: TokenService, private servidorService: ServidorService, private LoginService: LoginService) {
@@ -48,18 +48,10 @@ export class LoginScreenComponent implements OnInit {
     }
   }
 
-  enviarRequisicaoLogin() {
-    if (this.formularioLogin.valid) {
-      const dadosLogin: FormularioLogin = this.formularioLogin.value;
-      console.log(dadosLogin);
-    } else {
-      this.formularioLogin.markAllAsTouched();
-    }
-  }
-
   // Login com validação de token JWT e redirecionamento
   enviarRequisicaoDeLogin() {
     // Requisicao no service
+    console.log(this.formularioLogin.value.email, this.formularioLogin.value.senha, "login request")
     this.LoginService.loginRequest(this.formularioLogin.value.email, this.formularioLogin.value.senha).subscribe(
       (success) => {
         // Se a requisição for bem sucedida, armazenar o token no localStorage

@@ -12,7 +12,7 @@
         action=""
         class="front"
         [formGroup]="formularioLogin"
-        (ngSubmit)="enviarRequisicaoLogin()"
+        (ngSubmit)="enviarRequisicaoDeLogin()"
       >
         <div>
           <h2 class="text-center">Login</h2>
@@ -35,10 +35,10 @@
               <label for="input-senha" class="mb-2 form-label">Senha</label>
               <p>
                 <input
-                  id="input-email"
-                  formControlName="email"
+                  id="input-senha"
+                  formControlName="senha"
                   pInputText
-                  type="text"
+                  type="password"
                 />
               </p>
             </div>
@@ -47,9 +47,20 @@
                 >Não possui uma conta?
                 <a class="cadastrar-text">Cadastre-se</a></small
               >
+              <p>
+                <small>
+                  Esqueceu a senha? <a class="esqueceu-text">Recuperar</a>
+                </small>
+              </p>
             </div>
           </div>
-          <button class="button botaoLogin" type="submit" (click)="enviarRequisicaoLogin()">Login</button>
+          <button
+            class="button botaoLogin"
+            type="submit"
+            (click)="enviarRequisicaoDeLogin()"
+          >
+            Login
+          </button>
         </div>
       </form>
       <form method="post" action="" class="back">

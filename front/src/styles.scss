@@ -2,24 +2,27 @@
 @import "primeng/resources/primeng.css";
 
 @font-face {
-  font-family: 'Beaufort for LOL';
+  font-family: "Beaufort for LOL";
   src: url(assets/fonts/BeaufortForLol/BeaufortforLOL-Bold.ttf);
 }
 
 @font-face {
-  font-family: 'Beaufort for LOL Italic';
+  font-family: "Beaufort for LOL Italic";
   src: url(assets/fonts/BeaufortForLol/BeaufortforLOL-BoldItalic.ttf);
 }
 
 * {
-  font-family: 'Beaufort for LOL', sans-serif;
+  font-family: "Beaufort for LOL", sans-serif;
 }
 
 body {
   margin: 0;
+  // background-image: url("assets/imgs/login-background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .p-button-label {
-  font-family: 'Beaufort for LOL Italic';
+  font-family: "Beaufort for LOL Italic";
   font-weight: 800;
 }
