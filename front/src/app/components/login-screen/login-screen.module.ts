@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { ButtonModule } from 'primeng/button'; // import ButtonModule
+import { ButtonModule } from 'primeng/button';
+import { PasswordModule } from 'primeng/password';
 
 import { LoginScreenComponent } from './login-screen.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,10 @@ import { LoginScreenComponent } from './login-screen.component';
     CommonModule,
     InputTextModule,
     FloatLabelModule,
-    ButtonModule // add ButtonModule to imports
+    ButtonModule,
+    PasswordModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class LoginScreenModule { }

@@ -1,18 +1,109 @@
-<div class="mainContainer reset">
-  <div class="loginContainer">
-    <div class="loginHeader">
-      <h1 class="loginTitle">Login</h1>
-    </div>
-    <p-floatLabel class="loginInputs">
-      <input pInputText id="username" />
-      <label for="username">Email</label>
-    </p-floatLabel>
-    <p-floatLabel class="loginInputs">
-      <input pInputText id="senha" type="password"/>
-      <label for="senha">Senha</label>
-    </p-floatLabel>
-    <div class="loginForm loginInputs formButton">
-      <p-button label="Entrar" [raised]="true" class="submitButton"/>
+<div class="loginHeader">
+  <div class="titleContent row text-center">
+    <h1>Seshat</h1>
+    <small> Gerenciador de Fichas para RPGs de mesa </small>
+  </div>
+</div>
+<div class="loginContent mt-3">
+  <div class="formContent">
+    <div class="card-content cardForm">
+      <form
+        method="post"
+        action=""
+        class="front"
+        [formGroup]="formularioLogin"
+        (ngSubmit)="enviarRequisicaoLogin()"
+      >
+        <div>
+          <h2 class="text-center">Login</h2>
+          <div class="inputContent">
+            <div class="col">
+              <label for="input-email" class="mb-2 form-label"
+                >Email do Usuário</label
+              >
+              <p>
+                <input
+                  id="input-email"
+                  formControlName="email"
+                  pInputText
+                  type="email"
+                />
+              </p>
+            </div>
+
+            <div class="col">
+              <label for="input-senha" class="mb-2 form-label">Senha</label>
+              <p>
+                <input
+                  id="input-email"
+                  formControlName="email"
+                  pInputText
+                  type="text"
+                />
+              </p>
+            </div>
+            <div>
+              <small
+                >Não possui uma conta?
+                <a class="cadastrar-text">Cadastre-se</a></small
+              >
+            </div>
+          </div>
+          <button class="button botaoLogin" type="submit" (click)="enviarRequisicaoLogin()">Login</button>
+        </div>
+      </form>
+      <form method="post" action="" class="back">
+        <div>
+          <h2 class="text-center" id="texto-cadastro">Cadastrar-se</h2>
+          <div class="inputContent" id="cadastrarForm">
+            <div class="col">
+              <label for="input-usuario-cadastro" class="mb-2 form-label"
+                >Nome de Usuário</label
+              >
+              <p>
+                <input
+                  id="input-usuario-cadastro"
+                  name="input-usuario"
+                  class="input-group-text"
+                  type="text"
+                />
+              </p>
+            </div>
+            <div>
+              <label for="input-email-cadastro" class="mb-2 form-label"
+                >Email</label
+              >
+              <p>
+                <input
+                  id="input-email-cadastro"
+                  name="input-email"
+                  class="input-group-text"
+                  type="email"
+                />
+              </p>
+            </div>
+            <div class="col">
+              <label for="input-senha-cadastro" class="mb-2 form-label"
+                >Senha</label
+              >
+              <p>
+                <input
+                  id="input-senha-cadastro"
+                  name="input-senha"
+                  class="input-group-text"
+                  type="password"
+                />
+              </p>
+            </div>
+            <div>
+              <small
+                >Já possui uma conta? <a class="entrar-text">Entrar</a></small
+              >
+            </div>
+          </div>
+          <button class="button botaoLogin" type="submit">Cadastrar-se</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
