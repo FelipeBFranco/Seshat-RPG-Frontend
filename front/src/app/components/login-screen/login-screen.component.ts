@@ -54,13 +54,15 @@ export class LoginScreenComponent implements OnInit {
 
   // Login com validação de token JWT e redirecionamento
   enviarRequisicaoDeLogin() {
-    // Requisicao no service de login
+    // Requisicao no service
+    console.log(this.formularioLogin.value.email)
     this.isLoading = true;
     this.formularioLogin.disable();
-    this.LoginService.loginRequest(this.formularioLogin.value.email, this.formularioLogin.value.senha).subscribe(
+    this.LoginService.login(this.formularioLogin.value.email, this.formularioLogin.value.password).subscribe(
       (success) => {
-        // Se a requisição for bem sucedida, armazenar o token no localStorage
         localStorage.setItem('token', `${(success as any)['token']}`);
+        localStorage.setItem('name', `${(success as any)['name']}`);
+        localStorage.setItem('id', `${(success as any)['id']}`);
         this.messageService.add({ severity: 'success', summary: 'Login efetuado com sucesso!', detail: 'Você será redirecionado à página em um instante...', sticky: false });
         // Redirecionar para a página do usuário (a verificação de rule do token será feita posteriormente no servidor para a diferenciação de rotas)
         this.isLoading = false;
@@ -68,7 +70,7 @@ export class LoginScreenComponent implements OnInit {
           window.location.href = '/pagina-do-personagem';
         }, 3000);
       },
-      (error) => {
+      (error: any) => {
         // Se a requisição falhar, exibir mensagem de erro
         this.messageService.add({ severity: 'error', summary: 'Erro ao efetuar login', detail: 'Verifique suas credenciais e tente novamente.', sticky: false });
         this.isLoading = false;

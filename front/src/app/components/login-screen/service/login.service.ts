@@ -1,19 +1,33 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { LoginResponse } from '../../../types/login-response.type';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  baseUrl: string = 'http://localhost:8080';
+  apiUrl: string = "http://localhost:8080/auth"
 
-  constructor(private http: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-  loginRequest(email: string, senha: string) {
-    return this.http.post(`${this.baseUrl}/auth/login`, {
-      email: email,
-      password: senha,
-    });
+  login(email: string, password: string){
+    return this.httpClient.post<LoginResponse>(this.apiUrl + "/login", { email, password }).pipe(
+      tap((value) => {
+        sessionStorage.setItem("auth-token", value.token)
+        sessionStorage.setItem("username", value.name)
+      })
+    )
+  }
+
+  signup(name: string, email: string, password: string){
+    return this.httpClient.post<LoginResponse>(this.apiUrl + "/register", { name, email, password }).pipe(
+      tap((value) => {
+        sessionStorage.setItem("auth-token", value.token)
+        sessionStorage.setItem("username", value.name)
+      })
+    )
   }
 }
+
