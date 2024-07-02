@@ -5,6 +5,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
+import { ToastModule } from 'primeng/toast';
 
 import { LoginScreenComponent } from './login-screen.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -20,7 +21,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ButtonModule,
     PasswordModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ToastModule
   ]
 })
 export class LoginScreenModule { }

@@ -46,13 +46,24 @@ body {
   margin: 4px 2px;
   cursor: pointer;
   animation: normal 0.5s;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.1s ease-in-out;
   width: 100%;
   margin-top: 10%;
 }
 
 .botaoLogin:hover {
-  background-color: #7c7b7b;
+  background-color: #5b007c;
+}
+
+.botaoLogin:active {
+  background-color: #272727;
+}
+
+.botaoLogin:disabled {
+  background-color: #cccccc6b; /* Light grey background */
+  color: #3f3f3f; /* Darker grey text */
+  cursor: not-allowed; /* Shows a 'not-allowed' cursor when hovered */
+  border: 1px solid #999999; /* Optional: adds a border to make the button look "greyed out" */
 }
 
 #input-senha {

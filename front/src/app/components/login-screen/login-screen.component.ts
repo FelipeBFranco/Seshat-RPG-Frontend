@@ -5,22 +5,26 @@ import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core
 import { isPlatformBrowser } from '@angular/common';
 import { TokenService } from '../shared/services/token.service';
 import { ServidorService } from '../shared/services/servidor.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login-screen',
   templateUrl: './login-screen.component.html',
   styleUrls: ['./login-screen.component.scss'],
-  animations: []
+  animations: [],
+  providers: [MessageService]
 })
 export class LoginScreenComponent implements OnInit {
 
-  formularioLogin: FormGroup = new FormGroup({
-    email: new FormControl(''),
-    senha: new FormControl(''),
-  });
+  toastIsVisible = false;
+  isLoading = false;
+  formularioLogin: FormGroup
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, private tokenService: TokenService, private servidorService: ServidorService, private LoginService: LoginService) {
-
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private LoginService: LoginService, private messageService: MessageService) {
+    this.formularioLogin = new FormGroup({
+      email: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.email]),
+      password: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
+    });
   }
 
   ngOnInit() {
@@ -50,12 +54,26 @@ export class LoginScreenComponent implements OnInit {
 
   // Login com validação de token JWT e redirecionamento
   enviarRequisicaoDeLogin() {
-    // Requisicao no service
-    console.log(this.formularioLogin.value)
-    this.LoginService.loginRequest(this.formularioLogin.value).subscribe(
+    // Requisicao no service de login
+    this.isLoading = true;
+    this.formularioLogin.disable();
+    this.LoginService.loginRequest(this.formularioLogin.value.email, this.formularioLogin.value.senha).subscribe(
       (success) => {
         // Se a requisição for bem sucedida, armazenar o token no localStorage
         localStorage.setItem('token', `${(success as any)['token']}`);
-      });
+        this.messageService.add({ severity: 'success', summary: 'Login efetuado com sucesso!', detail: 'Você será redirecionado à página em um instante...', sticky: false });
+        // Redirecionar para a página do usuário (a verificação de rule do token será feita posteriormente no servidor para a diferenciação de rotas)
+        this.isLoading = false;
+        setTimeout(() => {
+          window.location.href = '/pagina-do-personagem';
+        }, 3000);
+      },
+      (error) => {
+        // Se a requisição falhar, exibir mensagem de erro
+        this.messageService.add({ severity: 'error', summary: 'Erro ao efetuar login', detail: 'Verifique suas credenciais e tente novamente.', sticky: false });
+        this.isLoading = false;
+        this.formularioLogin.enable();
+      }
+    );
   }
 }
