@@ -1,10 +1,7 @@
 import { LoginService } from './service/login.service';
-import { FormularioLogin } from './../shared/models/formularioLogin.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { TokenService } from '../shared/services/token.service';
-import { ServidorService } from '../shared/services/servidor.service';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -54,8 +51,8 @@ export class LoginScreenComponent implements OnInit {
 
   // Login com validação de token JWT e redirecionamento
   enviarRequisicaoDeLogin() {
-    // Requisicao no service
-    console.log(this.formularioLogin.value.email)
+    // Requisicao no service de login
+    this.formularioLogin.value.email = this.formularioLogin.value.email.trim();
     this.isLoading = true;
     this.formularioLogin.disable();
     this.LoginService.login(this.formularioLogin.value.email, this.formularioLogin.value.password).subscribe(
@@ -67,7 +64,7 @@ export class LoginScreenComponent implements OnInit {
         // Redirecionar para a página do usuário (a verificação de rule do token será feita posteriormente no servidor para a diferenciação de rotas)
         this.isLoading = false;
         setTimeout(() => {
-          window.location.href = '/pagina-do-personagem';
+          window.location.href = '/player-page';
         }, 3000);
       },
       (error: any) => {
