@@ -16,7 +16,19 @@ const routes: Routes = [
   {
     path: 'sheet-manager',
     component: SheetManagerComponent
-  }
+  },
+  {
+    path: 'player-page',
+    loadChildren: () => import('./components/player-page/player-page.module').then(m => m.PlayerPageModule)
+  },
+  {
+    path: 'not-found',
+    loadChildren: () => import('./components/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found'
+  },
 ];
 
 @NgModule({
