@@ -1,3 +1,21 @@
-<div>
-  <p>Bem vindo, {{ loggedPlayerName }}</p>
+<div class="sideBar">
+  <div class="textoPerson text-center">
+    <h4>Personagens de {{ loggedPlayerName }}</h4>
+  </div>
+  <div class="personagens">
+    <div
+      class="personagemIndividual"
+      *ngFor="let personagem of playerCharacters"
+    >
+      <p-panel
+        header="{{ personagem.name }} - {{ personagem.race }}"
+        [toggleable]="true"
+        [collapsed]="true"
+        [toggler]="'header'"
+      >
+        <p>nome da campanha / detalhes aqui</p>
+      </p-panel>
+    </div>
+  </div>
 </div>
+<div class="infoPersonagemSelecionado"></div>
