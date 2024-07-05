@@ -1,3 +1,4 @@
+import { CardModule } from 'primeng/card';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -22,7 +23,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     PasswordModule,
     ReactiveFormsModule,
     FormsModule,
-    ToastModule
+    ToastModule,
   ]
 })
 export class LoginScreenModule { }
