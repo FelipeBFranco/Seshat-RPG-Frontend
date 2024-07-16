@@ -1,8 +1,14 @@
 <p-toast [life]="5000" [baseZIndex]="5000" />
 <div class="loginHeader">
-  <div class="titleContent row text-center">
-    <h1>Seshat</h1>
-    <small> Gerenciador de Fichas para RPGs de mesa </small>
+  <div class="titleContent text-center">
+    <ul class="text-center" style="list-style: none; padding: 0; margin: 0;">
+      <li>
+        <h1>Seshat</h1>
+      </li>
+      <li>
+        <small> Gerenciador de Fichas para RPGs de mesa </small>
+      </li>
+    </ul>
   </div>
 </div>
 <div class="loginContent mt-3">
@@ -28,6 +34,7 @@
                   formControlName="email"
                   pInputText
                   type="email"
+                  autocomplete="email"
                 />
               </p>
             </div>
@@ -40,6 +47,7 @@
                   formControlName="password"
                   pInputText
                   type="password"
+                  autocomplete="current-password"
                 />
               </p>
             </div>
@@ -85,6 +93,7 @@
                   name="input-usuario"
                   class="input-group-text"
                   type="text"
+                  autocomplete="username"
                 />
               </p>
             </div>
@@ -98,6 +107,7 @@
                   name="input-email"
                   class="input-group-text"
                   type="email"
+                  autocomplete="email"
                 />
               </p>
             </div>
@@ -111,6 +121,7 @@
                   name="input-senha"
                   class="input-group-text"
                   type="password"
+                  autocomplete="current-password"
                 />
               </p>
             </div>

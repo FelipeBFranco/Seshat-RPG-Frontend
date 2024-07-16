@@ -9,7 +9,7 @@ import { LoginScreenModule } from './components/login-screen/login-screen.module
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SheetManagerModule } from './components/sheet-manager/sheet-manager.module';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
-import { AuthInterceptor } from './auth.interceptor';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
 
 
 @NgModule({

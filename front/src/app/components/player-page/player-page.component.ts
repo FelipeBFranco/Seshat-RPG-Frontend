@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PlayerCharacterService } from './service/player-character.service';
 import { Character } from '../shared/models/character.model';
+import { Sidebar } from 'primeng/sidebar';
 
 @Component({
   selector: 'app-player-page',
@@ -9,10 +10,14 @@ import { Character } from '../shared/models/character.model';
 })
 export class PlayerPageComponent implements OnInit {
 
+  @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+
   loggedPlayerName: string | null = null;
   loggedPlayerId: number | null = null;
+  sidebarVisible: boolean = false;
 
   playerCharacters: Character[] = [];
+  selectedCharacter: Character | null = null;
 
   constructor(private playerCharacter: PlayerCharacterService) { }
 
@@ -22,12 +27,24 @@ export class PlayerPageComponent implements OnInit {
       this.loggedPlayerId = Number(localStorage.getItem('id'));
     }
 
-    if(this.loggedPlayerId != null) {
+    if (this.loggedPlayerId != null) {
       this.playerCharacter.userCharacters(this.loggedPlayerId).subscribe((data: Character[]) => {
         this.playerCharacters = data;
       });
     }
   }
 
+  selectCharacter(character: Character) {
+    this.selectedCharacter = character;
+  }
+
+  closeCallback(e: any): void {
+    this.sidebarVisible = e;
+  }
+
+  dynamicWidth(value: number): string {
+    const dynamicWidth = (value / 100) * 100;
+    return `${dynamicWidth}%`;
+  }
 
 }

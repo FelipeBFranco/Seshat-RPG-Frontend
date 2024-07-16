@@ -1,4 +1,3 @@
-@import "primeng/resources/themes/vela-blue/theme.css";
 @import "primeng/resources/primeng.css";
 
 @font-face {
@@ -25,4 +24,41 @@ body {
 .p-button-label {
   font-family: "Beaufort for LOL Italic";
   font-weight: 800;
+}
+
+.p-progressbar-value {
+  background-color: white;
+}
+
+.healthBar {
+  .p-progressbar-value {
+    background-color: rgb(195, 47, 47);
+    span {
+      color: #f2f2f2;
+    }
+  }
+}
+
+.staminaBar {
+  .p-progressbar-value {
+    background-color: rgb(205, 242, 93);
+  }
+}
+
+.manaBar {
+  .p-progressbar-value {
+    background-color: rgb(6, 38, 119);
+    span {
+      color: #f2f2f2;
+    }
+  }
+}
+
+.amalgamaBar {
+  .p-progressbar-value {
+    background-color: rgb(132, 17, 168);
+    span {
+      color: #f2f2f2;
+    }
+  }
 }

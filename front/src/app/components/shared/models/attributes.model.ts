@@ -13,4 +13,8 @@ export interface Attributes {
   block: number
   dodge: number
   determination: number
+  healthMax: number
+  manaMax: number
+  staminaMax: number
+  amalgamaMax: number
 }

@@ -6,6 +6,7 @@ export interface Character {
   image: string
   attributes: Attributes
   userId: number
+  userName:string
   race: string
   classType: string
 }

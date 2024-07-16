@@ -1,21 +1,190 @@
-<div class="sideBar">
-  <div class="textoPerson text-center">
-    <h4>Personagens de {{ loggedPlayerName }}</h4>
-  </div>
-  <div class="personagens">
-    <div
-      class="personagemIndividual"
-      *ngFor="let personagem of playerCharacters"
-    >
-      <p-panel
-        header="{{ personagem.name }} - {{ personagem.race }}"
-        [toggleable]="true"
-        [collapsed]="true"
-        [toggler]="'header'"
+<div class="charactersContent">
+  <div class="sideBar">
+    <div class="textoPerson text-center">
+      <h4>Personagens de {{ loggedPlayerName }}</h4>
+    </div>
+    <div class="personagens">
+      <div
+        class="personagemIndividual"
+        *ngFor="let personagem of playerCharacters"
       >
-        <p>nome da campanha / detalhes aqui</p>
-      </p-panel>
+        <p-panel
+          header="{{ personagem.name }} - {{ personagem.race }}"
+          [toggleable]="true"
+          [collapsed]="true"
+          [toggler]="'header'"
+          [style]="{ cursor: 'pointer' }"
+        >
+          <p>nome da campanha / detalhes aqui</p>
+          <p>
+            <p-button
+              label="Selecionar"
+              class="selectCharacterButton"
+              (click)="selectCharacter(personagem)"
+            />
+          </p>
+        </p-panel>
+      </div>
+    </div>
+  </div>
+  <div class="rightContent">
+    <!-- <div style="display: flex;">
+      <p-sidebar [(visible)]="sidebarVisible" position="right">
+        <ng-template pTemplate="header">
+          <p-avatar label="F" size="large"></p-avatar>
+          <span class="ml-2" style="padding-left: 10px;">{{ loggedPlayerName }}</span>
+        </ng-template>
+      </p-sidebar>
+    </div>
+    <div
+      class="mt-3 text-center sidebarButton"
+      style="display: flex; cursor: pointer"
+    >
+      <p-avatar
+        label="F"
+        styleClass="mr-2"
+        size="large"
+        class="iconSidebar"
+        (click)="sidebarVisible = true"
+      />
+    </div> -->
+    <div
+      class="infoPersonagemSelecionado text-center"
+      [ngStyle]="{ height: '100vh', padding: '10px' }"
+    >
+      <div
+        [ngStyle]="{
+          'min-height': '100%',
+          'background-color': '#535353',
+          'border-radius': '20px'
+        }"
+        class="text-center"
+      >
+        <ul *ngIf="!selectedCharacter" class="titleList">
+          <li>
+            <span class="selectedCharacterTitle">
+              Selecione um personagem
+            </span>
+          </li>
+        </ul>
+        <ul class="titleList" *ngIf="selectedCharacter">
+          <li>
+            <span class="selectedCharacterTitle">
+              {{ selectedCharacter.name }}
+            </span>
+            <small class="levelText">
+              Nv.
+              {{ selectedCharacter.attributes.level }}
+            </small>
+          </li>
+          <li class="progressbar" [style]="{ padding: '0' }">
+            <p-progressBar
+              [value]="selectedCharacter.attributes.experience * 10"
+              [style]="{ height: '10px', padding: '0' }"
+            >
+              <ng-template pTemplate="content" let-value>
+                <span class="progressbarText"
+                  >{{ selectedCharacter.attributes.experience }}/10</span
+                >
+              </ng-template>
+            </p-progressBar>
+          </li>
+          <li>
+            {{ selectedCharacter.classType }}
+          </li>
+        </ul>
+        <ul *ngIf="selectedCharacter" class="attributesBarList">
+          <li class="attributesLevelsList healthBar">
+            <div class="">
+              <span>Vida</span>
+              <p-progressBar
+                [value]="selectedCharacter.attributes.health"
+                [style]="{ height: '30px', padding: '0' }"
+              >
+                <ng-template pTemplate="content" let-value>
+                  <span class="progressbarText"
+                    >{{ selectedCharacter.attributes.health }}/{{
+                      selectedCharacter.attributes.healthMax
+                    }}</span
+                  >
+                </ng-template>
+              </p-progressBar>
+            </div>
+          </li>
+          <li>
+            <div class="attributesLevelsList staminaBar">
+              <span>Stamina</span>
+              <p-progressBar
+                [value]="
+                  selectedCharacter.attributes.stamina ==
+                  selectedCharacter.attributes.staminaMax
+                    ? 100
+                    : (selectedCharacter.attributes.staminaMax *
+                        selectedCharacter.attributes.stamina) /
+                      100
+                "
+                [style]="{ height: '30px', padding: '0' }"
+              >
+                <ng-template pTemplate="content" let-value>
+                  <span class="progressbarText"
+                    >{{ selectedCharacter.attributes.stamina }}/{{
+                      selectedCharacter.attributes.staminaMax
+                    }}</span
+                  >
+                </ng-template>
+              </p-progressBar>
+            </div>
+          </li>
+          <li>
+            <div class="attributesLevelsList manaBar">
+              <span>Mana</span>
+              <p-progressBar
+                [value]="
+                  selectedCharacter.attributes.mana ==
+                  selectedCharacter.attributes.manaMax
+                    ? 100
+                    : selectedCharacter.attributes.manaMax *
+                        (selectedCharacter.attributes.mana /
+                      100)
+                "
+                [style]="{ height: '30px', padding: '0' }"
+              >
+                <ng-template pTemplate="content" let-value>
+                  <span class="progressbarText"
+                    >{{ selectedCharacter.attributes.mana }}/{{
+                      selectedCharacter.attributes.manaMax
+                    }}</span
+                  >
+                </ng-template>
+              </p-progressBar>
+            </div>
+          </li>
+          <li>
+            <div class="attributesLevelsList amalgamaBar">
+              <span>Amalgama</span>
+              <p-progressBar
+                [value]="
+                  selectedCharacter.attributes.amalgama ==
+                  selectedCharacter.attributes.amalgamaMax
+                    ? 100
+                    : (selectedCharacter.attributes.amalgamaMax *
+                        selectedCharacter.attributes.amalgama) /
+                      100
+                "
+                [style]="{ height: '30px', padding: '0' }"
+              >
+                <ng-template pTemplate="content" let-value>
+                  <span class="progressbarText"
+                    >{{ selectedCharacter.attributes.amalgama }}/{{
+                      selectedCharacter.attributes.amalgamaMax
+                    }}</span
+                  >
+                </ng-template>
+              </p-progressBar>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
-<div class="infoPersonagemSelecionado"></div>

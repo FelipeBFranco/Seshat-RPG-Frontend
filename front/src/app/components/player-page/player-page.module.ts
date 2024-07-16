@@ -4,7 +4,12 @@ import { PlayerPageComponent } from './player-page.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'primeng/api';
 import { PanelModule } from 'primeng/panel';
-
+import { ButtonModule } from 'primeng/button';
+import { SidebarModule } from 'primeng/sidebar';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { ToastModule } from 'primeng/toast';
 
 const routes: Routes = [
   {
@@ -19,7 +24,13 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     SharedModule,
-    PanelModule
+    PanelModule,
+    ButtonModule,
+    SidebarModule,
+    AvatarModule,
+    AvatarGroupModule,
+    ProgressBarModule,
+    ToastModule
   ],
   exports: [RouterModule],
 })

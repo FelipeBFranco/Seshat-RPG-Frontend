@@ -19,11 +19,11 @@ export class TokenService {
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    this.servidor = this.servidorService.getServidor() + '/oauth/token';
-    this.carregarToken();
+    this.servidor = this.servidorService.getServidor() + '/auth/token';
+    this.loadToken();
   }
 
-  public armazenarToken(token: string): void {
+  public storeToken(token: string): void {
     if (isPlatformBrowser(this.platformId)) {
       this.jwtPayload = this.JwtHelper.decodeToken(token);
       localStorage.removeItem('token');
@@ -31,43 +31,46 @@ export class TokenService {
     }
   }
 
-  public carregarToken(): void {
+  public loadToken(): void {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('token');
 
       if (token != null) {
         if (token.length > 1) {
-          this.armazenarToken(token);
+          this.storeToken(token);
         }
       }
     }
   }
 
-  public isAccessTokenInvalido(): boolean {
-    const token = localStorage.getItem('token');
-
-    return !token || this.JwtHelper.isTokenExpired(token);
-  }
-
-  public verificarTokenExpirado() {
-    const token = localStorage.getItem('token');
-    return this.JwtHelper.isTokenExpired(token);
-  }
-
-  public verificarTokenDefinido() {
-    const token = localStorage.getItem('token');
-    if (token != null) {
-      return true;
-    } else {
-      return false;
+  public isTokenValid(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      return !token || this.JwtHelper.isTokenExpired(token);
     }
+    return false; // Consider token invalid or handle differently if not in browser
   }
 
-  public temPermissao(permissao: string): any {
+  public isExpired() {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      return this.JwtHelper.isTokenExpired(token);
+    }
+    return true; // Assume expired or handle differently if not in browser
+  }
+
+  public isDefined() {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      return token != null;
+    }
+    return false; // Assume not defined or handle differently if not in browser
+  }
+  public hasPermission(permissao: string): any {
     return this.jwtPayload && this.jwtPayload.authorities.includes(permissao);
   }
 
-  public requisitarNovoAccessToken(): Promise<any> {
+  public requestNewAcess(): Promise<any> {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     headers.append('Authorization', 'Basic YWRtaW46QWRNaU4=');
@@ -77,7 +80,7 @@ export class TokenService {
       .toPromise()
       .then(response => {
         if (response) {
-          this.armazenarToken(response.access_token);
+          this.storeToken(response.access_token);
         }
         return response;
       })
@@ -87,8 +90,10 @@ export class TokenService {
       });
   }
 
-  public limparAccessToken() {
-    localStorage.removeItem('token');
+  public clearAccess() {
+    if(isPlatformBrowser(this.platformId)){
+      localStorage.removeItem('token');
+    }
     this.jwtPayload = null;
   }
 
@@ -102,7 +107,7 @@ export class TokenService {
     headers.set("Content-Type", "application/json");
     this.http.delete(this.servidorService.getServidor() + '/tokens/revoke', { headers }).toPromise()
       .then(() => {
-        this.limparAccessToken();
+        this.clearAccess();
         localStorage.clear();
         this.router.navigate(['/']);
       }).catch(() => {

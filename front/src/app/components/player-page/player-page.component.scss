@@ -12,3 +12,81 @@
 .textoPerson {
   padding-top: 2%;
 }
+
+.infoPersonagemSelecionado {
+  max-width: 85vw;
+  width: 85vw;
+  max-height: 90vh;
+}
+
+.charactersContent {
+  display: flex;
+}
+
+.selectedCharacterTitle {
+  padding-top: 1%;
+  font-size: 24pt;
+}
+
+.selectedCharacterButton {
+  width: 100%;
+}
+
+.rightContent {
+  min-height: 98vh;
+}
+
+.sidebarButton {
+  position: inherit;
+  margin-left: 96%;
+}
+
+.progressbar {
+  margin: 0 35% 0 35%;
+  background-color: #19191976;
+  border-radius: 13px;
+  padding: 3px;
+}
+
+.progressbarText {
+  font-size: 8pt;
+  color: rgb(6, 6, 6);
+}
+
+.titleList {
+  list-style: none;
+  margin-bottom: 0;
+  padding-top: 15px;
+}
+
+.liNivel {
+  margin-top: 0;
+}
+
+.levelText {
+  font-size: 10pt;
+  color: white;
+}
+
+.selectedCharacterTitle {
+  margin-left: 3%;
+}
+
+.p-progressbar {
+  border: 0px;
+}
+
+.attributesLevelsList {
+  padding-top: 1%;
+  text-align: left;
+  max-width: 20%;
+}
+
+.attributesBarList {
+  height: 50vh;
+  display: flexbox;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  flex-direction: column;
+}
