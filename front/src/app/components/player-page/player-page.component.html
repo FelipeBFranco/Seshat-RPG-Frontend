@@ -93,12 +93,18 @@
             {{ selectedCharacter.classType }}
           </li>
         </ul>
-        <ul *ngIf="selectedCharacter" class="attributesBarList">
-          <li class="attributesLevelsList healthBar">
-            <div class="">
+        <ul *ngIf="selectedCharacter" class="attributesBarList row text-center">
+          <li class="attributesBar col-3">
+            <div class="attributesLevelsList healthBar">
               <span>Vida</span>
               <p-progressBar
-                [value]="selectedCharacter.attributes.health"
+                [value]="
+                  selectedCharacter.attributes.healthMax > 0
+                    ? (selectedCharacter.attributes.health /
+                        selectedCharacter.attributes.healthMax) *
+                      100
+                    : 0
+                "
                 [style]="{ height: '30px', padding: '0' }"
               >
                 <ng-template pTemplate="content" let-value>
@@ -111,17 +117,16 @@
               </p-progressBar>
             </div>
           </li>
-          <li>
+          <li class="attributesBar col-3">
             <div class="attributesLevelsList staminaBar">
               <span>Stamina</span>
               <p-progressBar
                 [value]="
-                  selectedCharacter.attributes.stamina ==
-                  selectedCharacter.attributes.staminaMax
-                    ? 100
-                    : (selectedCharacter.attributes.staminaMax *
-                        selectedCharacter.attributes.stamina) /
+                  selectedCharacter.attributes.staminaMax > 0
+                    ? (selectedCharacter.attributes.stamina /
+                        selectedCharacter.attributes.staminaMax) *
                       100
+                    : 0
                 "
                 [style]="{ height: '30px', padding: '0' }"
               >
@@ -135,17 +140,16 @@
               </p-progressBar>
             </div>
           </li>
-          <li>
+          <li class="attributesBar col-3">
             <div class="attributesLevelsList manaBar">
               <span>Mana</span>
               <p-progressBar
                 [value]="
-                  selectedCharacter.attributes.mana ==
-                  selectedCharacter.attributes.manaMax
-                    ? 100
-                    : selectedCharacter.attributes.manaMax *
-                        (selectedCharacter.attributes.mana /
-                      100)
+                  selectedCharacter.attributes.manaMax > 0
+                    ? (selectedCharacter.attributes.mana /
+                        selectedCharacter.attributes.manaMax) *
+                      100
+                    : 0
                 "
                 [style]="{ height: '30px', padding: '0' }"
               >
@@ -159,17 +163,16 @@
               </p-progressBar>
             </div>
           </li>
-          <li>
+          <li class="attributesBar col-3">
             <div class="attributesLevelsList amalgamaBar">
               <span>Amalgama</span>
               <p-progressBar
                 [value]="
-                  selectedCharacter.attributes.amalgama ==
-                  selectedCharacter.attributes.amalgamaMax
-                    ? 100
-                    : (selectedCharacter.attributes.amalgamaMax *
-                        selectedCharacter.attributes.amalgama) /
+                  selectedCharacter.attributes.amalgamaMax > 0
+                    ? (selectedCharacter.attributes.amalgama /
+                        selectedCharacter.attributes.amalgamaMax) *
                       100
+                    : 0
                 "
                 [style]="{ height: '30px', padding: '0' }"
               >
@@ -183,6 +186,16 @@
               </p-progressBar>
             </div>
           </li>
+        </ul>
+        <ul *ngIf="selectedCharacter" class="attributesList row">
+          <li class="col-3 atributosDoPersonagem">
+            <span>Atributos</span>
+          </li>
+          <li class="col-6 imagemJogador">
+            <span>Imagem do jogador</span>
+          </li>
+          <li class="col-3 botoesDeAcao">
+            <span>Botoes de inventario e etc</span>
         </ul>
       </div>
     </div>
