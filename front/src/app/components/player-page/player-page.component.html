@@ -189,13 +189,59 @@
         </ul>
         <ul *ngIf="selectedCharacter" class="attributesList row">
           <li class="col-3 atributosDoPersonagem">
-            <span>Atributos</span>
+            <div>
+              <ul class="attributesStatsList">
+                <li class="attributesStatsListText">
+                  <span>Força:</span>
+                  <b class="attributeText">{{
+                    selectedCharacter.attributes.strength
+                  }}</b>
+                </li>
+                <li class="attributesStatsListText">
+                  <span>Agilidade:</span>
+                  <b class="attributeText">{{
+                    selectedCharacter.attributes.agility
+                  }}</b>
+                </li>
+                <li class="attributesStatsListText">
+                  <span>Inteligência:</span>
+                  <b class="attributeText">{{
+                    selectedCharacter.attributes.intelligence
+                  }}</b>
+                </li>
+                <li class="attributesStatsListText">
+                  <span>Mind:</span>
+                  <b class="attributeText">{{
+                    selectedCharacter.attributes.mind
+                  }}</b>
+                </li>
+                <li class="attributesStatsListText">
+                  <span>Bloqueio:</span>
+                  <b class="attributeText">{{
+                    selectedCharacter.attributes.block
+                  }}</b>
+                </li>
+                <li class="attributesStatsListText">
+                  <span>Esquiva:</span>
+                  <b class="attributeText">{{
+                    selectedCharacter.attributes.dodge
+                  }}</b>
+                </li>
+                <li class="attributesStatsListText">
+                  <span>Determinação:</span>
+                  <b class="attributeText">{{
+                    selectedCharacter.attributes.determination
+                  }}</b>
+                </li>
+              </ul>
+            </div>
           </li>
           <li class="col-6 imagemJogador">
-            <span>Imagem do jogador</span>
+            <img [src]="'data:image/jpeg;base64,' + selectedCharacter.image" alt="{{selectedCharacter.name}}"/>
           </li>
           <li class="col-3 botoesDeAcao">
             <span>Botoes de inventario e etc</span>
+          </li>
         </ul>
       </div>
     </div>

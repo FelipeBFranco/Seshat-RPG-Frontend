@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { PlayerCharacterService } from './service/player-character.service';
 import { Character } from '../shared/models/character.model';
 import { Sidebar } from 'primeng/sidebar';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Component({
   selector: 'app-player-page',
@@ -17,7 +18,7 @@ export class PlayerPageComponent implements OnInit {
   sidebarVisible: boolean = false;
 
   playerCharacters: Character[] = [];
-  selectedCharacter: Character | null = null;
+  selectedCharacter!: Character
 
   constructor(private playerCharacter: PlayerCharacterService) { }
 
