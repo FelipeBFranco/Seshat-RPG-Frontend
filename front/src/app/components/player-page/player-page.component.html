@@ -188,62 +188,114 @@
           </li>
         </ul>
         <ul *ngIf="selectedCharacter" class="attributesList row">
-          <li class="col-3 atributosDoPersonagem">
-            <div>
-              <ul class="attributesStatsList">
-                <li class="attributesStatsListText">
-                  <span>Força:</span>
-                  <b class="attributeText">{{
-                    selectedCharacter.attributes.strength
-                  }}</b>
-                </li>
-                <li class="attributesStatsListText">
-                  <span>Agilidade:</span>
-                  <b class="attributeText">{{
-                    selectedCharacter.attributes.agility
-                  }}</b>
-                </li>
-                <li class="attributesStatsListText">
-                  <span>Inteligência:</span>
-                  <b class="attributeText">{{
-                    selectedCharacter.attributes.intelligence
-                  }}</b>
-                </li>
-                <li class="attributesStatsListText">
-                  <span>Mind:</span>
-                  <b class="attributeText">{{
-                    selectedCharacter.attributes.mind
-                  }}</b>
-                </li>
-                <li class="attributesStatsListText">
-                  <span>Bloqueio:</span>
-                  <b class="attributeText">{{
-                    selectedCharacter.attributes.block
-                  }}</b>
-                </li>
-                <li class="attributesStatsListText">
-                  <span>Esquiva:</span>
-                  <b class="attributeText">{{
-                    selectedCharacter.attributes.dodge
-                  }}</b>
-                </li>
-                <li class="attributesStatsListText">
-                  <span>Determinação:</span>
-                  <b class="attributeText">{{
-                    selectedCharacter.attributes.determination
-                  }}</b>
-                </li>
-              </ul>
+          <li class="row col-3 atributosDoPersonagem">
+            <div class="row col-12 attributesStatsList text-center">
+              <div class="row col-12 attributesStatsListText">
+                <span class="col-8">Força</span>
+                <b class="attributeText col-4">{{
+                  selectedCharacter.attributes.strength
+                }}</b>
+              </div>
+              <div class="row col-12 attributesStatsListText">
+                <span class="col-8">Agilidade</span>
+                <b class="attributeText col-4">{{
+                  selectedCharacter.attributes.agility
+                }}</b>
+              </div>
+              <div class="row col-12 attributesStatsListText">
+                <span class="col-8">Inteligência</span>
+                <b class="attributeText col-4">{{
+                  selectedCharacter.attributes.intelligence
+                }}</b>
+              </div>
+              <div class="row col-12 attributesStatsListText">
+                <span class="col-8">Mind</span>
+                <b class="attributeText col-4">{{
+                  selectedCharacter.attributes.mind
+                }}</b>
+              </div>
+              <div class="row col-12 attributesStatsListText">
+                <span class="col-8">Bloqueio</span>
+                <b class="attributeText col-4">{{
+                  selectedCharacter.attributes.block
+                }}</b>
+              </div>
+              <div class="row col-12 attributesStatsListText">
+                <span class="col-8">Esquiva</span>
+                <b class="attributeText col-4">{{
+                  selectedCharacter.attributes.dodge
+                }}</b>
+              </div>
+              <div class="row col-12 attributesStatsListText">
+                <span class="col-8">Determinação</span>
+                <b class="attributeText col-4">{{
+                  selectedCharacter.attributes.determination
+                }}</b>
+              </div>
             </div>
           </li>
           <li class="col-6 imagemJogador">
-            <img [src]="'data:image/jpeg;base64,' + selectedCharacter.image" alt="{{selectedCharacter.name}}"/>
+            <img
+              [src]="'data:image/jpeg;base64,' + selectedCharacter.image"
+              alt="{{ selectedCharacter.name }}"
+            />
           </li>
-          <li class="col-3 botoesDeAcao">
-            <span>Botoes de inventario e etc</span>
+          <li class="col-3 botoesDeAcao text-center">
+            <div class="actionButtonGrid">
+              <button class="btn btn-secondary">Inventário</button>
+              <button class="btn btn-secondary">Skillset</button>
+              <button
+                (click)="showDialog()"
+                class="btn btn-secondary"
+              >
+                Editar Personagem
+              </button>
+            </div>
           </li>
         </ul>
       </div>
     </div>
   </div>
+</div>
+<div class="card flex justify-content-center">
+  <p-dialog
+      header="Header"
+      [(visible)]="visible"
+      [modal]="true"
+      [style]="{ width: '50rem' }">
+          <ng-template pTemplate="header">
+              <div class="inline-flex align-items-center justify-content-center gap-2">
+                  <p-avatar
+                      image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                      shape="circle" />
+                  <span class="font-bold white-space-nowrap">
+                      Amy Elsner
+                  </span>
+              </div>
+          </ng-template>
+          <span class="p-text-secondary block mb-5">Update your information.</span>
+          <div class="flex align-items-center gap-3 mb-3">
+              <label for="username" class="font-semibold w-6rem">
+                  Username
+              </label>
+              <input pInputText id="username" class="flex-auto" autocomplete="off" />
+          </div>
+          <div class="flex align-items-center gap-3 mb-5">
+              <label for="email" class="font-semibold w-6rem">Email</label>
+              <input pInputText id="email" class="flex-auto" autocomplete="off" />
+          </div>
+          <ng-template pTemplate="footer">
+              <p-button
+                  label="Cancel"
+                  [text]="true"
+                  severity="secondary"
+                  (onClick)="visible = false" />
+              <p-button
+                  label="Save"
+                  [outlined]="true"
+                  severity="secondary"
+                  (onClick)="visible = false"
+                />
+          </ng-template>
+  </p-dialog>
 </div>

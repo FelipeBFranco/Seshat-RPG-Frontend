@@ -99,21 +99,33 @@
   list-style: none;
 }
 
-.atributosDoPersonagem{
+.atributosDoPersonagem,
+.botoesDeAcao {
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .attributesStatsList {
+  text-align: left;
+  margin-left: 3%;
   list-style: none;
+  background-color: #19191948;
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
   .attributesStatsListText {
-    justify-content: left;
-    text-align: left;
     font-size: 18pt;
-    .attributeText {
-      margin-left: 2%;
-      font-weight: 800;
-    }
+    text-align: left;
+  }
+}
+
+.actionButtonGrid {
+  display: grid;
+  grid-gap: 10px;
+  padding: 10px;
+  button {
+    grid-column: 1;
+    grid-template-columns: 1fr 1fr;
   }
 }

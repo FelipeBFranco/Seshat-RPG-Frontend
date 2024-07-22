@@ -16,6 +16,7 @@ export class PlayerPageComponent implements OnInit {
   loggedPlayerName: string | null = null;
   loggedPlayerId: number | null = null;
   sidebarVisible: boolean = false;
+  visible: boolean = false;
 
   playerCharacters: Character[] = [];
   selectedCharacter!: Character
@@ -47,5 +48,12 @@ export class PlayerPageComponent implements OnInit {
     const dynamicWidth = (value / 100) * 100;
     return `${dynamicWidth}%`;
   }
+  
+  showDialog() {
+    this.visible = true;
+  }
 
+  closeDialog() {
+    this.visible = false;
+  }
 }

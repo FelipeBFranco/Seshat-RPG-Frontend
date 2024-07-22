@@ -10,6 +10,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
 
 const routes: Routes = [
   {
@@ -30,7 +31,8 @@ const routes: Routes = [
     AvatarModule,
     AvatarGroupModule,
     ProgressBarModule,
-    ToastModule
+    ToastModule,
+    DialogModule
   ],
   exports: [RouterModule],
 })
