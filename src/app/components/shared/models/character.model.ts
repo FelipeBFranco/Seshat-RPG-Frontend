@@ -9,4 +9,5 @@ export interface Character {
   userName:string
   race: string
   classType: string
+  campaign : string
 }
