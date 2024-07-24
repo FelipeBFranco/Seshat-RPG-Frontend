@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Character } from '../../shared/models/character/character.model';
+import { CharacterUpdate } from '../../shared/models/character/characterUpdate.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,11 @@ export class PlayerCharacterService {
     return this.httpClient.get<Character[]>(this.apiUrl + `/${idPlayer}`)
   }
 
-  editCharacter(character: Character, characterId: number){
-    return this.httpClient.put<Character>(this.apiUrl + `/update/${characterId}`, character)
+  editCharacter(character: CharacterUpdate, characterId?: number){
+    return this.httpClient.put<CharacterUpdate>(this.apiUrl + `/update/${characterId}`, character)
+  }
+
+  createCharacter(character: CharacterUpdate){
+    return this.httpClient.post<CharacterUpdate>(this.apiUrl + '/create', character)
   }
 }

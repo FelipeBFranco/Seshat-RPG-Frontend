@@ -27,7 +27,9 @@
       </div>
       <button
         class="btn mt-2 addCharacterButton"
-        (click)="showDialog(); tipoDialogForm = 'Criar'"
+        (click)="
+          showDialog(); tipoDialogForm = 'Criar'; clearSelectedCharacter()
+        "
         style="width: 100%"
       >
         Criar Personagem
@@ -61,7 +63,11 @@
             </span>
             <small class="levelText">
               Nv.
-              {{ selectedCharacter.attributes.level }}
+              {{
+                selectedCharacter.attributes.level
+                  ? selectedCharacter.attributes.level
+                  : 1
+              }}
             </small>
           </li>
           <li class="progressbar" [style]="{ padding: '0' }">
@@ -116,10 +122,7 @@
                     ? (selectedCharacter.attributes.stamina /
                         selectedCharacter.attributes.staminaMax) *
                       100
-                    : selectedCharacter.attributes.stamina >
-                      selectedCharacter.attributes.staminaMax
-                    ? 100
-                    : 0
+                    : 100
                 "
                 [style]="{ height: '30px', padding: '0' }"
               >
@@ -142,10 +145,7 @@
                     ? (selectedCharacter.attributes.mana /
                         selectedCharacter.attributes.manaMax) *
                       100
-                    : selectedCharacter.attributes.mana >
-                      selectedCharacter.attributes.manaMax
-                    ? 100
-                    : 0
+                    : 100
                 "
                 [style]="{ height: '30px' }"
               >
@@ -168,10 +168,7 @@
                     ? (selectedCharacter.attributes.amalgama /
                         selectedCharacter.attributes.amalgamaMax) *
                       100
-                    : selectedCharacter.attributes.amalgama >
-                      selectedCharacter.attributes.amalgamaMax
-                    ? 100
-                    : 0
+                    : 100
                 "
                 [style]="{ height: '30px', padding: '0' }"
               >
@@ -245,7 +242,11 @@
               <button class="btn btn-secondary">Inventário</button>
               <button class="btn btn-secondary">Skillset</button>
               <button
-                (click)="showDialog(); tipoDialogForm = 'Editar'"
+                (click)="
+                  showDialog();
+                  tipoDialogForm = 'Editar';
+                  selectCharacter(selectedCharacter)
+                "
                 class="btn btn-secondary"
               >
                 Editar Personagem
@@ -280,7 +281,7 @@
             <input
               pInputText
               [formControlName]="controlName"
-              type="typeof attributesForm.get(controlName).value"
+              type="{{ getType(controlName) }}"
             />
             <!-- Display validation message -->
             <div
