@@ -79,7 +79,11 @@
           </button>
         </div>
       </form>
-      <form method="post" action="" class="back">
+      <form method="post"
+      action=""
+      class="front"
+      [formGroup]="formularioCadastro"
+      (ngSubmit)="enviarRequisicaoDeCadastro()" class="back">
         <div>
           <h2 class="text-center" id="texto-cadastro">Cadastrar-se</h2>
           <div class="inputContent" id="cadastrarForm">
@@ -91,6 +95,7 @@
                 <input
                   id="input-usuario-cadastro"
                   name="input-usuario"
+                  formControlName="name"
                   class="input-group-text"
                   type="text"
                   autocomplete="username"
@@ -105,6 +110,7 @@
                 <input
                   id="input-email-cadastro"
                   name="input-email"
+                  formControlName="email"
                   class="input-group-text"
                   type="email"
                   autocomplete="email"
@@ -119,6 +125,7 @@
                 <input
                   id="input-senha-cadastro"
                   name="input-senha"
+                  formControlName="password"
                   class="input-group-text"
                   type="password"
                   autocomplete="current-password"
