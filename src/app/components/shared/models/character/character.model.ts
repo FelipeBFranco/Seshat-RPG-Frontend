@@ -6,8 +6,8 @@ export interface Character {
   image: string
   attributes: Attributes
   userId: number
-  userName:string
+  userName: string
   race: string
   classType: string
-  campaign : string
+  campaign: string
 }
