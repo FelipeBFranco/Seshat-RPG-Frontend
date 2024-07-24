@@ -5,7 +5,7 @@
     </div>
     <div class="personagens">
       <div
-        class="personagemIndividual"
+        class="personagemIndividual mt-1"
         *ngFor="let personagem of playerCharacters"
       >
         <p-panel
@@ -15,7 +15,7 @@
           [toggler]="'header'"
           [style]="{ cursor: 'pointer' }"
         >
-          <p>{{selectedCharacter.campaign}} </p>
+          <p>{{ personagem.campaign }}</p>
           <p>
             <p-button
               label="Selecionar"
@@ -25,29 +25,16 @@
           </p>
         </p-panel>
       </div>
+      <button
+        class="btn mt-2 addCharacterButton"
+        (click)="showDialog(); tipoDialogForm = 'Criar'"
+        style="width: 100%"
+      >
+        Criar Personagem
+      </button>
     </div>
   </div>
   <div class="rightContent">
-    <!-- <div style="display: flex;">
-      <p-sidebar [(visible)]="sidebarVisible" position="right">
-        <ng-template pTemplate="header">
-          <p-avatar label="F" size="large"></p-avatar>
-          <span class="ml-2" style="padding-left: 10px;">{{ loggedPlayerName }}</span>
-        </ng-template>
-      </p-sidebar>
-    </div>
-    <div
-      class="mt-3 text-center sidebarButton"
-      style="display: flex; cursor: pointer"
-    >
-      <p-avatar
-        label="F"
-        styleClass="mr-2"
-        size="large"
-        class="iconSidebar"
-        (click)="sidebarVisible = true"
-      />
-    </div> -->
     <div
       class="infoPersonagemSelecionado text-center"
       [ngStyle]="{ height: '100vh', padding: '10px' }"
@@ -100,9 +87,12 @@
               <p-progressBar
                 [value]="
                   selectedCharacter.attributes.healthMax > 0
-                    ? (selectedCharacter.attributes.health /
-                        selectedCharacter.attributes.healthMax) *
-                      100
+                    ? selectedCharacter.attributes.health <=
+                      selectedCharacter.attributes.healthMax
+                      ? (selectedCharacter.attributes.health /
+                          selectedCharacter.attributes.healthMax) *
+                        100
+                      : 100
                     : 0
                 "
                 [style]="{ height: '30px', padding: '0' }"
@@ -126,6 +116,9 @@
                     ? (selectedCharacter.attributes.stamina /
                         selectedCharacter.attributes.staminaMax) *
                       100
+                    : selectedCharacter.attributes.stamina >
+                      selectedCharacter.attributes.staminaMax
+                    ? 100
                     : 0
                 "
                 [style]="{ height: '30px', padding: '0' }"
@@ -149,9 +142,12 @@
                     ? (selectedCharacter.attributes.mana /
                         selectedCharacter.attributes.manaMax) *
                       100
+                    : selectedCharacter.attributes.mana >
+                      selectedCharacter.attributes.manaMax
+                    ? 100
                     : 0
                 "
-                [style]="{ height: '30px', padding: '0' }"
+                [style]="{ height: '30px' }"
               >
                 <ng-template pTemplate="content" let-value>
                   <span class="progressbarText"
@@ -172,6 +168,9 @@
                     ? (selectedCharacter.attributes.amalgama /
                         selectedCharacter.attributes.amalgamaMax) *
                       100
+                    : selectedCharacter.attributes.amalgama >
+                      selectedCharacter.attributes.amalgamaMax
+                    ? 100
                     : 0
                 "
                 [style]="{ height: '30px', padding: '0' }"
@@ -238,6 +237,7 @@
             <img
               [src]="'data:image/jpeg;base64,' + selectedCharacter.image"
               alt="{{ selectedCharacter.name }}"
+              class="characterImage"
             />
           </li>
           <li class="col-3 botoesDeAcao text-center">
@@ -245,7 +245,7 @@
               <button class="btn btn-secondary">Inventário</button>
               <button class="btn btn-secondary">Skillset</button>
               <button
-                (click)="showDialog()"
+                (click)="showDialog(); tipoDialogForm = 'Editar'"
                 class="btn btn-secondary"
               >
                 Editar Personagem
@@ -255,49 +255,62 @@
         </ul>
       </div>
     </div>
-  </div>
-</div>
-<div class="card flex justify-content-center">
-  <p-dialog
-      header="Header"
+    <p-dialog
+      header="{{ tipoDialogForm }} atributos {{
+        selectedCharacter && tipoDialogForm === 'Editar'
+          ? 'de ' + selectedCharacter.name
+          : 'para um novo personagem'
+      }}"
       [(visible)]="visible"
       [modal]="true"
       [style]="{ width: '50rem' }"
-      
-      >
-          <ng-template pTemplate="header">
-              <div class="inline-flex align-items-center justify-content-center gap-2">
-                  <p-avatar
-                      image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-                      shape="circle" />
-                  <span class="font-bold white-space-nowrap">
-                      Amy Elsner
-                  </span>
-              </div>
-          </ng-template>
-          <span class="p-text-secondary block mb-5">Update your information.</span>
-          <div class="flex align-items-center gap-3 mb-3">
-              <label for="username" class="font-semibold w-6rem">
-                  Username
-              </label>
-              <input pInputText id="username" class="flex-auto" autocomplete="off" />
+      [closeOnEscape]="false"
+      [closable]="false"
+      [blockScroll]="true"
+      [keepInViewport]="true"
+    >
+      <ng-template pTemplate="content">
+        <!-- Assuming attributesForm is your FormGroup with fixed fields -->
+        <form [formGroup]="attributesForm" class="attributesForm row">
+          <div
+            class="col-4"
+            *ngFor="let controlName of getObjectKeys(attributesForm.controls)"
+          >
+            <label>{{ controlName }}</label>
+            <input
+              pInputText
+              [formControlName]="controlName"
+              type="typeof attributesForm.get(controlName).value"
+            />
+            <!-- Display validation message -->
+            <div
+              *ngIf="
+                attributesForm.get(controlName)?.invalid &&
+                (attributesForm.get(controlName)?.dirty ||
+                  attributesForm.get(controlName)?.touched)
+              "
+            >
+              <!-- Custom validation message here -->
+              {{ controlName }} é Inválido!
+            </div>
           </div>
-          <div class="flex align-items-center gap-3 mb-5">
-              <label for="email" class="font-semibold w-6rem">Email</label>
-              <input pInputText id="email" class="flex-auto" autocomplete="off" />
-          </div>
-          <ng-template pTemplate="footer">
-              <p-button
-                  label="Cancel"
-                  [text]="true"
-                  severity="secondary"
-                  (onClick)="visible = false" />
-              <p-button
-                  label="Save"
-                  [outlined]="true"
-                  severity="secondary"
-                  (onClick)="visible = false"
-                />
-          </ng-template>
-  </p-dialog>
+        </form>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <p-button
+          label="Cancelar"
+          [outlined]="true"
+          severity="secondary"
+          (onClick)="visible = false"
+        />
+        <p-button
+          label="Salvar Alterações"
+          [outlined]="true"
+          severity="secondary"
+          (onClick)="visible = false; requisicaoMudarAtributos()"
+        />
+      </ng-template>
+    </p-dialog>
+  </div>
 </div>
+<p-toast [life]="5000" [baseZIndex]="5000" />

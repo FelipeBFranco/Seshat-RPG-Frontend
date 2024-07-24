@@ -11,6 +11,9 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
 
 const routes: Routes = [
   {
@@ -32,7 +35,11 @@ const routes: Routes = [
     AvatarGroupModule,
     ProgressBarModule,
     ToastModule,
-    DialogModule
+    DialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    InputNumberModule,
+    InputTextModule
   ],
   exports: [RouterModule],
 })

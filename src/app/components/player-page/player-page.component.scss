@@ -129,3 +129,33 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+.characterImage {
+  height: 70%;
+  width: 70%;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagemJogador {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.addCharacterButton {
+  border: 1px solid #dfdfdf;
+}
+
+.addCharacterButton:hover {
+  background-color: #000;
+  color: white;
+}
