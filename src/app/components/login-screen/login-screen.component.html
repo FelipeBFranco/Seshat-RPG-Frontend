@@ -1,7 +1,7 @@
 <p-toast [life]="5000" [baseZIndex]="5000" />
 <div class="loginHeader">
   <div class="titleContent text-center">
-    <ul class="text-center" style="list-style: none; padding: 0; margin: 0;">
+    <ul class="text-center" style="list-style: none; padding: 0; margin: 0">
       <li>
         <h1>Seshat</h1>
       </li>
@@ -79,7 +79,13 @@
           </button>
         </div>
       </form>
-      <form method="post" action="" class="back">
+      <form
+        method="post"
+        action=""
+        class="back"
+        [formGroup]="formularioCadastro"
+        (ngSubmit)="enviarRequisicaoDeCadastro()"
+      >
         <div>
           <h2 class="text-center" id="texto-cadastro">Cadastrar-se</h2>
           <div class="inputContent" id="cadastrarForm">
@@ -89,9 +95,9 @@
               >
               <p>
                 <input
-                  id="input-usuario-cadastro"
-                  name="input-usuario"
-                  class="input-group-text"
+                  id="input-name"
+                  formControlName="name"
+                  pInputText
                   type="text"
                   autocomplete="username"
                 />
@@ -103,9 +109,9 @@
               >
               <p>
                 <input
-                  id="input-email-cadastro"
-                  name="input-email"
-                  class="input-group-text"
+                  id="input-email"
+                  formControlName="email"
+                  pInputText
                   type="email"
                   autocomplete="email"
                 />
@@ -117,9 +123,9 @@
               >
               <p>
                 <input
-                  id="input-senha-cadastro"
-                  name="input-senha"
-                  class="input-group-text"
+                  id="input-senha"
+                  formControlName="password"
+                  pInputText
                   type="password"
                   autocomplete="current-password"
                 />
@@ -131,7 +137,20 @@
               >
             </div>
           </div>
-          <button class="button botaoLogin" type="submit">Cadastrar-se</button>
+          <button
+            class="button botaoLogin"
+            type="submit"
+            [disabled]="formularioCadastro.invalid || isLoading"
+          >
+            <span *ngIf="!isLoading">Cadastrar-se</span>
+            <div
+              *ngIf="isLoading"
+              class="spinner-border spinner-border-sm"
+              role="status"
+            >
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
         </div>
       </form>
     </div>

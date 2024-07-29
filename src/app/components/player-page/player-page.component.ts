@@ -2,11 +2,11 @@ import { Character } from '../shared/models/character/character.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PlayerCharacterService } from './service/player-character.service';
 import { Sidebar } from 'primeng/sidebar';
-import { FormControl, FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { CharacterUpdate } from '../shared/models/character/characterUpdate.model';
-import { race } from 'rxjs';
-import exp from 'constants';
+import { CharacterCreateForm } from '../shared/models/character/Form/characterCreateForm.model';
+
 @Component({
   selector: 'app-player-page',
   templateUrl: './player-page.component.html',
@@ -18,6 +18,7 @@ export class PlayerPageComponent implements OnInit {
   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
 
   nomePlayerLogado!: string;
+  idPlayerLogado!: number;
   loggedPlayerName: string | null = null
   loggedPlayerId!: number;
   sidebarVisible: boolean = false;
@@ -28,11 +29,29 @@ export class PlayerPageComponent implements OnInit {
   playerCharacters: Character[] = [];
   selectedCharacter!: Character
 
+  characterCreateForm: CharacterCreateForm = new CharacterCreateForm();
+  creationForm: FormGroup;
   attributesForm: FormGroup;
   characterUpdateForm!: CharacterUpdate;
-  characterCreateForm!: Character;
 
   constructor(private playerCharacter: PlayerCharacterService, private messageService: MessageService) {
+    this.creationForm = new FormGroup({
+      userId: new FormControl<number>({ value: this.loggedPlayerId, disabled: false }, [Validators.required, Validators.minLength(1)]),
+      name: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
+      race: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
+      classType: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
+      level: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
+      health: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
+      stamina: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
+      strength: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
+      agility: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
+      intelligence: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
+      mind: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
+      block: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
+      dodge: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
+      determination: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
+      image: new FormControl<string>({ value: '', disabled: false }),
+    });
     this.attributesForm = new FormGroup({
       campaign: new FormControl<string>({ value: '', disabled: true }, [Validators.required, Validators.minLength(1)]),
       name: new FormControl<string>({ value: '', disabled: true }, [Validators.required, Validators.minLength(1)]),
@@ -53,6 +72,7 @@ export class PlayerPageComponent implements OnInit {
       staminaMax: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
       experience: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
     });
+
   }
 
   ngOnInit() {
@@ -60,6 +80,8 @@ export class PlayerPageComponent implements OnInit {
       this.loggedPlayerName = localStorage.getItem('name');
       this.loggedPlayerId = Number(localStorage.getItem('id'));
       this.nomePlayerLogado = this.loggedPlayerName!;
+      this.idPlayerLogado = this.loggedPlayerId!;
+      this.creationForm.get('userId')?.setValue(this.loggedPlayerId);
     }
 
     if (this.loggedPlayerId != null) {
@@ -116,7 +138,10 @@ export class PlayerPageComponent implements OnInit {
     });
   }
 
-  public getObjectKeys(obj: any): string[] {
+  public getCamposFormularioReativoEdicaoPersonagem(obj: any): string[] {
+    return Object.keys(obj);
+  }
+  public getCamposFormularioReativoCriacaoPersonagem(obj: any): string[] {
     return Object.keys(obj);
   }
 
@@ -145,7 +170,6 @@ export class PlayerPageComponent implements OnInit {
       amalgamaMax: this.attributesForm.get('amalgamaMax')?.value,
       manaMax: this.attributesForm.get('manaMax')?.value
     }
-    console.log(this.characterUpdateForm);
     this.playerCharacter.editCharacter(this.characterUpdateForm, this.selectedCharacter.id).subscribe((data: any) => {
       this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Atributos alterados com sucesso!' });
       if (this.loggedPlayerId != null) {
@@ -190,36 +214,22 @@ export class PlayerPageComponent implements OnInit {
     this.selectedCharacter.attributes.experience = data.experience;
   }
 
-  characterCreate() {
-    this.characterCreateForm = {
-      userId: this.loggedPlayerId,
-      name: this.attributesForm.get('name')?.value,
-      image: '',
-      attributes: {
-        level: 1,
-        experience: this.attributesForm.get('experience')?.value,
-        health: this.attributesForm.get('health')?.value,
-        stamina: this.attributesForm.get('stamina')?.value,
-        mana: this.attributesForm.get('mana')?.value,
-        amalgama: this.attributesForm.get('amalgama')?.value,
-        strength: this.attributesForm.get('strength')?.value,
-        agility: this.attributesForm.get('agility')?.value,
-        intelligence: this.attributesForm.get('intelligence')?.value,
-        mind: this.attributesForm.get('mind')?.value,
-        block: this.attributesForm.get('block')?.value,
-        dodge: this.attributesForm.get('dodge')?.value,
-        determination: this.attributesForm.get('determination')?.value,
-        healthMax: this.attributesForm.get('healthMax')?.value,
-        manaMax: this.attributesForm.get('manaMax')?.value,
-        staminaMax: this.attributesForm.get('staminaMax')?.value,
-        amalgamaMax: this.attributesForm.get('amalgamaMax')?.value
-      },
-      userName: this.nomePlayerLogado,
-      race: 'Human',
-      classType: 'Warrior',
-      campaign: this.attributesForm.get('campaign')?.value
+  createCharacter() {
+    this.creationForm.get('userId')!.enable();
+    this.characterCreateForm = this.creationForm.value;
+    this.playerCharacter.createCharacter(this.characterCreateForm).subscribe((data: any) => {
+      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Personagem criado com sucesso!' });
+      this.visible = false;
+      if (this.loggedPlayerId != null) {
+        this.playerCharacter.userCharacters(this.loggedPlayerId).subscribe((data: Character[]) => {
+          this.playerCharacters = data;
+        });
+      }
+    });
+    if (this.creationForm) {
+      this.creationForm.reset();
+      this.creationForm.get('userId')?.setValue(this.loggedPlayerId);
     }
   }
-
 
 }

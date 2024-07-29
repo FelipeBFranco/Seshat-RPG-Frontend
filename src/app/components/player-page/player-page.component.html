@@ -272,10 +272,20 @@
     >
       <ng-template pTemplate="content">
         <!-- Assuming attributesForm is your FormGroup with fixed fields -->
-        <form [formGroup]="attributesForm" class="attributesForm row">
+        <form
+          [formGroup]="attributesForm"
+          class="attributesForm row"
+          *ngIf="tipoDialogForm === 'Editar'"
+          method="post"
+          (ngSubmit)="requisicaoMudarAtributos()"
+        >
           <div
             class="col-4"
-            *ngFor="let controlName of getObjectKeys(attributesForm.controls)"
+            *ngFor="
+              let controlName of getCamposFormularioReativoEdicaoPersonagem(
+                attributesForm.controls
+              )
+            "
           >
             <label>{{ controlName }}</label>
             <input
@@ -296,6 +306,41 @@
             </div>
           </div>
         </form>
+        <form
+          [formGroup]="creationForm"
+          class="attributesForm row"
+          *ngIf="tipoDialogForm === 'Criar'"
+          method="post"
+          (ngSubmit)="createCharacter()"
+        >
+          <ng-container
+            *ngFor="
+              let controlName of getCamposFormularioReativoCriacaoPersonagem(
+                creationForm.controls
+              )
+            "
+          >
+            <div *ngIf="controlName != 'userId'" class="col-4">
+              <label>{{ controlName }}</label>
+              <input
+                pInputText
+                [formControlName]="controlName"
+                type="{{ getType(controlName) }}"
+              />
+              <!-- Display validation message -->
+              <div
+                *ngIf="
+                  creationForm.get(controlName)?.invalid &&
+                  (creationForm.get(controlName)?.dirty ||
+                    creationForm.get(controlName)?.touched)
+                "
+              >
+                <!-- Custom validation message here -->
+                {{ controlName }} é Inválido!
+              </div>
+            </div>
+          </ng-container>
+        </form>
       </ng-template>
       <ng-template pTemplate="footer">
         <p-button
@@ -305,10 +350,20 @@
           (onClick)="visible = false"
         />
         <p-button
+          *ngIf="tipoDialogForm === 'Editar'"
           label="Salvar Alterações"
           [outlined]="true"
-          severity="secondary"
+          severity="contrast"
+          type="submit"
           (onClick)="visible = false; requisicaoMudarAtributos()"
+        />
+        <p-button
+          *ngIf="tipoDialogForm == 'Criar'"
+          label="Criar Personagem"
+          [outlined]="true"
+          severity="contrast"
+          type="submit"
+          (onClick)="visible = false; createCharacter()"
         />
       </ng-template>
     </p-dialog>
