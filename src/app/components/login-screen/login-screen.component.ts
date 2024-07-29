@@ -4,6 +4,7 @@ import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MessageService } from 'primeng/api';
 
+
 @Component({
   selector: 'app-login-screen',
   templateUrl: './login-screen.component.html',
@@ -20,6 +21,11 @@ export class LoginScreenComponent implements OnInit {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private LoginService: LoginService, private messageService: MessageService) {
     this.formularioLogin = new FormGroup({
+      email: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.email]),
+      password: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
+    })
+    this.formularioCadastro = new FormGroup({
+      name: new FormControl({ value: '', disabled: false }, [Validators.required]),
       email: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.email]),
       password: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
     });

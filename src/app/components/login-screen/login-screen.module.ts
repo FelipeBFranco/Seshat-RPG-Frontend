@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
 
+
 import { LoginScreenComponent } from './login-screen.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -24,6 +25,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule,
     ToastModule,
+
   ]
 })
 export class LoginScreenModule { }
