@@ -26,7 +26,6 @@ export class TokenService {
   public storeToken(token: string): void {
     if (isPlatformBrowser(this.platformId)) {
       this.jwtPayload = this.JwtHelper.decodeToken(token);
-      localStorage.removeItem('token');
       localStorage.setItem('token', token);
     }
   }
@@ -34,11 +33,8 @@ export class TokenService {
   public loadToken(): void {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('token');
-
-      if (token != null) {
-        if (token.length > 1) {
-          this.storeToken(token);
-        }
+      if (token) {
+        this.storeToken(token);
       }
     }
   }
@@ -46,73 +42,78 @@ export class TokenService {
   public isTokenValid(): boolean {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('token');
-      return !token || this.JwtHelper.isTokenExpired(token);
+      return token != null && !this.JwtHelper.isTokenExpired(token);
     }
-    return false; // Consider token invalid or handle differently if not in browser
+    return false;
   }
 
-  public isExpired() {
+  public isExpired(): boolean {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('token');
       return this.JwtHelper.isTokenExpired(token);
     }
-    return true; // Assume expired or handle differently if not in browser
+    return true;
   }
 
-  public isDefined() {
+  public isDefined(): boolean {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('token');
       return token != null;
     }
-    return false; // Assume not defined or handle differently if not in browser
+    return false;
   }
-  public hasPermission(permissao: string): any {
+
+  public hasPermission(permissao: string): boolean {
     return this.jwtPayload && this.jwtPayload.authorities.includes(permissao);
   }
 
-  public requestNewAcess(): Promise<any> {
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    headers.append('Authorization', 'Basic YWRtaW46QWRNaU4=');
+  public requestNewAccess(): Promise<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Basic YWRtaW46QWRNaU4='
+    });
     const body = 'grant_type=refresh_token';
 
-    return this.http.post<any>(this.servidor, body, { headers, withCredentials: true, responseType: 'json' })
+    return this.http.post<any>(this.servidor, body, { headers, withCredentials: true })
       .toPromise()
       .then(response => {
-        if (response) {
+        if (response && response.access_token) {
           this.storeToken(response.access_token);
         }
         return response;
       })
-      .catch(response => {
-        console.error('Erro ao renovar Token.', response);
-        return response;
+      .catch(error => {
+        console.error('Erro ao renovar Token.', error);
+        return Promise.reject(error);
       });
   }
 
-  public clearAccess() {
-    if(isPlatformBrowser(this.platformId)){
+  public clearAccess(): void {
+    if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('token');
     }
     this.jwtPayload = null;
   }
 
-  public logout() {
-    const headers = new HttpHeaders();
+  public logout(): void {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
 
     const token = localStorage.getItem('token');
     if (token) {
-      headers.set("Authorization", "Bearer " + token);
+      headers.set('Authorization', 'Bearer ' + token);
     }
-    headers.set("Content-Type", "application/json");
-    this.http.delete(this.servidorService.getServidor() + '/tokens/revoke', { headers }).toPromise()
+
+    this.http.delete(this.servidorService.getServidor() + '/tokens/revoke', { headers })
+      .toPromise()
       .then(() => {
         this.clearAccess();
         localStorage.clear();
         this.router.navigate(['/']);
-      }).catch(() => {
-        this.router.navigate(['/']);
       })
-
+      .catch(() => {
+        this.router.navigate(['/']);
+      });
   }
 }

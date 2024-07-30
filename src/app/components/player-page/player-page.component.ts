@@ -76,6 +76,7 @@ export class PlayerPageComponent implements OnInit {
   }
 
   ngOnInit() {
+
     if (typeof window !== 'undefined') {
       this.loggedPlayerName = localStorage.getItem('name');
       this.loggedPlayerId = Number(localStorage.getItem('id'));
