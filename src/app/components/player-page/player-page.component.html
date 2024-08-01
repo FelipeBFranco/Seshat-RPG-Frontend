@@ -18,10 +18,19 @@
           <p>{{ personagem.campaign }}</p>
           <p>
             <p-button
+            icon="pi pi-check"
               label="Selecionar"
               class="selectCharacterButton"
               (click)="selectCharacter(personagem)"
+              
             />
+            <p-button
+          (click)="deleteCharacter(personagem)"
+          label="Deletar"
+          icon="pi pi-trash"
+          class="deleteCharacterButton"
+          [style]="{ 'background-color': 'red', color: 'white' }"
+         />
           </p>
         </p-panel>
       </div>
@@ -205,7 +214,7 @@
                 }}</b>
               </div>
               <div class="row col-12 attributesStatsListText">
-                <span class="col-8">Mind</span>
+                <span class="col-8">Vontade</span>
                 <b class="attributeText col-4">{{
                   selectedCharacter.attributes.mind
                 }}</b>

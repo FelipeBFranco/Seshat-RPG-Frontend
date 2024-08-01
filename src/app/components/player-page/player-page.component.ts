@@ -1,16 +1,20 @@
 import { Character } from '../shared/models/character/character.model';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { PlayerCharacterService } from './service/player-character.service';
 import { Sidebar } from 'primeng/sidebar';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { CharacterUpdate } from '../shared/models/character/characterUpdate.model';
 import { CharacterCreateForm } from '../shared/models/character/Form/characterCreateForm.model';
+import { ConfirmationService } from 'primeng/api';
+
+
 
 @Component({
   selector: 'app-player-page',
   templateUrl: './player-page.component.html',
   styleUrl: './player-page.component.scss',
+  encapsulation: ViewEncapsulation.Emulated,
   providers: [MessageService]
 })
 export class PlayerPageComponent implements OnInit {
@@ -26,6 +30,7 @@ export class PlayerPageComponent implements OnInit {
   toastIsVisible = false;
   tipoDialogForm: string = 'Criar';
 
+
   playerCharacters: Character[] = [];
   selectedCharacter!: Character
 
@@ -34,7 +39,8 @@ export class PlayerPageComponent implements OnInit {
   attributesForm: FormGroup;
   characterUpdateForm!: CharacterUpdate;
 
-  constructor(private playerCharacter: PlayerCharacterService, private messageService: MessageService) {
+
+  constructor(private playerCharacter: PlayerCharacterService, private messageService: MessageService, private confirmationService: ConfirmationService) {
     this.creationForm = new FormGroup({
       userId: new FormControl<number>({ value: this.loggedPlayerId, disabled: false }, [Validators.required, Validators.minLength(1)]),
       name: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
@@ -76,6 +82,8 @@ export class PlayerPageComponent implements OnInit {
   }
 
   ngOnInit() {
+  
+    
 
     if (typeof window !== 'undefined') {
       this.loggedPlayerName = localStorage.getItem('name');
@@ -98,6 +106,7 @@ export class PlayerPageComponent implements OnInit {
     this.attributesForm.get('name')?.disable();
     this.attributesForm.get('campaign')?.disable();
   }
+
 
   closeCallback(e: any): void {
     this.sidebarVisible = e;
@@ -231,6 +240,24 @@ export class PlayerPageComponent implements OnInit {
       this.creationForm.reset();
       this.creationForm.get('userId')?.setValue(this.loggedPlayerId);
     }
+  }
+
+  deleteCharacter(character: Character) {
+    this.playerCharacter.deleteCharacter(character.id).subscribe(() => {
+      this.playerCharacters = this.playerCharacters.filter(c => c.id !== character.id);
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Character deleted successfully' });
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete character' });
+    });
+  }
+  
+  confirmDeleteCharacter(personagem: any) {
+    this.confirmationService.confirm({
+      message: 'Você tem certeza que deseja deletar este personagem?',
+      accept: () => {
+        this.deleteCharacter(personagem);
+      }
+    });
   }
 
 }

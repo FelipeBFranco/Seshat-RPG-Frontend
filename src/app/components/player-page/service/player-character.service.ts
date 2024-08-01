@@ -24,4 +24,8 @@ export class PlayerCharacterService {
   createCharacter(character: CharacterCreateForm){
     return this.httpClient.post<CharacterCreateForm>(this.apiUrl + '/create', character)
   }
+
+  deleteCharacter(characterId : Character["id"]){
+    return this.httpClient.delete(this.apiUrl + `/delete/${characterId}`)
+  }
 }
