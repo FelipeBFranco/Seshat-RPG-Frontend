@@ -14,6 +14,9 @@ import { DialogModule } from 'primeng/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+
 
 const routes: Routes = [
   {
@@ -39,8 +42,10 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     InputNumberModule,
-    InputTextModule
+    InputTextModule,
+    ConfirmDialogModule
   ],
   exports: [RouterModule],
+  providers: [ConfirmationService],
 })
 export class PlayerPageModule { }

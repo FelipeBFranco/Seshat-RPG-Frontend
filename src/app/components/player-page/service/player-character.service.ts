@@ -15,23 +15,27 @@ export class PlayerCharacterService {
 
   constructor(private httpClient: HttpClient) { }
 
-  userCharacters(idPlayer: number){
+  userCharacters(idPlayer: number) {
     return this.httpClient.get<Character[]>(this.apiUrl + `/${idPlayer}`)
   }
 
-  editCharacter(character: CharacterUpdate, characterId?: number){
+  editCharacter(character: CharacterUpdate, characterId?: number) {
     return this.httpClient.put<CharacterUpdate>(this.apiUrl + `/update/${characterId}`, character)
   }
 
-  createCharacter(character: CharacterCreateForm){
+  createCharacter(character: CharacterCreateForm) {
     return this.httpClient.post<CharacterCreateForm>(this.apiUrl + '/create', character)
   }
 
-  getCharacterSkillsByUserId(id: number){
+  getCharacterSkillsByUserId(id: number) {
     return this.httpClient.get<CharacterSkills[]>(this.apiUrl + `/skills/${id}`)
   }
 
-  getCharacterInventoryByUserId(id: number){
+  getCharacterInventoryByUserId(id: number) {
     return this.httpClient.get<CharacterInventory[]>(this.apiUrl + `/inventory/${id}`)
+  }
+
+  deleteCharacter(characterId: Character["id"]) {
+    return this.httpClient.delete(this.apiUrl + `/delete/${characterId}`)
   }
 }

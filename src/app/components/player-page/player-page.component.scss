@@ -157,7 +157,7 @@ input::-webkit-inner-spin-button {
 }
 
 .addCharacterButton:hover {
-  background-color: #000;
+  background-color: #001;
   color: white;
 }
 
@@ -188,5 +188,14 @@ input::-webkit-inner-spin-button {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+.deleteCharacterButton {
+  background-color: red !important;
+  border-color: red !important;
+  color: white !important;
+  size: 10px;
+  .pi {
+    margin-right: 0.5rem;
   }
 }
