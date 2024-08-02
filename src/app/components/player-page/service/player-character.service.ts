@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Character } from '../../shared/models/character/character.model';
 import { CharacterUpdate } from '../../shared/models/character/characterUpdate.model';
 import { CharacterCreateForm } from '../../shared/models/character/Form/characterCreateForm.model';
+import { CharacterInventory } from '../../shared/models/character/characterInventory.model';
+import { CharacterSkills } from '../../shared/models/character/characterSkills.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +25,13 @@ export class PlayerCharacterService {
 
   createCharacter(character: CharacterCreateForm){
     return this.httpClient.post<CharacterCreateForm>(this.apiUrl + '/create', character)
+  }
+
+  getCharacterSkillsByUserId(id: number){
+    return this.httpClient.get<CharacterSkills[]>(this.apiUrl + `/skills/${id}`)
+  }
+
+  getCharacterInventoryByUserId(id: number){
+    return this.httpClient.get<CharacterInventory[]>(this.apiUrl + `/inventory/${id}`)
   }
 }

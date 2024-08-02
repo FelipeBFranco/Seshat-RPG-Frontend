@@ -1,3 +1,8 @@
+:root {
+  --primary-border-radius: 20px;
+  --secondary-border-radius: 15px;
+}
+
 .sideBar {
   background-color: #41414176;
   min-width: 10vw;
@@ -5,12 +10,8 @@
   min-height: 100vh;
   height: 100vh;
   max-height: 100vh;
-  border-radius: 0 20px 20px 0;
+  border-radius: 0 var(--primary-border-radius) var(--primary-border-radius) 0;
   padding: 5px;
-}
-
-.textoPerson {
-  padding-top: 2%;
 }
 
 .infoPersonagemSelecionado {
@@ -44,7 +45,7 @@
 .progressbar {
   margin: 0 35% 0 35%;
   background-color: #19191976;
-  border-radius: 13px;
+  border-radius: var(--secondary-border-radius);
   padding: 3px;
 }
 
@@ -112,7 +113,7 @@
   margin-left: 3%;
   list-style: none;
   background-color: #19191948;
-  border-radius: 15px;
+  border-radius: var(--secondary-border-radius);
   backdrop-filter: blur(5px);
   .attributesStatsListText {
     font-size: 18pt;
@@ -133,7 +134,7 @@
 .characterImage {
   height: 70%;
   width: 70%;
-  border-radius: 15px;
+  border-radius: var(--secondary-border-radius);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -158,4 +159,34 @@ input::-webkit-inner-spin-button {
 .addCharacterButton:hover {
   background-color: #000;
   color: white;
+}
+
+.imagemFundo {
+  position: relative;
+  min-height: 100%;
+  background: radial-gradient(circle, rgba(2, 0, 36, 0) 0%, rgb(1, 0, 20) 70%),
+    url(https://img.freepik.com/premium-photo/galaxy-astronomy-landscape-outdoors_53876-265518.jpg?w=1380);
+  border-radius: var(--primary-border-radius);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.inventorySquareSlot {
+  width: 10%;
+  height: 10%;
+  border: 1px solid rgb(69, 69, 69);
+  border-radius: var(--primary-border-radius);
+  background-color: #3c3c3c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  display: grid;
+  grid-gap: 10px;
+  padding: 10px;
+  .inventorySlot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

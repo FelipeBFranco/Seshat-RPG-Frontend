@@ -47,7 +47,7 @@
           'background-color': '#535353',
           'border-radius': '20px'
         }"
-        class="text-center"
+        class="text-center imagemFundo"
       >
         <ul *ngIf="!selectedCharacter" class="titleList">
           <li>
@@ -184,9 +184,9 @@
           </li>
         </ul>
         <ul *ngIf="selectedCharacter" class="attributesList row">
-          <li class="row col-3 atributosDoPersonagem">
-            <div class="row col-12 attributesStatsList text-center">
-              <div class="row col-12 attributesStatsListText">
+          <li class="row col-3 atributosDoPersonagem cards">
+            <div class="row col-12 attributesStatsList text-center inner">
+              <div class="row col-12 attributesStatsListText blob">
                 <span class="col-8">Força</span>
                 <b class="attributeText col-4">{{
                   selectedCharacter.attributes.strength
@@ -239,8 +239,24 @@
           </li>
           <li class="col-3 botoesDeAcao text-center">
             <div class="actionButtonGrid">
-              <button class="btn btn-secondary">Inventário</button>
-              <button class="btn btn-secondary">Skillset</button>
+              <button
+                class="btn btn-secondary"
+                (click)="
+                  visibilityDialogInventory = true;
+                  requisicaoInventarioPersonagem(idPlayerLogado)
+                "
+              >
+                Inventário
+              </button>
+              <button
+                class="btn btn-secondary"
+                (click)="
+                  visibilityDialogSkills = true;
+                  requisicaoSkillsPersonagem(idPlayerLogado)
+                "
+              >
+                Skillset
+              </button>
               <button
                 (click)="
                   showDialog();
@@ -256,117 +272,168 @@
         </ul>
       </div>
     </div>
-    <p-dialog
-      header="{{ tipoDialogForm }} atributos {{
-        selectedCharacter && tipoDialogForm === 'Editar'
-          ? 'de ' + selectedCharacter.name
-          : 'para um novo personagem'
-      }}"
-      [(visible)]="visible"
-      [modal]="true"
-      [style]="{ width: '50rem' }"
-      [closeOnEscape]="false"
-      [closable]="false"
-      [blockScroll]="true"
-      [keepInViewport]="true"
-    >
-      <ng-template pTemplate="content">
-        <!-- Assuming attributesForm is your FormGroup with fixed fields -->
-        <form
-          [formGroup]="attributesForm"
-          class="attributesForm row"
-          *ngIf="tipoDialogForm === 'Editar'"
-          method="post"
-          (ngSubmit)="requisicaoMudarAtributos()"
-        >
-          <div
-            class="col-4"
-            *ngFor="
-              let controlName of getCamposFormularioReativoEdicaoPersonagem(
-                attributesForm.controls
-              )
-            "
-          >
-            <label>{{ controlName }}</label>
-            <input
-              pInputText
-              [formControlName]="controlName"
-              type="{{ getType(controlName) }}"
-            />
-            <!-- Display validation message -->
-            <div
-              *ngIf="
-                attributesForm.get(controlName)?.invalid &&
-                (attributesForm.get(controlName)?.dirty ||
-                  attributesForm.get(controlName)?.touched)
-              "
-            >
-              <!-- Custom validation message here -->
-              {{ controlName }} é Inválido!
-            </div>
-          </div>
-        </form>
-        <form
-          [formGroup]="creationForm"
-          class="attributesForm row"
-          *ngIf="tipoDialogForm === 'Criar'"
-          method="post"
-          (ngSubmit)="createCharacter()"
-        >
-          <ng-container
-            *ngFor="
-              let controlName of getCamposFormularioReativoCriacaoPersonagem(
-                creationForm.controls
-              )
-            "
-          >
-            <div *ngIf="controlName != 'userId'" class="col-4">
-              <label>{{ controlName }}</label>
-              <input
-                pInputText
-                [formControlName]="controlName"
-                type="{{ getType(controlName) }}"
-              />
-              <!-- Display validation message -->
-              <div
-                *ngIf="
-                  creationForm.get(controlName)?.invalid &&
-                  (creationForm.get(controlName)?.dirty ||
-                    creationForm.get(controlName)?.touched)
-                "
-              >
-                <!-- Custom validation message here -->
-                {{ controlName }} é Inválido!
-              </div>
-            </div>
-          </ng-container>
-        </form>
-      </ng-template>
-      <ng-template pTemplate="footer">
-        <p-button
-          label="Cancelar"
-          [outlined]="true"
-          severity="secondary"
-          (onClick)="visible = false"
-        />
-        <p-button
-          *ngIf="tipoDialogForm === 'Editar'"
-          label="Salvar Alterações"
-          [outlined]="true"
-          severity="contrast"
-          type="submit"
-          (onClick)="visible = false; requisicaoMudarAtributos()"
-        />
-        <p-button
-          *ngIf="tipoDialogForm == 'Criar'"
-          label="Criar Personagem"
-          [outlined]="true"
-          severity="contrast"
-          type="submit"
-          (onClick)="visible = false; createCharacter()"
-        />
-      </ng-template>
-    </p-dialog>
   </div>
 </div>
+<p-dialog
+  header="{{ tipoDialogForm }} atributos {{
+    selectedCharacter && tipoDialogForm === 'Editar'
+      ? 'de ' + selectedCharacter.name
+      : 'para um novo personagem'
+  }}"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '50rem' }"
+  [closeOnEscape]="false"
+  [closable]="false"
+  [blockScroll]="true"
+  [keepInViewport]="true"
+  [draggable]="false"
+>
+  <ng-template pTemplate="content">
+    <!-- Assuming attributesForm is your FormGroup with fixed fields -->
+    <form
+      [formGroup]="attributesForm"
+      class="attributesForm row"
+      *ngIf="tipoDialogForm === 'Editar'"
+      method="post"
+      (ngSubmit)="requisicaoMudarAtributos()"
+    >
+      <div
+        class="col-4"
+        *ngFor="
+          let controlName of getCamposFormularioReativoEdicaoPersonagem(
+            attributesForm.controls
+          )
+        "
+      >
+        <label>{{ controlName }}</label>
+        <input
+          pInputText
+          [formControlName]="controlName"
+          type="{{ getType(controlName) }}"
+        />
+        <!-- Display validation message -->
+        <div
+          *ngIf="
+            attributesForm.get(controlName)?.invalid &&
+            (attributesForm.get(controlName)?.dirty ||
+              attributesForm.get(controlName)?.touched)
+          "
+        >
+          <!-- Custom validation message here -->
+          {{ controlName }} é Inválido!
+        </div>
+      </div>
+    </form>
+    <form
+      [formGroup]="creationForm"
+      class="attributesForm row"
+      *ngIf="tipoDialogForm === 'Criar'"
+      method="post"
+      (ngSubmit)="createCharacter()"
+    >
+      <ng-container
+        *ngFor="
+          let controlName of getCamposFormularioReativoCriacaoPersonagem(
+            creationForm.controls
+          )
+        "
+      >
+        <div *ngIf="controlName != 'userId'" class="col-4">
+          <label>{{ controlName }}</label>
+          <input
+            pInputText
+            [formControlName]="controlName"
+            type="{{ getType(controlName) }}"
+          />
+          <!-- Display validation message -->
+          <div
+            *ngIf="
+              creationForm.get(controlName)?.invalid &&
+              (creationForm.get(controlName)?.dirty ||
+                creationForm.get(controlName)?.touched)
+            "
+          >
+            <!-- Custom validation message here -->
+            {{ controlName }} é Inválido!
+          </div>
+        </div>
+      </ng-container>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancelar"
+      [outlined]="true"
+      severity="secondary"
+      (onClick)="visible = false"
+    />
+    <p-button
+      *ngIf="tipoDialogForm === 'Editar'"
+      label="Salvar Alterações"
+      [outlined]="true"
+      severity="contrast"
+      type="submit"
+      (onClick)="visible = false; requisicaoMudarAtributos()"
+    />
+    <p-button
+      *ngIf="tipoDialogForm == 'Criar'"
+      label="Criar Personagem"
+      [outlined]="true"
+      severity="contrast"
+      type="submit"
+      (onClick)="visible = false; createCharacter()"
+    />
+  </ng-template>
+</p-dialog>
+<p-dialog
+  header="Edit Profile"
+  [(visible)]="visibilityDialogSkills"
+  [modal]="true"
+  [style]="{ width: '50rem' }"
+  [closeOnEscape]="false"
+  [closable]="false"
+  [blockScroll]="true"
+  [keepInViewport]="true"
+  [draggable]="false"
+>
+  <span class="p-text-secondary block mb-5">Update your information.</span>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="username" class="font-semibold w-6rem">Username</label>
+    <input pInputText id="username" class="flex-auto" autocomplete="off" />
+  </div>
+  <div class="flex align-items-center gap-3 mb-5">
+    <label for="email" class="font-semibold w-6rem">Email</label>
+    <input pInputText id="email" class="flex-auto" autocomplete="off" />
+  </div>
+  <div class="flex justify-content-end gap-2">
+    <p-button label="Cancel" severity="secondary" (onClick)="visible = false" />
+    <p-button label="Save" (onClick)="visibilityDialogSkills = false" />
+  </div>
+</p-dialog>
+<p-dialog
+  header="Skills de {{ selectedCharacter ? selectedCharacter.name : '' }}"
+  [(visible)]="visibilityDialogInventory"
+  [modal]="true"
+  [style]="{ width: '50rem' }"
+  [closeOnEscape]="false"
+  [closable]="false"
+  [blockScroll]="true"
+  [keepInViewport]="true"
+  [draggable]="false"
+>
+  <div class="inventorySquareSlot" *ngFor="let items of characterInventory">
+    <div class="inventorySlot text-center">
+      <p>item aqui</p>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancelar"
+      [outlined]="true"
+      severity="danger"
+      (onClick)="visible = false"
+    />
+  </ng-template>
+</p-dialog>
 <p-toast [life]="5000" [baseZIndex]="5000" />

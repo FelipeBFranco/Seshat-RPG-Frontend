@@ -1,3 +1,4 @@
+import { CharacterInventory } from './../shared/models/character/characterInventory.model';
 import { Character } from '../shared/models/character/character.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PlayerCharacterService } from './service/player-character.service';
@@ -6,13 +7,18 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { CharacterUpdate } from '../shared/models/character/characterUpdate.model';
 import { CharacterCreateForm } from '../shared/models/character/Form/characterCreateForm.model';
+import { CharacterSkills } from '../shared/models/character/characterSkills.model';
 
 @Component({
   selector: 'app-player-page',
   templateUrl: './player-page.component.html',
   styleUrl: './player-page.component.scss',
-  providers: [MessageService]
+  providers: [MessageService],
+  animations: [
+
+  ]
 })
+
 export class PlayerPageComponent implements OnInit {
 
   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
@@ -23,6 +29,8 @@ export class PlayerPageComponent implements OnInit {
   loggedPlayerId!: number;
   sidebarVisible: boolean = false;
   visible: boolean = false;
+  visibilityDialogSkills: boolean = false;
+  visibilityDialogInventory: boolean = false;
   toastIsVisible = false;
   tipoDialogForm: string = 'Criar';
 
@@ -33,6 +41,9 @@ export class PlayerPageComponent implements OnInit {
   creationForm: FormGroup;
   attributesForm: FormGroup;
   characterUpdateForm!: CharacterUpdate;
+
+  characterSkills: CharacterSkills[] = [];
+  characterInventory: CharacterInventory[] = [];
 
   constructor(private playerCharacter: PlayerCharacterService, private messageService: MessageService) {
     this.creationForm = new FormGroup({
@@ -233,4 +244,19 @@ export class PlayerPageComponent implements OnInit {
     }
   }
 
+  requisicaoInventarioPersonagem(userId: number) {
+    this.playerCharacter.getCharacterInventoryByUserId(userId).subscribe((data: CharacterInventory[]) => {
+      this.characterInventory = data;
+      console.log(this.characterInventory, data);
+    });
+    this.visibilityDialogInventory = true;
+  }
+
+  requisicaoSkillsPersonagem(userId: number) {
+    this.playerCharacter.getCharacterSkillsByUserId(userId).subscribe((data: CharacterSkills[]) => {
+      this.characterSkills = data;
+      console.log(this.characterSkills, data);
+    });
+    this.visibilityDialogSkills = true;
+  }
 }
