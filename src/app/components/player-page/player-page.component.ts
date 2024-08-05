@@ -46,10 +46,12 @@ export class PlayerPageComponent implements OnInit {
   creationForm: FormGroup;
   attributesForm: FormGroup;
   characterUpdateForm!: CharacterUpdate;
+  cd: ConfirmationService;
 
   characterSkills: CharacterSkills[] = [];
   characterInventory: CharacterInventory[] = [];
   constructor(private playerCharacter: PlayerCharacterService, private messageService: MessageService, private confirmationService: ConfirmationService) {
+    this.cd = this.confirmationService;
     this.creationForm = new FormGroup({
       userId: new FormControl<number>({ value: this.loggedPlayerId, disabled: false }, [Validators.required, Validators.minLength(1)]),
       name: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
@@ -91,9 +93,6 @@ export class PlayerPageComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
-
     if (typeof window !== 'undefined') {
       this.loggedPlayerName = localStorage.getItem('name');
       this.loggedPlayerId = Number(localStorage.getItem('id'));
@@ -266,20 +265,29 @@ export class PlayerPageComponent implements OnInit {
     this.visibilityDialogSkills = true;
   }
   deleteCharacter(character: Character) {
-    this.playerCharacter.deleteCharacter(character.id).subscribe(() => {
-      this.playerCharacters = this.playerCharacters.filter(c => c.id !== character.id);
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Character deleted successfully' });
-    }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete character' });
-    });
+    if (character.id != undefined) {
+      this.playerCharacter.deleteCharacter(character.id).subscribe(() => {
+        if (this.loggedPlayerId != null) {
+          this.playerCharacter.userCharacters(this.loggedPlayerId).subscribe((data: Character[]) => {
+            this.playerCharacters = data;
+          });
+        }
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete character' });
+      });
+    }
   }
 
-  confirmDeleteCharacter(personagem: any) {
+  confirmDeleteCharacter(character: Character) {
     this.confirmationService.confirm({
       message: 'Você tem certeza que deseja deletar este personagem?',
       accept: () => {
-        this.deleteCharacter(personagem);
+        this.messageService.add({ severity: 'info', summary: 'Personagem deletado com sucesso!', detail: `Personagem ${character.name} foi deletado`, life: 3000 });
+        this.deleteCharacter(character);
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'info', summary: 'Operação cancelada', detail: 'Operação de exclusão cancelada', life: 3000 });
       }
-    });
+    })
   }
 }

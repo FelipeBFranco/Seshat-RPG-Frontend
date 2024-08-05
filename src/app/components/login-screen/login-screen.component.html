@@ -30,9 +30,9 @@
               >
               <p>
                 <input
+                  pInputText
                   id="input-email"
                   formControlName="email"
-                  pInputText
                   type="email"
                   autocomplete="email"
                 />
@@ -42,12 +42,12 @@
             <div class="col">
               <label for="input-senha" class="mb-2 form-label">Senha</label>
               <p>
-                <input
+                <p-password
                   id="input-senha"
                   formControlName="password"
-                  pInputText
-                  type="password"
                   autocomplete="current-password"
+                  [feedback]="false"
+                  [toggleMask]="true"
                 />
               </p>
             </div>

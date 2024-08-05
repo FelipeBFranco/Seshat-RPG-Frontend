@@ -190,12 +190,15 @@ input::-webkit-inner-spin-button {
     align-items: center;
   }
 }
-.deleteCharacterButton {
-  background-color: red !important;
-  border-color: red !important;
-  color: white !important;
-  size: 10px;
-  .pi {
-    margin-right: 0.5rem;
+
+.botoesCriacaoDelecao{
+  button {
+    border-radius: var(--secondary-border-radius);
   }
+}
+
+.selectCharacterButton {
+  border: 1px solid #dfdfdf;
+  border-radius: var(--primary-border-radius);
+  background-color: #3c3c3c;
 }
