@@ -1,158 +1,161 @@
-<p-toast [life]="5000" [baseZIndex]="5000" />
-<div class="loginHeader">
-  <div class="titleContent text-center">
-    <ul class="text-center" style="list-style: none; padding: 0; margin: 0">
-      <li>
-        <h1>Seshat</h1>
-      </li>
-      <li>
-        <small> Gerenciador de Fichas para RPGs de mesa </small>
-      </li>
-    </ul>
-  </div>
-</div>
-<div class="loginContent mt-3">
-  <div class="formContent">
-    <div class="card-content cardForm">
-      <form
-        method="post"
-        action=""
-        class="front"
-        [formGroup]="formularioLogin"
-        (ngSubmit)="enviarRequisicaoDeLogin()"
-      >
-        <div>
-          <h2 class="text-center">Login</h2>
-          <div class="inputContent">
-            <div class="col">
-              <label for="input-email" class="mb-2 form-label"
-                >Email do Usuário</label
-              >
-              <p>
-                <input
-                  pInputText
-                  id="input-email"
-                  formControlName="email"
-                  type="email"
-                  autocomplete="email"
-                />
-              </p>
-            </div>
-
-            <div class="col">
-              <label for="input-senha" class="mb-2 form-label">Senha</label>
-              <p>
-                <p-password
-                  id="input-senha"
-                  formControlName="password"
-                  autocomplete="current-password"
-                  [feedback]="false"
-                  [toggleMask]="true"
-                />
-              </p>
-            </div>
-            <div>
-              <small
-                >Não possui uma conta?
-                <a class="cadastrar-text">Cadastre-se</a></small
-              >
-              <p>
-                <small>
-                  Esqueceu a senha? <a class="esqueceu-text">Recuperar</a>
-                </small>
-              </p>
-            </div>
-          </div>
-          <button
-            class="button botaoLogin"
-            type="submit"
-            [disabled]="formularioLogin.invalid || isLoading"
-          >
-            <span *ngIf="!isLoading">Login</span>
-            <div
-              *ngIf="isLoading"
-              class="spinner-border spinner-border-sm"
-              role="status"
-            >
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </button>
-        </div>
-      </form>
-      <form
-        method="post"
-        action=""
-        class="back"
-        [formGroup]="formularioCadastro"
-        (ngSubmit)="enviarRequisicaoDeCadastro()"
-      >
-        <div>
-          <h2 class="text-center" id="texto-cadastro">Cadastrar-se</h2>
-          <div class="inputContent" id="cadastrarForm">
-            <div class="col">
-              <label for="input-usuario-cadastro" class="mb-2 form-label"
-                >Nome de Usuário</label
-              >
-              <p>
-                <input
-                  id="input-name"
-                  formControlName="name"
-                  pInputText
-                  type="text"
-                  autocomplete="username"
-                />
-              </p>
-            </div>
-            <div>
-              <label for="input-email-cadastro" class="mb-2 form-label"
-                >Email</label
-              >
-              <p>
-                <input
-                  id="input-email"
-                  formControlName="email"
-                  pInputText
-                  type="email"
-                  autocomplete="email"
-                />
-              </p>
-            </div>
-            <div class="col">
-              <label for="input-senha-cadastro" class="mb-2 form-label"
-                >Senha</label
-              >
-              <p>
-                <input
-                  id="input-senha"
-                  formControlName="password"
-                  pInputText
-                  type="password"
-                  autocomplete="current-password"
-                />
-              </p>
-            </div>
-            <div>
-              <small
-                >Já possui uma conta? <a class="entrar-text">Entrar</a></small
-              >
-            </div>
-          </div>
-          <button
-            class="button botaoLogin"
-            type="submit"
-            [disabled]="formularioCadastro.invalid || isLoading"
-          >
-            <span *ngIf="!isLoading">Cadastrar-se</span>
-            <div
-              *ngIf="isLoading"
-              class="spinner-border spinner-border-sm"
-              role="status"
-            >
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </button>
-        </div>
-      </form>
+<div class="imagemFundo">
+  <p-toast [life]="5000" [baseZIndex]="5000" />
+  <div class="loginHeader">
+    <div class="text-center">
+      <ul class="text-center" style="list-style: none; padding: 0; margin: 0">
+        <li>
+          <h1>Seshat</h1>
+        </li>
+        <li>
+          <small> Gerenciador de Fichas para RPGs de mesa </small>
+        </li>
+      </ul>
     </div>
   </div>
-</div>
+  <div class="loginContent mt-3">
+    <div class="formContent">
+      <div class="cardForm">
+        <form
+          method="post"
+          action=""
+          class="front"
+          [formGroup]="formularioLogin"
+          (ngSubmit)="enviarRequisicaoDeLogin()"
+        >
+          <div>
+            <h2 class="text-center">Login</h2>
+            <div class="inputContent">
+              <div class="col">
+                <label for="input-email" class="mb-2 form-label"
+                  >Email do Usuário</label
+                >
+                <p>
+                  <input
+                    pInputText
+                    id="input-email"
+                    formControlName="email"
+                    type="email"
+                    autocomplete="email"
+                    [style]="{ width: '100%' }" />
+                </p>
+              </div>
+              <div class="col">
+                <label for="input-senha" class="mb-2 form-label">Senha</label>
+                <p>
+                  <p-password
+                    id="input-senha"
+                    formControlName="password"
+                    autocomplete="current-password"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                  />
+                </p>
+              </div>
+              <div>
+                <small
+                  >Não possui uma conta?
+                  <a class="cadastrar-text">Cadastre-se</a></small
+                >
+                <p>
+                  <small>
+                    Esqueceu a senha? <a class="esqueceu-text">Recuperar</a>
+                  </small>
+                </p>
+              </div>
+            </div>
+            <button
+              class="button botaoLogin"
+              type="submit"
+              [disabled]="formularioLogin.invalid || isLoading"
+            >
+              <span *ngIf="!isLoading">Login</span>
+              <div
+                *ngIf="isLoading"
+                class="spinner-border spinner-border-sm"
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </button>
+          </div>
+        </form>
+        <form
+          method="post"
+          action=""
+          class="back"
+          [formGroup]="formularioCadastro"
+          (ngSubmit)="enviarRequisicaoDeCadastro()"
+        >
+        <div>
+          <h2 class="text-center" id="texto-cadastro">Cadastrar-se</h2>
+            <div class="inputContent" id="cadastrarForm">
+              <div class="col">
+                <label for="input-usuario-cadastro" class="mb-2 form-label"
+                  >Nome de Usuário</label
+                >
+                <p>
+                  <input
+                    id="input-name"
+                    formControlName="name"
+                    pInputText
+                    type="text"
+                    autocomplete="username"
+                  />
+                </p>
+              </div>
+              <div>
+                <label for="input-email-cadastro" class="mb-2 form-label"
+                  >Email</label
+                >
+                <p>
+                  <input
+                    id="input-email"
+                    formControlName="email"
+                    pInputText
+                    type="email"
+                    autocomplete="email"
+                  />
+                </p>
+              </div>
+              <div class="col">
+                <label for="input-senha-cadastro" class="mb-2 form-label"
+                  >Senha</label
+                >
+                <p>
+                  <input
+                    id="input-senha"
+                    formControlName="password"
+                    pInputText
+                    type="password"
+                    autocomplete="current-password"
+                  />
+                </p>
+              </div>
+              <div style="align-items: center; text-align: center;">
+                <small
+                  >Já possui uma conta? <a class="entrar-text">Entrar</a></small
+                >
+              </div>
+            </div>
+        </div>
+            <div class="button-cadstro" style="justify-content: center;">
+              <button
+              class="button botaoLogin"
+              type="submit"
+              [disabled]="formularioCadastro.invalid || isLoading"
+            >
+              <span *ngIf="!isLoading">Cadastrar-se</span>
+              <div
+                *ngIf="isLoading"
+                class="spinner-border spinner-border-sm"
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
