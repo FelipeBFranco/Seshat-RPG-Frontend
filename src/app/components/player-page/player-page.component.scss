@@ -15,9 +15,9 @@
 }
 
 .infoPersonagemSelecionado {
-  max-width: 85vw;
   width: 85vw;
-  max-height: 90vh;
+  background: radial-gradient(circle, rgba(2, 0, 36, 0) 0%, rgb(1, 0, 20) 70%),
+    url(../../../assets/imgs/login-background.jpg);
 }
 
 .charactersContent {
@@ -35,6 +35,7 @@
 
 .rightContent {
   min-height: 98vh;
+  
 }
 
 .sidebarButton {
@@ -96,7 +97,7 @@
 
 .attributesList {
   width: 100%;
-  height: 80vh;
+  height: 100%;
   list-style: none;
 }
 
@@ -164,11 +165,10 @@ input::-webkit-inner-spin-button {
 .imagemFundo {
   position: relative;
   min-height: 100%;
-  background: radial-gradient(circle, rgba(2, 0, 36, 0) 0%, rgb(1, 0, 20) 70%),
-    url(https://img.freepik.com/premium-photo/galaxy-astronomy-landscape-outdoors_53876-265518.jpg?w=1380);
   border-radius: var(--primary-border-radius);
   background-repeat: no-repeat;
   background-size: cover;
+  background-color:rgba(83, 83, 83, 0.5) !important;
 }
 
 .inventorySquareSlot {
@@ -202,3 +202,13 @@ input::-webkit-inner-spin-button {
   border-radius: var(--primary-border-radius);
   background-color: #3c3c3c;
 }
+
+.aaateste {
+  background-color: rgba(255, 0, 0, 0.836);
+  width: 30vh;
+  height: 30vh;
+  justify-content: center;
+  align-items: center;
+
+}
+
