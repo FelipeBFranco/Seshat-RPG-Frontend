@@ -16,7 +16,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
-
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 
 
 const routes: Routes = [
@@ -44,7 +45,9 @@ const routes: Routes = [
     ReactiveFormsModule,
     InputNumberModule,
     InputTextModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    IconFieldModule,
+    InputIconModule
   ],
   exports: [RouterModule],
   providers: [ConfirmationService],

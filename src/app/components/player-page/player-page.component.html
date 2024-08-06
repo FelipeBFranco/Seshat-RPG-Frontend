@@ -56,7 +56,7 @@
         }"
         class="text-center imagemFundo"
       >
-        <ul *ngIf="!selectedCharacter" class="titleList">
+        <ul *ngIf="!selectedCharacter" class="titleList row">
           <li>
             <span class="selectedCharacterTitle">
               Selecione um personagem
@@ -246,34 +246,43 @@
           </li>
           <li class="col-3 botoesDeAcao text-center">
             <div class="actionButtonGrid">
-              <button
-                class="btn btn-secondary"
-                (click)="
-                  visibilityDialogInventory = true;
-                  requisicaoInventarioPersonagem(idPlayerLogado)
-                "
-              >
-                Inventário
-              </button>
-              <button
-                class="btn btn-secondary"
-                (click)="
-                  visibilityDialogSkills = true;
-                  requisicaoSkillsPersonagem(idPlayerLogado)
-                "
-              >
-                Skillset
-              </button>
-              <button
-                (click)="
-                  showDialog();
-                  tipoDialogForm = 'Editar';
-                  selectCharacter(selectedCharacter)
-                "
-                class="btn btn-secondary"
-              >
-                Editar Personagem
-              </button>
+              <div class="esqueletoBotoes text-center">
+                <button
+                  class="btn btn-secondary botaoLadoDireito"
+                  (click)="
+                    visibilityDialogInventory = true;
+                    requisicaoInventarioPersonagem(idPlayerLogado)
+                  "
+                >
+                  <p-inputIcon styleClass="pi pi-shopping-bag" />
+                </button>
+                <span>Inventário</span>
+              </div>
+              <div class="esqueletoBotoes text-center">
+                <button
+                  class="btn btn-secondary botaoLadoDireito"
+                  (click)="
+                    visibilityDialogSkills = true;
+                    requisicaoSkillsPersonagem(idPlayerLogado)
+                  "
+                >
+                  <p-inputIcon styleClass="pi pi-list" />
+                </button>
+                <span>Skills</span>
+              </div>
+              <div class="esqueletoBotoes text-center">
+                <button
+                  (click)="
+                    showDialog();
+                    tipoDialogForm = 'Editar';
+                    selectCharacter(selectedCharacter)
+                  "
+                  class="btn btn-secondary botaoLadoDireito"
+                >
+                  <p-inputIcon styleClass="pi pi-pencil" />
+                </button>
+                <span>Editar Personagem</span>
+              </div>
             </div>
           </li>
         </ul>
@@ -457,8 +466,7 @@
         {{ message.header }}
       </span>
       <p class="mb-0">{{ message.message }}</p>
-      <div class="flex align-items-center gap-2 mt-4">
-      </div>
+      <div class="flex align-items-center gap-2 mt-4"></div>
     </div>
   </ng-template>
 </p-confirmDialog>
