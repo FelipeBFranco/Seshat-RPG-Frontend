@@ -37,7 +37,7 @@ export class PlayerCharacterService {
   }
 
   getCharacterInventoryByUserId(id: number) {
-    return this.httpClient.get<CharacterInventory[]>(this.apiUrl + `/inventory/${id}`)
+    return this.httpClient.get<CharacterInventory[]>(this.generalApi + `/inventories/character/${id}`)
   }
 
   deleteCharacter(characterId: number) {

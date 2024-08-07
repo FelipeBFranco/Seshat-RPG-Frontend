@@ -19,6 +19,9 @@ import { ConfirmationService } from 'primeng/api';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { TableModule } from 'primeng/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 const routes: Routes = [
@@ -49,7 +52,10 @@ const routes: Routes = [
     ConfirmDialogModule,
     IconFieldModule,
     InputIconModule,
-    TableModule
+    TableModule,
+    MatButtonModule,
+    MatIconModule,
+    TooltipModule
   ],
   exports: [RouterModule],
   providers: [ConfirmationService],

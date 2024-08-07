@@ -65,6 +65,20 @@
           </li>
         </ul>
         <ul class="titleList" *ngIf="selectedCharacter">
+          <div class="BotaoEditarPersonagem">
+            <button
+              (click)="
+                showDialog();
+                tipoDialogForm = 'Editar';
+                selectCharacter(selectedCharacter)
+              "
+              class="btn btn-secondary botaoEditarPersonagem"
+              pTooltip="Editar Personagem" 
+              tooltipPosition="left"
+            >
+              <p-inputIcon styleClass="pi pi-pencil" />
+            </button>
+          </div>
           <li>
             <span class="selectedCharacterTitle">
               {{ selectedCharacter.name }}
@@ -254,36 +268,25 @@
                     visibilityDialogInventory = true;
                   "
                 >
-                  <p-inputIcon styleClass="pi pi-shopping-bag" />
+                 <img src="../../../assets/imgs/icons/backpack-icon.svg" alt="Inventário" class="ButtonIcon" />
                 </button>
                 <span>Inventário</span>
+
               </div>
               <div class="row">
                 <div class="esqueletoBotoes text-center">
                   <button
-                    class="btn btn-secondary botaoLadoDireito"
+                    class="btn btn-secondary botaoLadoDireitoSkill"
                     (click)="
                       visibilityDialogSkills = true;
                       requisicaoInventarioPersonagem(selectedCharacter.id)
                     "
                   >
-                    <p-inputIcon styleClass="pi pi-list" />
+                  
+                <img src="../../../assets/imgs/icons/Skill-icon.svg" alt="Inventário" class="ButtonIconSkill" />
                   </button>
-                  <span>Skills</span>
+                  <span>Habilidades</span>
                 </div>
-              </div>
-              <div class="esqueletoBotoes text-center">
-                <button
-                  (click)="
-                    showDialog();
-                    tipoDialogForm = 'Editar';
-                    selectCharacter(selectedCharacter)
-                  "
-                  class="btn btn-secondary botaoLadoDireito"
-                >
-                  <p-inputIcon styleClass="pi pi-pencil" />
-                </button>
-                <span>Editar Personagem</span>
               </div>
             </div>
           </li>
@@ -381,7 +384,7 @@
   </ng-template>
   <ng-template pTemplate="footer">
     <p-button
-      label="Cancelar"
+      label="Fechar"
       [outlined]="true"
       severity="secondary"
       (onClick)="visible = false"
@@ -436,18 +439,18 @@
         </tr>
       </ng-template>
     </p-table>
-    <ng-template pTemplate="footer">
-      <p-button
-        label="Cancelar"
-        [outlined]="true"
-        severity="danger"
-        (onClick)="visibilityDialogSkills = false"
-      />
-    </ng-template>
   </div>
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Fechar"
+      [outlined]="true"
+      severity="danger"
+      (onClick)="visibilityDialogSkills = false"
+    />
+  </ng-template>
 </p-dialog>
 <p-dialog
-  header="Skills de {{ selectedCharacter ? selectedCharacter.name : '' }}"
+  header="Inventario de {{ selectedCharacter ? selectedCharacter.name : '' }}"
   [(visible)]="visibilityDialogInventory"
   [modal]="true"
   [style]="{ width: '50rem' }"
@@ -481,7 +484,7 @@
   </div>
   <ng-template pTemplate="footer">
     <p-button
-      label="Cancelar"
+      label="Fechar"
       [outlined]="true"
       severity="danger"
       (onClick)="visibilityDialogInventory = false"
