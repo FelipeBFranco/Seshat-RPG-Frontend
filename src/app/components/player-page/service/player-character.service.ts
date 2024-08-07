@@ -12,6 +12,7 @@ import { CharacterSkills } from '../../shared/models/character/characterSkills.m
 export class PlayerCharacterService {
 
   apiUrl: string = "http://localhost:8080/characters"
+  generalApi: string = "http://localhost:8080"
 
   constructor(private httpClient: HttpClient) { }
 
@@ -29,6 +30,10 @@ export class PlayerCharacterService {
 
   getCharacterSkillsByUserId(id: number) {
     return this.httpClient.get<CharacterSkills[]>(this.apiUrl + `/skills/${id}`)
+  }
+
+  getCharacterSkillsByCharacterId(id: number) {
+    return this.httpClient.get<CharacterSkills[]>(this.generalApi + `/skills/character/${id}`)
   }
 
   getCharacterInventoryByUserId(id: number) {

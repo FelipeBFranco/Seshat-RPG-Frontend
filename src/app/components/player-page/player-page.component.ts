@@ -249,12 +249,15 @@ export class PlayerPageComponent implements OnInit {
       this.creationForm.get('userId')?.setValue(this.loggedPlayerId);
     }
   }
-  requisicaoInventarioPersonagem(userId: number) {
-    this.playerCharacter.getCharacterInventoryByUserId(userId).subscribe((data: CharacterInventory[]) => {
-      this.characterInventory = data;
-      console.log(this.characterInventory, data);
+  requisicaoInventarioPersonagem(characterId?: number) {
+    // this.playerCharacter.getCharacterInventoryByUserId(userId).subscribe((data: CharacterInventory[]) => {
+    //   this.characterInventory = data;
+    //   console.log(this.characterInventory, data);
+    // });
+    this.playerCharacter.getCharacterSkillsByCharacterId(characterId!).subscribe((data: CharacterSkills[]) => {
+      this.characterSkills = data;
+      console.log(this.characterSkills, data);
     });
-    this.visibilityDialogInventory = true;
   }
 
   requisicaoSkillsPersonagem(userId: number) {
