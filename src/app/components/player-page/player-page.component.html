@@ -18,17 +18,18 @@
           <p>{{ personagem.campaign }}</p>
           <p class="row botoesCriacaoDelecao">
             <button
-              class="btn selectCharacterButton col-6"
+              class="btn selectCharacterButton col-lg-6 col-md-12 col-sm-12"
               (click)="selectCharacter(personagem)"
             >
               Selecionar
             </button>
-            <p-button
+            <button
               (click)="confirmDeleteCharacter(personagem)"
-              label="Deletar"
               icon="pi pi-trash"
-              class="deleteCharacterButton col-6"
-            />
+              class="btn btn-danger deleteCharacterButton col-6"
+            >
+              Deletar
+            </button>
           </p>
         </p-panel>
       </div>
@@ -194,44 +195,44 @@
           <li class="row col-3 atributosDoPersonagem cards">
             <div class="row col-12 attributesStatsList text-center inner">
               <div class="row col-12 attributesStatsListText blob">
-                <span class="col-8">Força</span>
-                <b class="attributeText col-4">{{
+                <span class="col-8 attributeText">Força</span>
+                <b class="attributeNumber col-4">{{
                   selectedCharacter.attributes.strength
                 }}</b>
               </div>
               <div class="row col-12 attributesStatsListText">
-                <span class="col-8">Agilidade</span>
-                <b class="attributeText col-4">{{
+                <span class="col-8 attributeText">Agilidade</span>
+                <b class="attributeNumber col-4">{{
                   selectedCharacter.attributes.agility
                 }}</b>
               </div>
               <div class="row col-12 attributesStatsListText">
-                <span class="col-8">Inteligência</span>
-                <b class="attributeText col-4">{{
+                <span class="col-8 attributeText">Inteligência</span>
+                <b class="attributeNumber col-4">{{
                   selectedCharacter.attributes.intelligence
                 }}</b>
               </div>
               <div class="row col-12 attributesStatsListText">
-                <span class="col-8">Vontade</span>
-                <b class="attributeText col-4">{{
+                <span class="col-8 attributeText">Vontade</span>
+                <b class="attributeNumber col-4">{{
                   selectedCharacter.attributes.mind
                 }}</b>
               </div>
               <div class="row col-12 attributesStatsListText">
-                <span class="col-8">Bloqueio</span>
-                <b class="attributeText col-4">{{
+                <span class="col-8 attributeText">Bloqueio</span>
+                <b class="attributeNumber col-4">{{
                   selectedCharacter.attributes.block
                 }}</b>
               </div>
               <div class="row col-12 attributesStatsListText">
-                <span class="col-8">Esquiva</span>
-                <b class="attributeText col-4">{{
+                <span class="col-8 attributeText">Esquiva</span>
+                <b class="attributeNumber col-4">{{
                   selectedCharacter.attributes.dodge
                 }}</b>
               </div>
               <div class="row col-12 attributesStatsListText">
-                <span class="col-8">Determinação</span>
-                <b class="attributeText col-4">{{
+                <span class="col-8 attributeText">Determinação</span>
+                <b class="attributeNumber col-4">{{
                   selectedCharacter.attributes.determination
                 }}</b>
               </div>
@@ -258,17 +259,19 @@
                 </button>
                 <span>Inventário</span>
               </div>
-              <div class="esqueletoBotoes text-center">
-                <button
-                  class="btn btn-secondary botaoLadoDireito"
-                  (click)="
-                    visibilityDialogSkills = true;
-                    requisicaoSkillsPersonagem(idPlayerLogado)
-                  "
-                >
-                  <p-inputIcon styleClass="pi pi-list" />
-                </button>
-                <span>Skills</span>
+              <div class="row">
+                <div class="esqueletoBotoes text-center">
+                  <button
+                    class="btn btn-secondary botaoLadoDireito"
+                    (click)="
+                      visibilityDialogSkills = true;
+                      requisicaoSkillsPersonagem(idPlayerLogado)
+                    "
+                  >
+                    <p-inputIcon styleClass="pi pi-list" />
+                  </button>
+                  <span>Skills</span>
+                </div>
               </div>
               <div class="esqueletoBotoes text-center">
                 <button
@@ -438,17 +441,36 @@
   [keepInViewport]="true"
   [draggable]="false"
 >
-  <div class="inventorySquareSlot" *ngFor="let items of characterInventory">
-    <div class="inventorySlot text-center">
-      <p>item aqui</p>
-    </div>
+  <div class="">
+    <p-table
+      [value]="characterInventory"
+      styleClass="p-datatable-gridlines"
+      [tableStyle]="{ 'min-width': '50rem' }"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Quantity</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr>
+          <td>testes</td>
+          <td>testes</td>
+          <td>testes</td>
+          <td>testes</td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
   <ng-template pTemplate="footer">
     <p-button
       label="Cancelar"
       [outlined]="true"
       severity="danger"
-      (onClick)="visible = false"
+      (onClick)="visibilityDialogInventory = false"
     />
   </ng-template>
 </p-dialog>

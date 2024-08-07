@@ -18,6 +18,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { TableModule } from 'primeng/table';
 
 
 const routes: Routes = [
@@ -47,7 +48,8 @@ const routes: Routes = [
     InputTextModule,
     ConfirmDialogModule,
     IconFieldModule,
-    InputIconModule
+    InputIconModule,
+    TableModule
   ],
   exports: [RouterModule],
   providers: [ConfirmationService],

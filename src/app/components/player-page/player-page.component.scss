@@ -223,4 +223,18 @@ input::-webkit-inner-spin-button {
 
 .esqueletoBotoes {
   margin-top: 10%;
+  align-items: center;
+}
+
+.deleteCharacterButton {
+  border: 1px solid #dfdfdf;
+  border-radius: var(--primary-border-radius);
+}
+
+.attributeNumber {
+  max-width: 100px  ;
+}
+
+.attributeText {
+  min-width: 150px;
 }
