@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SheetManagerModule } from './components/sheet-manager/sheet-manager.module';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent]
 })

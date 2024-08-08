@@ -249,24 +249,20 @@ export class PlayerPageComponent implements OnInit {
       this.creationForm.get('userId')?.setValue(this.loggedPlayerId);
     }
   }
-  requisicaoInventarioPersonagem(characterId?: number) {
-    // this.playerCharacter.getCharacterInventoryByUserId(userId).subscribe((data: CharacterInventory[]) => {
-    //   this.characterInventory = data;
-    //   console.log(this.characterInventory, data);
-    // });
+  requisicaoInventarioPersonagem(characterId: number | undefined) {
+    this.playerCharacter.getCharacterInventoryByCharacterId(characterId!).subscribe((data: CharacterInventory[]) => {
+      this.characterInventory = data;
+    });
+  }
+
+  requisicaoSkillsPersonagem(characterId: number|undefined) {
+
     this.playerCharacter.getCharacterSkillsByCharacterId(characterId!).subscribe((data: CharacterSkills[]) => {
       this.characterSkills = data;
       console.log(this.characterSkills, data);
     });
   }
 
-  requisicaoSkillsPersonagem(userId: number) {
-    this.playerCharacter.getCharacterSkillsByUserId(userId).subscribe((data: CharacterSkills[]) => {
-      this.characterSkills = data;
-      console.log(this.characterSkills, data);
-    });
-    this.visibilityDialogSkills = true;
-  }
   deleteCharacter(character: Character) {
     if (character.id != undefined) {
       this.playerCharacter.deleteCharacter(character.id).subscribe(() => {

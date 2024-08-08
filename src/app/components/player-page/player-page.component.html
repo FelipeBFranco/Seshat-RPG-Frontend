@@ -73,7 +73,7 @@
                 selectCharacter(selectedCharacter)
               "
               class="btn btn-secondary botaoEditarPersonagem"
-              pTooltip="Editar Personagem" 
+              pTooltip="Editar Personagem"
               tooltipPosition="left"
             >
               <p-inputIcon styleClass="pi pi-pencil" />
@@ -266,12 +266,16 @@
                   class="btn btn-secondary botaoLadoDireito"
                   (click)="
                     visibilityDialogInventory = true;
+                    requisicaoInventarioPersonagem(selectedCharacter!.id)
                   "
                 >
-                 <img src="../../../assets/imgs/icons/backpack-icon.svg" alt="Inventário" class="ButtonIcon" />
+                  <img
+                    src="../../../assets/imgs/icons/backpack-icon.svg"
+                    alt="Inventário"
+                    class="ButtonIcon"
+                  />
                 </button>
                 <span>Inventário</span>
-
               </div>
               <div class="row">
                 <div class="esqueletoBotoes text-center">
@@ -279,11 +283,14 @@
                     class="btn btn-secondary botaoLadoDireitoSkill"
                     (click)="
                       visibilityDialogSkills = true;
-                      requisicaoInventarioPersonagem(selectedCharacter.id)
+                      requisicaoSkillsPersonagem(selectedCharacter.id)
                     "
                   >
-                  
-                <img src="../../../assets/imgs/icons/Skill-icon.svg" alt="Inventário" class="ButtonIconSkill" />
+                    <img
+                      src="../../../assets/imgs/icons/Skill-icon.svg"
+                      alt="Inventário"
+                      class="ButtonIconSkill"
+                    />
                   </button>
                   <span>Habilidades</span>
                 </div>
@@ -360,9 +367,10 @@
           )
         "
       >
-        <div *ngIf="controlName != 'userId'" class="col-4">
-          <label>{{ controlName }}</label>
+        <div *ngIf="controlName != 'userId'" class="col-4 row">
+          <label class="col-12">{{ controlName }}</label>
           <input
+          class="col-10 ml-2"
             pInputText
             [formControlName]="controlName"
             type="{{ getType(controlName) }}"
@@ -462,7 +470,7 @@
 >
   <div class="">
     <p-table
-      [value]="characterSkills"
+      [value]="characterInventory"
       styleClass="p-datatable-gridlines"
       [tableStyle]="{ 'min-width': '40rem' }"
     >
@@ -471,13 +479,15 @@
           <th>Nome</th>
           <th>Descrição</th>
           <th>Energia</th>
+          <th>Quantidade</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-skill>
+      <ng-template pTemplate="body" let-items>
         <tr>
-          <td>{{ skill.name }}</td>
-          <td>{{ skill.description }}</td>
-          <td>{{ skill.energy }}</td>
+          <td>{{ items.name }}</td>
+          <td>{{ items.description }}</td>
+          <td>{{ items.energy }}</td>
+          <td>{{ items.quantity }}</td>
         </tr>
       </ng-template>
     </p-table>

@@ -36,7 +36,7 @@ export class PlayerCharacterService {
     return this.httpClient.get<CharacterSkills[]>(this.generalApi + `/skills/character/${id}`)
   }
 
-  getCharacterInventoryByUserId(id: number) {
+  getCharacterInventoryByCharacterId(id: number) {
     return this.httpClient.get<CharacterInventory[]>(this.generalApi + `/inventories/character/${id}`)
   }
 
