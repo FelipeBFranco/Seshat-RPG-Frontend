@@ -28,29 +28,33 @@ export class PlayerCharacterService {
   createCharacter(character: CharacterCreateForm) {
     return this.httpClient.post<CharacterCreateForm>(this.apiUrl + '/create', character)
   }
-
-  getCharacterSkillsByUserId(id: number) {
-    return this.httpClient.get<CharacterSkills[]>(this.apiUrl + `/skills/${id}`)
-  }
-
-  getCharacterSkillsByCharacterId(id: number) {
-    return this.httpClient.get<CharacterSkills[]>(this.generalApi + `/skills/character/${id}`)
-  }
-
-  getCharacterInventoryByCharacterId(id: number) {
-    return this.httpClient.get<CharacterInventory[]>(this.generalApi + `/inventories/character/${id}`)
-  }
-
   deleteCharacter(characterId: number) {
     return this.httpClient.delete(this.apiUrl + `/delete/${characterId}`)
+  }
+  // Requisicoes de Skills (Preciso criar outro service urgente pqp :/)
+  getCharacterSkillsByCharacterId(id: number) {
+    return this.httpClient.get<CharacterSkills[]>(this.generalApi + `/skills/character/${id}`)
   }
 
   updateCharacterSkill(skill: Skill) {
     return this.httpClient.put<Skill>(this.generalApi + `/skills/${skill.id}`, skill)
   }
 
+  createSkill(skill: Skill, characterId: number) {
+    return this.httpClient.post<Skill>(this.generalApi + `/skills/character/${characterId}`, skill)
+  }
+
   deleteSkill(skillId: number) {
     return this.httpClient.delete(this.generalApi + `/skills/${skillId}`)
+  }
+  // Requisições de Inventário/Itens
+  // Sim eu to mto triste com minha criação ;/
+  getCharacterInventoryByCharacterId(id: number) {
+    return this.httpClient.get<CharacterInventory[]>(this.generalApi + `/inventories/character/${id}`)
+  }
+
+  createItemForCharacterInventory(inventory: CharacterInventory, characterId: number) {
+    return this.httpClient.post<CharacterInventory>(this.generalApi + `/inventories/character/${characterId}`, inventory)
   }
 
   updateCharacterInventory(inventory: CharacterInventory) {

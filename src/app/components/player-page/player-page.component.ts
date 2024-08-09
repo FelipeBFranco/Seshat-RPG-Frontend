@@ -9,6 +9,7 @@ import { CharacterUpdate } from '../shared/models/character/characterUpdate.mode
 import { CharacterCreateForm } from '../shared/models/character/Form/characterCreateForm.model';
 import { CharacterSkills } from '../shared/models/character/characterSkills.model';
 import { ConfirmationService } from 'primeng/api';
+import { Skill } from '../shared/models/character/skill.model';
 
 
 @Component({
@@ -48,7 +49,7 @@ export class PlayerPageComponent implements OnInit {
   characterUpdateForm!: CharacterUpdate;
   cd: ConfirmationService;
   skillForm: FormGroup;
-  habilidadeForm: FormGroup;
+  itemForm: FormGroup;
 
   characterSkills: CharacterSkills[] = [];
   characterInventory: CharacterInventory[] = [];
@@ -91,7 +92,7 @@ export class PlayerPageComponent implements OnInit {
       staminaMax: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
       experience: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
     });
-    this.habilidadeForm = new FormGroup({
+    this.itemForm = new FormGroup({
       name: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
       description: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
       energy: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
@@ -304,14 +305,41 @@ export class PlayerPageComponent implements OnInit {
   }
 
   deleteItem(item: CharacterInventory) {
+    if (item.id != undefined) {
+      this.playerCharacter.deleteItemFromCharacterInventory(item.id).subscribe(() => {
+        if (this.selectedCharacter.id != undefined) {
+          this.playerCharacter.getCharacterInventoryByCharacterId(this.selectedCharacter.id).subscribe((data: CharacterInventory[]) => {
+            this.characterInventory = data;
+          });
+        }
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Ocorreu um erro ao tentar deletar o item', detail: `${error.error}` });
+      });
+    }
   }
 
-  createItem() {
-    this.visible = false;
+  createItem(character: Character) {
+    this.playerCharacter.createItemForCharacterInventory(this.itemForm.value, character.id!).subscribe((data: CharacterInventory) => {
+      this.messageService.add({ severity: 'success', summary: 'Item criado com sucesso!', detail: `Item ${data.name} criado com sucesso!` });
+      this.visible = false;
+      if (character.id != undefined) {
+        this.playerCharacter.getCharacterInventoryByCharacterId(character.id).subscribe((data: CharacterInventory[]) => {
+        this.characterInventory = data;
+        });
+      }
+    });
   }
 
-  createSkill() {
-    this.visible = false;
+  createSkill(character: Character) {
+    this.playerCharacter.createSkill(this.skillForm.value, character.id!).subscribe((data: Skill) => {
+      this.messageService.add({ severity: 'success', summary: 'Habilidade criada com sucesso!', detail: `Habilidade ${data.name} criada com sucesso!` });
+      this.visible = false;
+      if (character.id != undefined) {
+        this.playerCharacter.getCharacterSkillsByCharacterId(character.id).subscribe((data: CharacterSkills[]) => {
+          this.characterSkills = data;
+        });
+      }
+    });
   }
 
 
@@ -347,5 +375,14 @@ export class PlayerPageComponent implements OnInit {
 
   setTextDisplayForDialog(dialogType: string) {
     this.textoDialogForm = dialogType;
+  }
+
+  sendItemsInfoToReactiveForm(item: CharacterInventory) {
+    this.itemForm.patchValue({
+      name: item.name,
+      description: item.description,
+      quantity: item.quantity,
+      energy: item.energy
+    });
   }
 }
