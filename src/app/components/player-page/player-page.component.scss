@@ -213,7 +213,6 @@ input::-webkit-inner-spin-button {
   height: 100%;
 }
 
-
 .esqueletoBotoes {
   display: flex;
   flex-direction: column;
@@ -228,7 +227,7 @@ input::-webkit-inner-spin-button {
 }
 
 .attributeNumber {
-  max-width: 100px  ;
+  max-width: 100px;
 }
 
 .attributeText {
@@ -236,13 +235,13 @@ input::-webkit-inner-spin-button {
 }
 
 .BotaoEditarPersonagem {
-position: absolute;
-right: 0;
-margin: 1.5%;
-margin-right: 3%;
+  position: absolute;
+  right: 0;
+  margin: 1.5%;
+  margin-right: 3%;
 }
 
-.ButtonIcon{
+.ButtonIcon {
   height: 100%;
   width: 100%;
 }
@@ -268,5 +267,15 @@ margin-right: 3%;
   padding: 1.075rem;
   border-radius: 25%;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-
 }
+
+.headerTabela,
+.corpoTabela {
+  border: 1px solid #a5a5a5;
+  border-radius: var(--secondary-border-radius);
+  padding: 5px;
+}
+
+// .botaoEditarSkillHabilidade:nth-child(2), .botaoEditarSkillHabilidade:nth-child(3) {
+//   margin-left: 5%;
+// }

@@ -36,7 +36,10 @@
       <button
         class="btn mt-2 addCharacterButton"
         (click)="
-          showDialog(); tipoDialogForm = 'Criar'; clearSelectedCharacter()
+          showDialog();
+          tipoDialogForm = 'Criar';
+          clearSelectedCharacter();
+          setTextDisplayForDialog('Criar Personagem')
         "
         style="width: 100%"
       >
@@ -70,7 +73,10 @@
               (click)="
                 showDialog();
                 tipoDialogForm = 'Editar';
-                selectCharacter(selectedCharacter)
+                selectCharacter(selectedCharacter);
+                setTextDisplayForDialog(
+                  'Editar Atributos de ' + selectedCharacter.name
+                )
               "
               class="btn btn-secondary botaoEditarPersonagem"
               pTooltip="Editar Personagem"
@@ -303,11 +309,7 @@
   </div>
 </div>
 <p-dialog
-  header="{{ tipoDialogForm }} atributos {{
-    selectedCharacter && tipoDialogForm === 'Editar'
-      ? 'de ' + selectedCharacter.name
-      : 'para um novo personagem'
-  }}"
+  header="{{ textoDialogForm }}"
   [(visible)]="visible"
   [modal]="true"
   [style]="{ width: '50rem' }"
@@ -319,6 +321,7 @@
 >
   <ng-template pTemplate="content">
     <!-- Assuming attributesForm is your FormGroup with fixed fields -->
+    <!-- FORM DE EDICAO ATRIBUTO PERSONAGEM-->
     <form
       [formGroup]="attributesForm"
       class="attributesForm row"
@@ -327,15 +330,16 @@
       (ngSubmit)="requisicaoMudarAtributos()"
     >
       <div
-        class="col-4"
+        class="col-4 text-center"
         *ngFor="
           let controlName of getCamposFormularioReativoEdicaoPersonagem(
             attributesForm.controls
           )
         "
       >
-        <label>{{ controlName }}</label>
+        <label class="col-12">{{ controlName }}</label>
         <input
+          class="col-12"
           pInputText
           [formControlName]="controlName"
           type="{{ getType(controlName) }}"
@@ -353,6 +357,7 @@
         </div>
       </div>
     </form>
+    <!-- FORM DE CRIACAO DE PERSONAGEM-->
     <form
       [formGroup]="creationForm"
       class="attributesForm row"
@@ -366,11 +371,86 @@
             creationForm.controls
           )
         "
+        class="text-center"
       >
         <div *ngIf="controlName != 'userId'" class="col-4 row">
           <label class="col-12">{{ controlName }}</label>
           <input
-          class="col-10 ml-2"
+            class="col-10 ml-2"
+            pInputText
+            [formControlName]="controlName"
+            type="{{ getType(controlName) }}"
+          />
+          <!-- Display validation message -->
+          <div
+            *ngIf="
+              creationForm.get(controlName)?.invalid &&
+              (creationForm.get(controlName)?.dirty ||
+                creationForm.get(controlName)?.touched)
+            "
+          >
+            <!-- Custom validation message here -->
+            {{ controlName }} é Inválido!
+          </div>
+        </div>
+      </ng-container>
+    </form>
+    <!-- FORM SKILL -->
+    <form
+      [formGroup]="skillForm"
+      class="attributesForm row"
+      *ngIf="tipoDialogForm === 'Skill'"
+      method="post"
+    >
+      <ng-container
+        *ngFor="
+          let controlName of getCamposFormularioReativoCriacaoPersonagem(
+            skillForm.controls
+          )
+        "
+        class="text-center"
+      >
+        <div *ngIf="controlName != 'userId'" class="col-4 row">
+          <label class="col-12">{{ controlName }}</label>
+          <input
+            class="col-10 ml-2"
+            pInputText
+            [formControlName]="controlName"
+            type="{{ getType(controlName) }}"
+          />
+          <!-- Display validation message -->
+          <div
+            *ngIf="
+              creationForm.get(controlName)?.invalid &&
+              (creationForm.get(controlName)?.dirty ||
+                creationForm.get(controlName)?.touched)
+            "
+          >
+            <!-- Custom validation message here -->
+            {{ controlName }} é Inválido!
+          </div>
+        </div>
+      </ng-container>
+    </form>
+    <!-- FORM CRIACAO HABILIDADE -->
+    <form
+      [formGroup]="habilidadeForm"
+      class="attributes form row"
+      *ngIf="tipoDialogForm === 'Item'"
+      method="post"
+    >
+      <ng-container
+        *ngFor="
+          let controlName of getCamposFormularioReativoCriacaoPersonagem(
+            habilidadeForm.controls
+          )
+        "
+        class="text-center"
+      >
+        <div *ngIf="controlName != 'userId'" class="col-4 row">
+          <label class="col-12">{{ controlName }}</label>
+          <input
+            class="col-10 ml-2"
             pInputText
             [formControlName]="controlName"
             type="{{ getType(controlName) }}"
@@ -413,6 +493,22 @@
       type="submit"
       (onClick)="visible = false; createCharacter()"
     />
+    <p-button
+      *ngIf="tipoDialogForm == 'Skill'"
+      label="Criar Skill"
+      [outlined]="true"
+      severity="contrast"
+      type="submit"
+      (onClick)="visible = false; createSkill()"
+    />
+    <p-button
+      *ngIf="tipoDialogForm == 'Item'"
+      label="Criar Item"
+      [outlined]="true"
+      severity="contrast"
+      type="submit"
+      (onClick)="visible = false; createItem()"
+    />
   </ng-template>
 </p-dialog>
 <p-dialog
@@ -429,24 +525,61 @@
   <div class="">
     <p-table
       [value]="characterSkills"
-      styleClass="p-datatable-gridlines"
+      styleClass="p-datatable-striped"
       [tableStyle]="{ 'min-width': '40rem' }"
     >
       <ng-template pTemplate="header">
         <tr>
-          <th>Nome</th>
-          <th>Descrição</th>
-          <th>Energia</th>
+          <th class="headerTabela" colspan="2">Nome</th>
+          <th class="headerTabela" colspan="2">Descrição</th>
+          <th class="headerTabela" colspan="1">Energia</th>
+          <th class="headerTabela" colspan="1">Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-skill>
         <tr>
-          <td>{{ skill.name }}</td>
-          <td>{{ skill.description }}</td>
-          <td>{{ skill.energy }}</td>
+          <td class="corpoTabela" colspan="2">{{ skill.name }}</td>
+          <td class="corpoTabela" colspan="2">{{ skill.description }}</td>
+          <td class="corpoTabela" colspan="1">{{ skill.energy }}</td>
+          <td class="corpoTabela text-center" colspan="1">
+            <button
+              class="btn btn-secondary botaoEditarSkillHabilidade mt-2 mb-2"
+              pTooltip="Editar Personagem"
+              tooltipPosition="left"
+              appendTo="corpoTabela"
+              (click)="
+                setTextDisplayForDialog('Editar ' + skill.name);
+                showDialog();
+                tipoDialogForm = 'Skill'
+              "
+            >
+              <p-inputIcon styleClass="pi pi-pencil" />
+            </button>
+            <button
+              class="btn btn-secondary botaoEditarSkillHabilidade ml-2 mb-2 mt-2"
+              pTooltip="Excluir  Personagem"
+              tooltipPosition="top"
+              (click)="confirmDeleteSkill(skill)"
+              appendTo="corpoTabela"
+            >
+              <p-inputIcon styleClass="pi pi-times" />
+            </button>
+          </td>
         </tr>
       </ng-template>
     </p-table>
+    <div class="col-12">
+      <button
+        class="btn btn-secondary mt-2 botaoAddSkill"
+        (click)="
+          showDialog();
+          setTextDisplayForDialog('Adicionar Skill');
+          tipoDialogForm = 'Skill'
+        "
+      >
+        Adicionar Skill
+      </button>
+    </div>
   </div>
   <ng-template pTemplate="footer">
     <p-button
@@ -476,18 +609,47 @@
     >
       <ng-template pTemplate="header">
         <tr>
-          <th>Nome</th>
-          <th>Descrição</th>
-          <th>Energia</th>
-          <th>Quantidade</th>
+          <th class="headerTabela" colspan="2">Nome</th>
+          <th class="headerTabela" colspan="2">Descrição</th>
+          <th class="headerTabela" colspan="1">Energia</th>
+          <th class="headerTabela" colspan="1">Quantidade</th>
+          <th class="headerTabela" colspan="1">Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-items>
         <tr>
-          <td>{{ items.name }}</td>
-          <td>{{ items.description }}</td>
-          <td>{{ items.energy }}</td>
-          <td>{{ items.quantity }}</td>
+          <td class="corpoTabela text-center" colspan="2">{{ items.name }}</td>
+          <td class="corpoTabela" colspan="2">{{ items.description }}</td>
+          <td class="corpoTabela text-center" colspan="1">
+            {{ items.energy }}
+          </td>
+          <td class="corpoTabela text-center" colspan="1">
+            {{ items.quantity }}
+          </td>
+          <td class="corpoTabela text-center" colspan="1">
+            <button
+              class="btn btn-secondary botaoEditarSkillHabilidade mt-2 mb-2"
+              pTooltip="Editar Item"
+              tooltipPosition="left"
+              appendTo="corpoTabela"
+              (click)="
+                setTextDisplayForDialog('Editar ' + items.name);
+                showDialog();
+                tipoDialogForm = 'Item'
+              "
+            >
+              <p-inputIcon styleClass="pi pi-pencil" />
+            </button>
+            <button
+              class="btn btn-secondary botaoEditarSkillHabilidade mb-2"
+              pTooltip="Excluir Item"
+              tooltipPosition="top"
+              (click)="confirmDeleteItem(items)"
+              appendTo="corpoTabela"
+            >
+              <p-inputIcon styleClass="pi pi-times" />
+            </button>
+          </td>
         </tr>
       </ng-template>
     </p-table>
@@ -501,7 +663,7 @@
     />
   </ng-template>
 </p-dialog>
-<p-confirmDialog>
+<p-confirmDialog #cd>
   <ng-template pTemplate="headless" let-message>
     <div
       class="flex flex-column align-items-center p-5 surface-overlay border-round"
@@ -515,7 +677,20 @@
         {{ message.header }}
       </span>
       <p class="mb-0">{{ message.message }}</p>
-      <div class="flex align-items-center gap-2 mt-4"></div>
+      <div class="flex align-items-center gap-2 mt-4">
+        <button
+          pButton
+          label="Sim"
+          (click)="cd.accept()"
+          class="w-8rem"
+        ></button>
+        <button
+          pButton
+          label="Mudei de Ideia"
+          (click)="cd.reject()"
+          class="p-button-outlined w-8rem"
+        ></button>
+      </div>
     </div>
   </ng-template>
 </p-confirmDialog>
