@@ -22,6 +22,7 @@ import { TableModule } from 'primeng/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TooltipModule } from 'primeng/tooltip';
+import { SpeedDialModule } from 'primeng/speeddial';
 
 
 const routes: Routes = [
@@ -55,7 +56,8 @@ const routes: Routes = [
     TableModule,
     MatButtonModule,
     MatIconModule,
-    TooltipModule
+    TooltipModule,
+    SpeedDialModule
   ],
   exports: [RouterModule],
   providers: [ConfirmationService],

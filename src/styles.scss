@@ -16,9 +16,11 @@
 
 body {
   margin: 0;
-  // background-image: url("assets/imgs/login-background.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
+}
+html {
+  height: 95vh;
+  width: 100vw;
+  max-width: 1877px;
 }
 
 .p-button-label {
