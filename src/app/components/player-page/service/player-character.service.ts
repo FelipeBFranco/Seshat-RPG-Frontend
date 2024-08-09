@@ -36,8 +36,8 @@ export class PlayerCharacterService {
     return this.httpClient.get<CharacterSkills[]>(this.generalApi + `/skills/character/${id}`)
   }
 
-  updateCharacterSkill(skill: Skill) {
-    return this.httpClient.put<Skill>(this.generalApi + `/skills/${skill.id}`, skill)
+  updateCharacterSkill(skill: Skill, skillId: number) {
+    return this.httpClient.put<Skill>(this.generalApi + `/skills/${skillId}`, skill)
   }
 
   createSkill(skill: Skill, characterId: number) {
@@ -57,8 +57,8 @@ export class PlayerCharacterService {
     return this.httpClient.post<CharacterInventory>(this.generalApi + `/inventories/character/${characterId}`, inventory)
   }
 
-  updateCharacterInventory(inventory: CharacterInventory) {
-    return this.httpClient.put<CharacterInventory>(this.generalApi + `/inventories/${inventory.id}`, inventory)
+  updateItemFromCharacterInventory(inventory: CharacterInventory, itemId: number) {
+    return this.httpClient.put<CharacterInventory>(this.generalApi + `/inventories/${itemId}`, inventory)
   }
 
   deleteItemFromCharacterInventory(inventoryId: number) {

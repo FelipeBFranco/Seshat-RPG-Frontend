@@ -499,7 +499,7 @@
       [outlined]="true"
       severity="contrast"
       type="submit"
-      (onClick)="visible = false; createSkill(selectedCharacter)"
+      (onClick)="visible = false; determineSkillAction(selectedCharacter, skillId!)"
     />
     <p-button
       *ngIf="tipoDialogForm == 'Item'"
@@ -507,7 +507,7 @@
       [outlined]="true"
       severity="contrast"
       type="submit"
-      (onClick)="visible = false; createItem(selectedCharacter)"
+      (onClick)="visible = false; determineItemAction(selectedCharacter, itemId!)"
     />
   </ng-template>
 </p-dialog>
@@ -544,19 +544,21 @@
           <td class="corpoTabela text-center" colspan="1">
             <button
               class="btn btn-secondary botaoEditarSkillHabilidade mt-2 mb-2"
-              pTooltip="Editar Personagem"
+              pTooltip="Editar Skill"
               tooltipPosition="left"
               (click)="
                 setTextDisplayForDialog('Editar ' + skill.name);
                 showDialog();
-                tipoDialogForm = 'Skill'
+                tipoDialogForm = 'Skill';
+                sendSkillsInfoToReactiveForm(skill);
+                skillId = skill.id
               "
             >
               <p-inputIcon styleClass="pi pi-pencil" />
             </button>
             <button
               class="btn btn-secondary botaoEditarSkillHabilidade ml-2 mb-2 mt-2"
-              pTooltip="Excluir  Personagem"
+              pTooltip="Excluir Skill"
               tooltipPosition="top"
               (click)="confirmDeleteSkill(skill)"
             >
@@ -633,7 +635,8 @@
                 setTextDisplayForDialog('Editar ' + items.name);
                 showDialog();
                 tipoDialogForm = 'Item';
-                sendItemsInfoToReactiveForm(items)
+                sendItemsInfoToReactiveForm(items);
+                itemId = items.id
               "
             >
               <p-inputIcon styleClass="pi pi-pencil" />

@@ -39,6 +39,9 @@ export class PlayerPageComponent implements OnInit {
   tipoDialogForm: string = 'Criar';
   textoDialogForm: string = '';
 
+  itemId: number | undefined;
+  skillId: number | undefined;
+
 
   playerCharacters: Character[] = [];
   selectedCharacter!: Character
@@ -268,7 +271,7 @@ export class PlayerPageComponent implements OnInit {
     });
   }
 
-  requisicaoSkillsPersonagem(characterId: number|undefined) {
+  requisicaoSkillsPersonagem(characterId: number | undefined) {
 
     this.playerCharacter.getCharacterSkillsByCharacterId(characterId!).subscribe((data: CharacterSkills[]) => {
       this.characterSkills = data;
@@ -324,7 +327,7 @@ export class PlayerPageComponent implements OnInit {
       this.visible = false;
       if (character.id != undefined) {
         this.playerCharacter.getCharacterInventoryByCharacterId(character.id).subscribe((data: CharacterInventory[]) => {
-        this.characterInventory = data;
+          this.characterInventory = data;
         });
       }
     });
@@ -336,6 +339,31 @@ export class PlayerPageComponent implements OnInit {
       this.visible = false;
       if (character.id != undefined) {
         this.playerCharacter.getCharacterSkillsByCharacterId(character.id).subscribe((data: CharacterSkills[]) => {
+          this.characterSkills = data;
+        });
+      }
+    });
+  }
+
+    editItem(itemId: number) {
+      this.playerCharacter.updateItemFromCharacterInventory(this.itemForm.value, itemId).subscribe((data: CharacterInventory) => {
+        this.messageService.add({ severity: 'success', summary: 'Item editado com sucesso!', detail: `Item ${data.name} editado com sucesso!` });
+        this.visible = false;
+        if (this.selectedCharacter.id != undefined) {
+          this.playerCharacter.getCharacterInventoryByCharacterId(this.selectedCharacter.id).subscribe((data: CharacterInventory[]) => {
+            this.characterInventory = data;
+          });
+        }
+      }
+      );
+    }
+
+  editSkill(skillId: number) {
+    this.playerCharacter.updateCharacterSkill(this.skillForm.value, skillId).subscribe((data: Skill) => {
+      this.messageService.add({ severity: 'success', summary: 'Habilidade editada com sucesso!', detail: `Habilidade ${data.name} editada com sucesso!` });
+      this.visible = false;
+      if (this.selectedCharacter.id != undefined) {
+        this.playerCharacter.getCharacterSkillsByCharacterId(this.selectedCharacter.id).subscribe((data: CharacterSkills[]) => {
           this.characterSkills = data;
         });
       }
@@ -384,5 +412,29 @@ export class PlayerPageComponent implements OnInit {
       quantity: item.quantity,
       energy: item.energy
     });
+  }
+
+  sendSkillsInfoToReactiveForm(skill: Skill) {
+    this.skillForm.patchValue({
+      name: skill.name,
+      description: skill.description,
+      energy: skill.energy
+    });
+  }
+
+  determineSkillAction(character: Character, skillId: number) {
+    if (this.tipoDialogForm === 'Adicionar Skill') {
+      this.createSkill(character);
+    } else {
+      this.editSkill(skillId);
+    }
+  }
+
+  determineItemAction(character: Character, itemId: number) {
+    if (this.tipoDialogForm === 'Adicionar Item') {
+      this.createItem(character);
+    } else {
+      this.editItem(itemId);
+    }
   }
 }
