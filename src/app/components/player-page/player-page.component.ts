@@ -11,7 +11,6 @@ import { CharacterSkills } from '../shared/models/character/characterSkills.mode
 import { ConfirmationService } from 'primeng/api';
 
 
-
 @Component({
   selector: 'app-player-page',
   templateUrl: './player-page.component.html',
@@ -37,6 +36,7 @@ export class PlayerPageComponent implements OnInit {
   visibilityDialogInventory: boolean = false;
   toastIsVisible = false;
   tipoDialogForm: string = 'Criar';
+  textoDialogForm: string = '';
 
 
   playerCharacters: Character[] = [];
@@ -47,6 +47,8 @@ export class PlayerPageComponent implements OnInit {
   attributesForm: FormGroup;
   characterUpdateForm!: CharacterUpdate;
   cd: ConfirmationService;
+  skillForm: FormGroup;
+  habilidadeForm: FormGroup;
 
   characterSkills: CharacterSkills[] = [];
   characterInventory: CharacterInventory[] = [];
@@ -89,7 +91,17 @@ export class PlayerPageComponent implements OnInit {
       staminaMax: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
       experience: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
     });
-
+    this.habilidadeForm = new FormGroup({
+      name: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
+      description: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
+      energy: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
+      quantity: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
+    });
+    this.skillForm = new FormGroup({
+      name: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
+      description: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
+      energy: new FormControl<string>({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
+    });
   }
 
   ngOnInit() {
@@ -277,16 +289,63 @@ export class PlayerPageComponent implements OnInit {
     }
   }
 
+  deleteSkill(skill: CharacterSkills) {
+    if (skill.id != undefined) {
+      this.playerCharacter.deleteSkill(skill.id).subscribe(() => {
+        if (this.selectedCharacter.id != undefined) {
+          this.playerCharacter.getCharacterSkillsByCharacterId(this.selectedCharacter.id).subscribe((data: CharacterSkills[]) => {
+            this.characterSkills = data;
+          });
+        }
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete skill' });
+      });
+    }
+  }
+
+  deleteItem(item: CharacterInventory) {
+  }
+
+  createItem() {
+    this.visible = false;
+  }
+
+  createSkill() {
+    this.visible = false;
+  }
+
+
   confirmDeleteCharacter(character: Character) {
     this.confirmationService.confirm({
-      message: 'Você tem certeza que deseja deletar este personagem?',
+      message: 'Você tem certeza de que deseja deletar este personagem?',
       accept: () => {
         this.messageService.add({ severity: 'info', summary: 'Personagem deletado com sucesso!', detail: `Personagem ${character.name} foi deletado`, life: 3000 });
         this.deleteCharacter(character);
-      },
-      reject: () => {
-        this.messageService.add({ severity: 'info', summary: 'Operação cancelada', detail: 'Operação de exclusão cancelada', life: 3000 });
       }
     })
+  }
+
+  confirmDeleteSkill(skill: CharacterSkills) {
+    this.confirmationService.confirm({
+      message: 'Você tem certeza de que deseja deletar esta habilidade?',
+      accept: () => {
+        this.messageService.add({ severity: 'info', summary: 'Habilidade deletada com sucesso!', detail: `Habilidade ${skill.name} foi deletada`, life: 3000 });
+        this.deleteSkill(skill);
+      }
+    })
+  }
+
+  confirmDeleteItem(item: CharacterInventory) {
+    this.confirmationService.confirm({
+      message: 'Você tem certeza de que deseja deletar este item?',
+      accept: () => {
+        this.messageService.add({ severity: 'info', summary: 'Item deletado com sucesso!', detail: `Item ${item.name} foi deletado`, life: 3000 });
+        this.deleteItem(item);
+      }
+    })
+  }
+
+  setTextDisplayForDialog(dialogType: string) {
+    this.textoDialogForm = dialogType;
   }
 }
