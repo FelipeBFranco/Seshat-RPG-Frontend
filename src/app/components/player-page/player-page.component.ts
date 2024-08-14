@@ -54,6 +54,36 @@ export class PlayerPageComponent implements OnInit {
   skillForm: FormGroup;
   itemForm: FormGroup;
 
+  labelMapping: { [key: string]: string } = {
+    userId: 'ID do Usuário',
+    name: 'Nome',
+    race: 'Raça',
+    classType: 'Classe',
+    level: 'Nível',
+    health: 'Saúde',
+    stamina: 'Vigor',
+    strength: 'Força',
+    agility: 'Agilidade',
+    intelligence: 'Inteligência',
+    mind: 'Mente',
+    block: 'Bloqueio',
+    dodge: 'Esquiva',
+    determination: 'Determinação',
+    image: 'Imagem',
+    description: 'Descrição',
+    energy: 'Energia',
+    quantity: 'Quantidade',
+    campaign: 'Campanha',
+    healthMax: 'Saúde Máxima',
+    mana: 'Mana',
+    manaMax: 'Mana Máxima',
+    amalgama: 'Amálgama',
+    amalgamaMax: 'Amálgama Máximo',
+    staminaMax: 'Vigor Máximo',
+    experience: 'Experiência'
+
+  };
+
   characterSkills: CharacterSkills[] = [];
   characterInventory: CharacterInventory[] = [];
   constructor(private playerCharacter: PlayerCharacterService, private messageService: MessageService, private confirmationService: ConfirmationService) {
@@ -127,6 +157,8 @@ export class PlayerPageComponent implements OnInit {
   selectCharacter(character: Character) {
     this.selectedCharacter = character;
     this.importCharacterToReactiveForm(character);
+    this.selectedCharacter.id = character.id;
+    console.log(this.selectedCharacter);
     this.attributesForm.get('name')?.disable();
     this.attributesForm.get('campaign')?.disable();
   }
@@ -223,7 +255,6 @@ export class PlayerPageComponent implements OnInit {
 
   getType(controlName: string): string {
     const value = this.attributesForm.get(controlName)?.value;
-    console.log(typeof value);
     return typeof value;
   }
 
@@ -272,7 +303,6 @@ export class PlayerPageComponent implements OnInit {
   }
 
   requisicaoSkillsPersonagem(characterId: number | undefined) {
-
     this.playerCharacter.getCharacterSkillsByCharacterId(characterId!).subscribe((data: CharacterSkills[]) => {
       this.characterSkills = data;
       console.log(this.characterSkills, data);
@@ -322,6 +352,7 @@ export class PlayerPageComponent implements OnInit {
   }
 
   createItem(character: Character) {
+    console.log(character.id);
     this.playerCharacter.createItemForCharacterInventory(this.itemForm.value, character.id!).subscribe((data: CharacterInventory) => {
       this.messageService.add({ severity: 'success', summary: 'Item criado com sucesso!', detail: `Item ${data.name} criado com sucesso!` });
       this.visible = false;
@@ -334,6 +365,7 @@ export class PlayerPageComponent implements OnInit {
   }
 
   createSkill(character: Character) {
+    console.log(character.id);
     this.playerCharacter.createSkill(this.skillForm.value, character.id!).subscribe((data: Skill) => {
       this.messageService.add({ severity: 'success', summary: 'Habilidade criada com sucesso!', detail: `Habilidade ${data.name} criada com sucesso!` });
       this.visible = false;
@@ -345,18 +377,18 @@ export class PlayerPageComponent implements OnInit {
     });
   }
 
-    editItem(itemId: number) {
-      this.playerCharacter.updateItemFromCharacterInventory(this.itemForm.value, itemId).subscribe((data: CharacterInventory) => {
-        this.messageService.add({ severity: 'success', summary: 'Item editado com sucesso!', detail: `Item ${data.name} editado com sucesso!` });
-        this.visible = false;
-        if (this.selectedCharacter.id != undefined) {
-          this.playerCharacter.getCharacterInventoryByCharacterId(this.selectedCharacter.id).subscribe((data: CharacterInventory[]) => {
-            this.characterInventory = data;
-          });
-        }
+  editItem(itemId: number) {
+    this.playerCharacter.updateItemFromCharacterInventory(this.itemForm.value, itemId).subscribe((data: CharacterInventory) => {
+      this.messageService.add({ severity: 'success', summary: 'Item editado com sucesso!', detail: `Item ${data.name} editado com sucesso!` });
+      this.visible = false;
+      if (this.selectedCharacter.id != undefined) {
+        this.playerCharacter.getCharacterInventoryByCharacterId(this.selectedCharacter.id).subscribe((data: CharacterInventory[]) => {
+          this.characterInventory = data;
+        });
       }
-      );
     }
+    );
+  }
 
   editSkill(skillId: number) {
     this.playerCharacter.updateCharacterSkill(this.skillForm.value, skillId).subscribe((data: Skill) => {
@@ -422,19 +454,24 @@ export class PlayerPageComponent implements OnInit {
     });
   }
 
-  determineSkillAction(character: Character, skillId: number) {
-    if (this.tipoDialogForm === 'Adicionar Skill') {
+  determineSkillAction(character: Character, textoDialogForm: string ,skillId: number) {
+    if (textoDialogForm === 'Adicionar Habilidade') {
       this.createSkill(character);
     } else {
-      this.editSkill(skillId);
+      this.editSkill(skillId!);
     }
   }
 
-  determineItemAction(character: Character, itemId: number) {
-    if (this.tipoDialogForm === 'Adicionar Item') {
+  determineItemAction(character: Character, textoDialogForm: string, itemId?: number) {
+    if (textoDialogForm === 'Adicionar Item') {
       this.createItem(character);
     } else {
-      this.editItem(itemId);
+      this.editItem(itemId!);
     }
+  }
+
+  clearItemAndSkillForms() {
+    this.itemForm.reset();
+    this.skillForm.reset();
   }
 }
