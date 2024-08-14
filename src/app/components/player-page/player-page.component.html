@@ -337,7 +337,7 @@
           )
         "
       >
-        <label class="col-12">{{ controlName }}</label>
+        <label class="col-12">{{ labelMapping[controlName] }}</label>
         <input
           class="col-12"
           pInputText
@@ -345,16 +345,6 @@
           type="{{ getType(controlName) }}"
         />
         <!-- Display validation message -->
-        <div
-          *ngIf="
-            attributesForm.get(controlName)?.invalid &&
-            (attributesForm.get(controlName)?.dirty ||
-              attributesForm.get(controlName)?.touched)
-          "
-        >
-          <!-- Custom validation message here -->
-          {{ controlName }} é Inválido!
-        </div>
       </div>
     </form>
     <!-- FORM DE CRIACAO DE PERSONAGEM-->
@@ -374,7 +364,7 @@
         class="text-center"
       >
         <div *ngIf="controlName != 'userId'" class="col-4 row">
-          <label class="col-12">{{ controlName }}</label>
+          <label class="col-12">{{ labelMapping[controlName] }}</label>
           <input
             class="col-10 ml-2"
             pInputText
@@ -382,16 +372,6 @@
             type="{{ getType(controlName) }}"
           />
           <!-- Display validation message -->
-          <div
-            *ngIf="
-              creationForm.get(controlName)?.invalid &&
-              (creationForm.get(controlName)?.dirty ||
-                creationForm.get(controlName)?.touched)
-            "
-          >
-            <!-- Custom validation message here -->
-            {{ controlName }} é Inválido!
-          </div>
         </div>
       </ng-container>
     </form>
@@ -411,7 +391,7 @@
         class="text-center"
       >
         <div *ngIf="controlName != 'userId'" class="col-4 row">
-          <label class="col-12">{{ controlName }}</label>
+          <label class="col-12">{{ labelMapping[controlName] }}</label>
           <input
             class="col-10 ml-2"
             pInputText
@@ -419,16 +399,6 @@
             type="{{ getType(controlName) }}"
           />
           <!-- Display validation message -->
-          <div
-            *ngIf="
-              creationForm.get(controlName)?.invalid &&
-              (creationForm.get(controlName)?.dirty ||
-                creationForm.get(controlName)?.touched)
-            "
-          >
-            <!-- Custom validation message here -->
-            {{ controlName }} é Inválido!
-          </div>
         </div>
       </ng-container>
     </form>
@@ -448,7 +418,7 @@
         class="text-center"
       >
         <div *ngIf="controlName != 'userId'" class="col-4 row">
-          <label class="col-12">{{ controlName }}</label>
+          <label class="col-12">{{ labelMapping[controlName] }}</label>
           <input
             class="col-10 ml-2"
             pInputText
@@ -456,16 +426,6 @@
             type="{{ getType(controlName) }}"
           />
           <!-- Display validation message -->
-          <div
-            *ngIf="
-              creationForm.get(controlName)?.invalid &&
-              (creationForm.get(controlName)?.dirty ||
-                creationForm.get(controlName)?.touched)
-            "
-          >
-            <!-- Custom validation message here -->
-            {{ controlName }} é Inválido!
-          </div>
         </div>
       </ng-container>
     </form>
@@ -499,7 +459,7 @@
       [outlined]="true"
       severity="contrast"
       type="submit"
-      (onClick)="visible = false; determineSkillAction(selectedCharacter, skillId!)"
+      (onClick)="visible = false; determineSkillAction(selectedCharacter, textoDialogForm, skillId!); clearItemAndSkillForms()"
     />
     <p-button
       *ngIf="tipoDialogForm == 'Item'"
@@ -507,7 +467,7 @@
       [outlined]="true"
       severity="contrast"
       type="submit"
-      (onClick)="visible = false; determineItemAction(selectedCharacter, itemId!)"
+      (onClick)="visible = false; determineItemAction(selectedCharacter, textoDialogForm, itemId); clearItemAndSkillForms()"
     />
   </ng-template>
 </p-dialog>
@@ -551,7 +511,8 @@
                 showDialog();
                 tipoDialogForm = 'Skill';
                 sendSkillsInfoToReactiveForm(skill);
-                skillId = skill.id
+                skillId = skill.id;
+                clearItemAndSkillForms()
               "
             >
               <p-inputIcon styleClass="pi pi-pencil" />
