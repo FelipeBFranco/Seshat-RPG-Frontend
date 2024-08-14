@@ -60,12 +60,12 @@ export class PlayerPageComponent implements OnInit {
     race: 'Raça',
     classType: 'Classe',
     level: 'Nível',
-    health: 'Saúde',
-    stamina: 'Vigor',
+    health: 'Vida',
+    stamina: 'Stamina',
     strength: 'Força',
     agility: 'Agilidade',
     intelligence: 'Inteligência',
-    mind: 'Mente',
+    mind: 'Vontade',
     block: 'Bloqueio',
     dodge: 'Esquiva',
     determination: 'Determinação',
@@ -74,12 +74,12 @@ export class PlayerPageComponent implements OnInit {
     energy: 'Energia',
     quantity: 'Quantidade',
     campaign: 'Campanha',
-    healthMax: 'Saúde Máxima',
+    healthMax: 'Vida Máxima',
     mana: 'Mana',
     manaMax: 'Mana Máxima',
     amalgama: 'Amálgama',
     amalgamaMax: 'Amálgama Máximo',
-    staminaMax: 'Vigor Máximo',
+    staminaMax: 'Stamina Máxima',
     experience: 'Experiência'
 
   };
@@ -454,7 +454,7 @@ export class PlayerPageComponent implements OnInit {
     });
   }
 
-  determineSkillAction(character: Character, textoDialogForm: string ,skillId: number) {
+  determineSkillAction(character: Character, textoDialogForm: string, skillId: number) {
     if (textoDialogForm === 'Adicionar Habilidade') {
       this.createSkill(character);
     } else {
