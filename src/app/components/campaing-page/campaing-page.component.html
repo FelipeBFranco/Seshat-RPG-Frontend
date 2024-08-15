@@ -1,0 +1,11 @@
+<div class="campaign-selection">
+    <h2 class="text">Escolha sua campanha</h2>
+    <div class="campaigns">
+      <div *ngFor="let campaign of campaigns" class="campaign" (click)="selectCampaign(campaign)">
+        <img [src]="campaign.icon" alt="{{campaign.name}}" />
+        <h3>{{campaign.name}}</h3>
+        <p>{{campaign.description}}</p>
+      </div>
+    </div>
+  </div>
+  
