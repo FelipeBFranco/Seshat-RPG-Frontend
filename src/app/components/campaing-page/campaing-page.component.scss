@@ -1,0 +1,53 @@
+.campaign-selection {
+    // background: url("../../../assets/imgs/login-background.jpg") center center no-repeat;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0.67) 50.5%, rgba(0, 0, 0, 0.80) 76%), url("../../../assets/imgs/login-background.jpg") lightgray 50% / cover no-repeat;
+    text-align: center;
+    color: white;
+    width: 100%;
+    height: 100vh;
+  }
+  
+.campaigns {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+  
+  .campaign {
+    margin:15%;
+    width: 30vh;
+    height: 30vh;
+    flex-shrink: 0;
+    background-color: #2c2c2c;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+    align-items: center;
+    border-radius: 45px;
+    border: 10px solid #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .campaign:hover {
+    transform: scale(1.05);
+  }
+  
+  .campaign img {
+    width: 100px;
+    height: 100px;
+  }
+  .text{
+    font-size: 3rem;
+    position: absolute;
+    text-align: center;
+    top: 25%;
+    left: 35%;
+  }
+  
