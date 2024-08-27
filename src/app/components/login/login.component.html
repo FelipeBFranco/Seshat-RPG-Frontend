@@ -1,0 +1,75 @@
+<div class="imagemFundo">
+  <p-toast [life]="5000" [baseZIndex]="5000"></p-toast>
+  <div class="loginHeader">
+    <div class="text-center">
+      <ul class="text-center" style="list-style: none; padding: 0; margin: 0">
+        <li>
+          <h1>Seshat</h1>
+        </li>
+        <li>
+          <small> Gerenciador de Fichas para RPGs de mesa </small>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="loginContent mt-3">
+    <div class="formContent">
+      <div class="cardForm">
+        <form
+          method="post"
+          action=""
+          class="front"
+          [formGroup]="formularioLogin"
+          (ngSubmit)="enviarRequisicaoDeLogin()"
+        >
+          <div>
+            <h2 class="text-center">Login</h2>
+            <div class="inputContent">
+              <div class="col">
+                <label for="input-email" class="mb-2 form-label">Email do Usuário</label>
+                <p>
+                  <input
+                    pInputText
+                    id="input-email"
+                    formControlName="email"
+                    type="email"
+                    autocomplete="email"
+                    [style]="{ width: '100%' }"
+                  />
+                </p>
+              </div>
+              <div class="col">
+                <label for="input-senha" class="mb-2 form-label">Senha</label>
+                <p>
+                  <p-password
+                    id="input-senha"
+                    formControlName="password"
+                    autocomplete="current-password"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                  ></p-password>
+                </p>
+              </div>
+              <div>
+                <small>Não possui uma conta? <a routerLink="/auth/signup" class="">Cadastre-se</a></small>
+                <p>
+                  <small>Esqueceu a senha? <a class="esqueceu-text">Recuperar</a></small>
+                </p>
+              </div>
+            </div>
+            <button
+              class="button botaoLogin"
+              type="submit"
+              [disabled]="formularioLogin.invalid || isLoading"
+            >
+              <span *ngIf="!isLoading">Login</span>
+              <div *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

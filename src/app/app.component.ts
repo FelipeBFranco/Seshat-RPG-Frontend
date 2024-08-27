@@ -12,21 +12,21 @@ export class AppComponent implements OnInit {
   constructor(private tokenService: TokenService, private router: Router) { }
 
   ngOnInit() {
-    if (this.tokenService.isExpired()) {
-      this.tokenService.clearAccess();
-      return this.router.navigate(['/login']);
-    }
+    // if (this.tokenService.isExpired()) {
+    //   this.tokenService.clearAccess();
+    //   return this.router.navigate(['/auth']);
+    // }
 
-    if (!this.tokenService.isDefined()) {
-      this.tokenService.clearAccess();
-      return this.router.navigate(['/login']);
-    }
+    // if (!this.tokenService.isDefined()) {
+    //   this.tokenService.clearAccess();
+    //   return this.router.navigate(['/auth']);
+    // }
 
-    if (this.tokenService.isTokenValid()) {
-      return true;
-    } else {
-      this.router.navigate(['/login']);
-    }
+    // if (this.tokenService.isTokenValid()) {
+    //   return true;
+    // } else {
+    //   this.router.navigate(['/auth']);
+    // }
 
     return;
   }

@@ -1,0 +1,98 @@
+<div class="imagemFundo">
+  <p-toast [life]="5000" [baseZIndex]="5000"></p-toast>
+  <div class="loginHeader">
+    <div class="text-center">
+      <ul class="text-center" style="list-style: none; padding: 0; margin: 0">
+        <li>
+          <h1>Seshat</h1>
+        </li>
+        <li>
+          <small> Gerenciador de Fichas para RPGs de mesa </small>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="loginContent mt-3">
+    <div class="formContent">
+      <div class="cardForm">
+        <form
+          method="post"
+          action=""
+          class="front"
+          [formGroup]="formularioCadastro"
+          (ngSubmit)="enviarRequisicaoDeCadastro()"
+        >
+          <div>
+            <h2 class="text-center">Registrar-se</h2>
+            <div class="inputContent">
+              <div class="col">
+                <label for="input-nome" class="mb-2 form-label"
+                  >Seu Nome</label
+                >
+                <p>
+                  <input
+                    pInputText
+                    id="input-nome"
+                    formControlName="name"
+                    type="text"
+                    autocomplete="name"
+                    [style]="{ width: '100%' }"
+                  />
+                </p>
+              </div>
+              <div class="col">
+                <label for="input-email" class="mb-2 form-label"
+                  >Seu Email</label
+                >
+                <p>
+                  <input
+                    pInputText
+                    id="input-email"
+                    formControlName="email"
+                    type="email"
+                    autocomplete="email"
+                    [style]="{ width: '100%' }"
+                  />
+                </p>
+              </div>
+              <div class="col">
+                <label for="input-senha" class="mb-2 form-label"
+                  >Sua Senha</label
+                >
+                <p>
+                  <p-password
+                    id="input-senha"
+                    formControlName="password"
+                    autocomplete="current-password"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                  ></p-password>
+                </p>
+              </div>
+              <div class="col">
+                <small
+                  >Já possui uma conta?
+                  <a routerLink="/auth/login" class="">Entrar</a></small
+                >
+              </div>
+            </div>
+            <button
+              class="button botaoLogin"
+              type="submit"
+              [disabled]="formularioCadastro.invalid || isLoading"
+            >
+              <span *ngIf="!isLoading">Cadastrar-se</span>
+              <div
+                *ngIf="isLoading"
+                class="spinner-border spinner-border-sm"
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
