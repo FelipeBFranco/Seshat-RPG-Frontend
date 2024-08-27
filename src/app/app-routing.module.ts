@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SheetManagerComponent } from './components/sheet-manager/sheet-manager.component';
+import { CampaingPageComponent } from './components/campaing-page/campaing-page.component';
 
 const routes: Routes = [
   {
@@ -15,8 +17,18 @@ const routes: Routes = [
     path: 'player-page',
     loadChildren: () => import('./components/player-page/player-page.module').then(m => m.PlayerPageModule)
   },
-  { path: '**', redirectTo: 'auth' }
-
+  {
+    path: 'not-found',
+    loadChildren: () => import('./components/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)
+  },
+  {
+    path: 'campaing-page',
+    loadChildren: () => import('./components/campaing-page/campaing-page.module').then(m => m.CampaingPageModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'auth'
+  },
 ];
 
 @NgModule({
