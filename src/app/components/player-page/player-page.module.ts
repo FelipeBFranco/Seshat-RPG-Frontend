@@ -24,7 +24,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { TooltipModule } from 'primeng/tooltip';
 import { SpeedDialModule } from 'primeng/speeddial';
 
-
 const routes: Routes = [
   {
     path: '',
@@ -57,7 +56,7 @@ const routes: Routes = [
     MatButtonModule,
     MatIconModule,
     TooltipModule,
-    SpeedDialModule
+    SpeedDialModule,
   ],
   exports: [RouterModule],
   providers: [ConfirmationService],
