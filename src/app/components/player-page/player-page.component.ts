@@ -38,6 +38,7 @@ export class PlayerPageComponent implements OnInit {
   toastIsVisible = false;
   tipoDialogForm: string = 'Criar';
   textoDialogForm: string = '';
+  uploadedFile: File | undefined;
 
   itemId: number | undefined;
   skillId: number | undefined;
@@ -103,7 +104,7 @@ export class PlayerPageComponent implements OnInit {
       block: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
       dodge: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
       determination: new FormControl<number>({ value: 0, disabled: false }, [Validators.required, Validators.minLength(1)]),
-      image: new FormControl<string>({ value: '', disabled: false }),
+      image: new FormControl<File>({ value: undefined!, disabled: false }, [Validators.required, Validators.minLength(1)]),
     });
     this.attributesForm = new FormGroup({
       campaign: new FormControl<string>({ value: '', disabled: true }, [Validators.required, Validators.minLength(1)]),
@@ -473,5 +474,13 @@ export class PlayerPageComponent implements OnInit {
   clearItemAndSkillForms() {
     this.itemForm.reset();
     this.skillForm.reset();
+  }
+
+  onFileChange(event: any) {
+    console.log(event.target.files);
+    if (event.target && event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.creationForm.get('image')?.setValue(file);
+    }
   }
 }

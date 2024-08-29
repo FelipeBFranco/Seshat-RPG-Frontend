@@ -503,7 +503,10 @@
         "
         class="text-center"
       >
-        <div *ngIf="controlName != 'userId'" class="col-4 row">
+        <div
+          *ngIf="controlName != 'userId' && controlName != 'image'"
+          class="col-4 row"
+        >
           <label class="col-12">{{ labelMapping[controlName] }}</label>
           <input
             class="col-10 ml-2"
@@ -511,6 +514,13 @@
             [formControlName]="controlName"
             type="{{ getType(controlName) }}"
           />
+          <!-- Display validation message -->
+        </div>
+      </ng-container>
+      <ng-container class="text-center">
+        <div class="col-8 row uploadImagem">
+          <label class="col-12 ml-1">Imagem</label>
+          <input type="file" (change)="onFileChange($event)" class="btn"/>
           <!-- Display validation message -->
         </div>
       </ng-container>
