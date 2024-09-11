@@ -283,20 +283,26 @@ export class PlayerPageComponent implements OnInit {
   createCharacter() {
     this.creationForm.get('userId')!.enable();
     this.characterCreateForm = this.creationForm.value;
+    this.characterCreateForm.image = this.character.image; 
+  
     this.playerCharacter.createCharacter(this.characterCreateForm).subscribe((data: any) => {
       this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Personagem criado com sucesso!' });
       this.visible = false;
+  
       if (this.loggedPlayerId != null) {
         this.playerCharacter.userCharacters(this.loggedPlayerId).subscribe((data: Character[]) => {
           this.playerCharacters = data;
         });
       }
     });
+  
+
     if (this.creationForm) {
       this.creationForm.reset();
       this.creationForm.get('userId')?.setValue(this.loggedPlayerId);
     }
   }
+  
   requisicaoInventarioPersonagem(characterId: number | undefined) {
     this.playerCharacter.getCharacterInventoryByCharacterId(characterId!).subscribe((data: CharacterInventory[]) => {
       this.characterInventory = data;
@@ -476,11 +482,20 @@ export class PlayerPageComponent implements OnInit {
     this.skillForm.reset();
   }
 
+  character: CharacterCreateForm = new CharacterCreateForm();
+  base64String: string = '';
+
   onFileChange(event: any) {
-    console.log(event.target.files);
-    if (event.target && event.target.files && event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.creationForm.get('image')?.setValue(file);
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const binaryString = reader.result as string;
+        this.character.image = btoa(binaryString); // Atribuindo base64 diretamente ao objeto
+        console.log('Imagem convertida para base64:', this.character.image); // Verifique no console
+      };
+      reader.readAsBinaryString(file);
     }
   }
+
 }
