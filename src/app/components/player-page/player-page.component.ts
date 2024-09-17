@@ -10,6 +10,7 @@ import { CharacterCreateForm } from '../shared/models/character/Form/characterCr
 import { CharacterSkills } from '../shared/models/character/characterSkills.model';
 import { ConfirmationService } from 'primeng/api';
 import { Skill } from '../shared/models/character/skill.model';
+import { LogoutButtonComponent } from '../shared/logout-button/logout-button.component';
 
 
 @Component({
@@ -26,6 +27,7 @@ import { Skill } from '../shared/models/character/skill.model';
 export class PlayerPageComponent implements OnInit {
 
   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+  @ViewChild('logoutButton') logoutButton!: LogoutButtonComponent;
 
   nomePlayerLogado!: string;
   idPlayerLogado!: number;
@@ -283,26 +285,26 @@ export class PlayerPageComponent implements OnInit {
   createCharacter() {
     this.creationForm.get('userId')!.enable();
     this.characterCreateForm = this.creationForm.value;
-    this.characterCreateForm.image = this.character.image; 
-  
+    this.characterCreateForm.image = this.character.image;
+
     this.playerCharacter.createCharacter(this.characterCreateForm).subscribe((data: any) => {
       this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Personagem criado com sucesso!' });
       this.visible = false;
-  
+
       if (this.loggedPlayerId != null) {
         this.playerCharacter.userCharacters(this.loggedPlayerId).subscribe((data: Character[]) => {
           this.playerCharacters = data;
         });
       }
     });
-  
+
 
     if (this.creationForm) {
       this.creationForm.reset();
       this.creationForm.get('userId')?.setValue(this.loggedPlayerId);
     }
   }
-  
+
   requisicaoInventarioPersonagem(characterId: number | undefined) {
     this.playerCharacter.getCharacterInventoryByCharacterId(characterId!).subscribe((data: CharacterInventory[]) => {
       this.characterInventory = data;

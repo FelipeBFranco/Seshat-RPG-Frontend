@@ -11,7 +11,6 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { LoginModule } from './components/login/login.module';
-import { SignupComponent } from './components/signup/signup.component';
 import { SignupModule } from './components/signup/signup.module';
 import { AuthScreenModule } from './components/auth-screen/auth-screen.module';
 import { AuthScreenComponent } from './components/auth-screen/auth-screen.component';

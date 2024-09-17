@@ -48,6 +48,9 @@
     </div>
   </div>
   <div class="rightContent">
+    <div class="logoutButton">
+      <app-logout-button></app-logout-button>
+    </div>
     <div
       class="infoPersonagemSelecionado text-center"
       [ngStyle]="{ height: '100vh', padding: '10px' }"
@@ -520,7 +523,7 @@
       <ng-container class="text-center">
         <div class="col-8 row uploadImagem">
           <label class="col-12 ml-1">Imagem</label>
-          <input type="file" (change)="onFileChange($event)" class="btn"/>
+          <input type="file" (change)="onFileChange($event)" class="btn" />
           <!-- Display validation message -->
         </div>
       </ng-container>

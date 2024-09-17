@@ -23,6 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TooltipModule } from 'primeng/tooltip';
 import { SpeedDialModule } from 'primeng/speeddial';
+import { LogoutModule } from '../shared/logout-button/logout-button.module';
 
 const routes: Routes = [
   {
@@ -57,6 +58,7 @@ const routes: Routes = [
     MatIconModule,
     TooltipModule,
     SpeedDialModule,
+    LogoutModule
   ],
   exports: [RouterModule],
   providers: [ConfirmationService],
