@@ -17,7 +17,7 @@ import { LoginService } from '../../services/user/login/login.service';
           <div>
             <h2 class="text-center">Login</h2>
             <div class="inputContent align-content-center justify-content-center">
-              <div class="col" style="max-width: 250px">
+              <div class="col" style="min-width: 12%">
                 <label for="input-email" class="mb-2 form-label">Email do Usuário</label>
                 <p>
                   <input
