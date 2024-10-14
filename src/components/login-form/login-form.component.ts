@@ -10,14 +10,14 @@ import { LoginService } from '../../services/user/login/login.service';
         <form
           method="post"
           action=""
-          class="front"
+          class="flex front align-content-center justify-content-center"
           [formGroup]="formularioLogin"
           (ngSubmit)="enviarRequisicaoDeLogin()"
         >
           <div>
             <h2 class="text-center">Login</h2>
-            <div class="inputContent">
-              <div class="col">
+            <div class="inputContent align-content-center justify-content-center">
+              <div class="col" style="max-width: 250px">
                 <label for="input-email" class="mb-2 form-label">Email do Usuário</label>
                 <p>
                   <input
@@ -42,17 +42,20 @@ import { LoginService } from '../../services/user/login/login.service';
                   ></p-password>
                 </p>
               </div>
-              <div>
-                <small>Não possui uma conta? <a routerLink="/auth/signup" class="">Cadastre-se</a></small>
+              <div class="ml-2">
+                <small>Não possui uma conta? <a href="/auth/signup" class="">Cadastre-se</a></small>
                 <p>
                   <small>Esqueceu a senha? <a class="esqueceu-text">Recuperar</a></small>
                 </p>
               </div>
             </div>
             <button
-              class="button botaoLogin"
+              pButton
+              pRipple
+              class="button botaoLogin ml-2 justify-content-center"
               type="submit"
               [disabled]="formularioLogin.invalid || isLoading"
+              style="width: 93%;"
             >
               <span *ngIf="!isLoading">Login</span>
               <div *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status">
