@@ -35,6 +35,7 @@ import { LoginService } from '../../services/user/login/login.service';
                 <p>
                   <p-password
                     id="input-senha"
+                    type="password"
                     formControlName="password"
                     autocomplete="current-password"
                     [feedback]="false"
