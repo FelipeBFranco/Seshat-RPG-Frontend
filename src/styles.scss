@@ -5,3 +5,9 @@ body {
   min-height: 100vh;
   min-width: 100vw;
 }
+
+// Sobrepondo estilos do PrimeNG
+::ng-deep .p-password {
+  width: auto !important;
+}
+
