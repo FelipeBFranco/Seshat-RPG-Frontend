@@ -6,6 +6,7 @@ import { LoginPageModule } from './pages/login-page/login-page.module';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { MessageService } from 'primeng/api';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule ,
     LoginPageModule,
     HttpClientModule,
     ToastModule

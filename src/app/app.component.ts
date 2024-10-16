@@ -5,12 +5,11 @@ import { MessageService } from 'primeng/api';
   selector: 'app-root',
   template: `
     <div class="app">
-      <p-toast key="global-toast"></p-toast>
+      <p-toast key="global-toast" [life]="10000"></p-toast>
       <router-outlet></router-outlet>
     </div>
   `,
   styleUrls: ['./app.component.scss'],
-  providers: [MessageService],
 })
 export class AppComponent implements OnInit {
   title = 'RPGSheetBR';

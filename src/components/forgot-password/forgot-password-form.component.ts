@@ -75,7 +75,7 @@ export class ForgotPasswordComponent {
 
   forgotPasswordFormSubmit(): void {
     this.isLoading = true;
-    this.toast.showSuccessToast('Email enviado', 'Verifique sua caixa de entrada');
+    this.toast.showSuccessToast('Email enviado', 'Se o email informado estiver cadastrado, você receberá um email com as instruções para redefinir sua senha.');
     setTimeout(() => {
       this.isLoading = false;
     }, 1000);
