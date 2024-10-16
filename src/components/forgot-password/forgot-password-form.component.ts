@@ -30,7 +30,7 @@ import { ToastService } from '../../app/shared/services/toast.service';
                     type="email"
                     autocomplete="email"
                     pTooltip="Insira o email utilizado na hora da criação da conta"
-                    tooltipPosition="bottom"
+                    tooltipPosition="right"
                     [style]="{ width: '100%' }"
                     placeholder="Informe seu Email"
                   />
