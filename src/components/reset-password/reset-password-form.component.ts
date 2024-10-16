@@ -24,7 +24,16 @@ import { ToastService } from '../../app/shared/services/toast.service';
               <div class="col">
                 <label for="input-email" class="mb-2 form-label">Informe sua nova senha.</label>
                 <p>
-                  <p-password formControlName="password" weakLabel="Senha muito fraca" mediumLabel="Senha mediana" strongLabel="Senha forte" promptLabel="Insira sua senha" [toggleMask]="true">
+                  <p-password
+                    class="inputSenhaForm"
+                    formControlName="password"
+                    weakLabel="Senha muito fraca"
+                    mediumLabel="Senha mediana"
+                    strongLabel="Senha forte"
+                    promptLabel="Insira sua senha"
+                    [toggleMask]="true"
+                    [style]="{'width':'100%'}"
+                    [inputStyle]="{'width':'100%'}">
                     <ng-template pTemplate="header">
                       <div class="p-d-flex p-ai-center p-jc-between">
                         <label class="p-mb-0">Nova senha</label>
@@ -47,7 +56,12 @@ import { ToastService } from '../../app/shared/services/toast.service';
               <div class="col">
                 <label for="input-password" class="mb-2 form-label">Confirme sua nova senha</label>
                 <p>
-                  <p-password formControlName="password"   [feedback]="false" [toggleMask]="true"></p-password>
+                  <p-password
+                    formControlName="password"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                    [style]="{'width':'100%'}"
+                    [inputStyle]="{'width':'100%'}"></p-password>
                 </p>
               </div>
             </div>
@@ -74,7 +88,6 @@ import { ToastService } from '../../app/shared/services/toast.service';
         padding: 1rem;
         border-radius: 25px;
         background-color: rgba(48, 48, 48, 0.494);
-        max-width: 280px;
       }
     `],
   providers: [FormBuilder]

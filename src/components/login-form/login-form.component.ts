@@ -40,6 +40,8 @@ import { ToastService } from '../../app/shared/services/toast.service';
                     autocomplete="current-password"
                     [feedback]="false"
                     [toggleMask]="true"
+                    [style]="{'width':'100%'}"
+                    [inputStyle]="{'width':'100%'}"
                   ></p-password>
                 </p>
               </div>

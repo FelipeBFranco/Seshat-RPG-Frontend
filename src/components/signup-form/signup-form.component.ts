@@ -60,6 +60,8 @@ import { SignupService } from '../../services/user/signup/signup.service';
                     autocomplete="current-password"
                     [feedback]="false"
                     [toggleMask]="true"
+                    [style]="{'width':'100%'}"
+                    [inputStyle]="{'width':'100%'}"
                   ></p-password>
                 </p>
               </div>
