@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { LoginService } from '../../services/user/login/login.service';
+import { ToastService } from '../../app/shared/services/toast.service';
 @Component({
   selector: 'app-login-form',
   template: `
@@ -11,8 +11,8 @@ import { LoginService } from '../../services/user/login/login.service';
           method="post"
           action=""
           class="flex front align-content-center justify-content-center"
-          [formGroup]="formularioLogin"
-          (ngSubmit)="enviarRequisicaoDeLogin()"
+          [formGroup]="loginForm"
+          (ngSubmit)="loginFormSubmit()"
         >
           <div>
             <h2 class="text-center">Login</h2>
@@ -46,7 +46,7 @@ import { LoginService } from '../../services/user/login/login.service';
               <div class="ml-2">
                 <small>Não possui uma conta? <a href="/auth/signup" class="">Cadastre-se</a></small>
                 <p>
-                  <small>Esqueceu a senha? <a class="esqueceu-text">Recuperar</a></small>
+                  <small>Esqueceu a senha? <a href="/auth/forgot-password" class="esqueceu-text">Recuperar</a></small>
                 </p>
               </div>
             </div>
@@ -55,7 +55,7 @@ import { LoginService } from '../../services/user/login/login.service';
               pRipple
               class="button botaoLogin ml-2 justify-content-center"
               type="submit"
-              [disabled]="formularioLogin.invalid || isLoading"
+              [disabled]="loginForm.invalid || isLoading"
               style="width: 93%;"
             >
               <span *ngIf="!isLoading">Login</span>
@@ -68,57 +68,47 @@ import { LoginService } from '../../services/user/login/login.service';
       </div>
   `,
   styleUrls: ['./login-form.component.scss'],
-  providers: [FormBuilder, MessageService]
+  providers: [FormBuilder]
 })
 export class LoginFormComponent {
   toastIsVisible = false;
   isLoading = false;
-  formularioLogin: FormGroup
-  formularioCadastro: FormGroup
+  loginForm: FormGroup
 
-  constructor(private LoginService: LoginService, private messageService: MessageService) {
-    this.formularioLogin = new FormGroup({
+  constructor(private LoginService: LoginService, private toastService: ToastService) {
+    this.loginForm = new FormGroup({
       email: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.email]),
       password: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
     })
-    this.formularioCadastro = new FormGroup({
-      name: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      email: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.email]),
-      password: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
-    });
-    this.formularioCadastro = new FormGroup({
-      name: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      email: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.email]),
-      password: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
-    });
   }
 
   ngOnInit() {
   }
 
   // Login com validação de token JWT e redirecionamento
-  enviarRequisicaoDeLogin() {
+  loginFormSubmit() {
     // Requisicao no service de login
-    this.formularioLogin.value.email = this.formularioLogin.value.email.trim();
+    this.loginForm.value.email = this.loginForm.value.email.trim();
     this.isLoading = true;
-    this.formularioLogin.disable();
-    this.LoginService.login(this.formularioLogin.value.email, this.formularioLogin.value.password).subscribe(
+    this.loginForm.disable();
+    this.LoginService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(
       (success: any) => {
         localStorage.setItem('token', `${(success as any)['token']}`);
         localStorage.setItem('name', `${(success as any)['name']}`);
         localStorage.setItem('id', `${(success as any)['id']}`);
-        this.messageService.add({ severity: 'success', summary: 'Login efetuado com sucesso!', detail: 'Você será redirecionado à página em um instante...', sticky: false });
+        this.toastService.showSuccessToast('Login efetuado com sucesso', 'Você será redirecionado em breve');
         // Redirecionar para a página do usuário (a verificação de rule do token será feita posteriormente no servidor para a diferenciação de rotas)
         this.isLoading = false;
         setTimeout(() => {
-          window.location.href = '/player-page';
-        }, 3000);
+          window.location.href = '/select-campaign';
+        }, 1500);
       },
       (error: any) => {
         // Se a requisição falhar, exibir mensagem de erro
-        this.messageService.add({ severity: 'error', summary: 'Erro ao efetuar login', detail: 'Verifique suas credenciais e tente novamente.', sticky: false });
+        this.toastService.showToast('Erro', 'Email ou senha incorretos', 'error');
+        console.log('deu ruim');
         this.isLoading = false;
-        this.formularioLogin.enable();
+        this.loginForm.enable();
       }
     );
   }

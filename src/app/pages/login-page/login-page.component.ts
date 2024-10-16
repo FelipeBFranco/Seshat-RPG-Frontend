@@ -8,6 +8,9 @@ import { Component } from '@angular/core';
         <router-outlet></router-outlet>
       </div>
     </div>`,
-  styleUrls: ['./login-page.component.scss']
+  styleUrls: ['./login-page.component.scss'],
+  providers: []
 })
-export class LoginPageComponent { }
+export class LoginPageComponent {
+  constructor() {}
+}
