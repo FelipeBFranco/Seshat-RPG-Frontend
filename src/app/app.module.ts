@@ -7,6 +7,7 @@ import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ResetPasswordModule } from '../components/reset-password/reset-password-form.module';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule ,
     LoginPageModule,
     HttpClientModule,
-    ToastModule
+    ToastModule,
+    ResetPasswordModule
   ],
   providers: [provideHttpClient(withFetch()), MessageService],
   bootstrap: [AppComponent]

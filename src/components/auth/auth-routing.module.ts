@@ -18,6 +18,9 @@ const routes: Routes = [
         path: 'forgot-password', component: ForgotPasswordComponent,
       },
       {
+        path: 'reset-password', loadChildren: () => import('../reset-password/reset-password-form.module').then(m => m.ResetPasswordModule)
+      },
+      {
         path: '', redirectTo: 'login', pathMatch: 'full'
       },
       { path: '**', redirectTo: 'login', pathMatch: 'full' }
