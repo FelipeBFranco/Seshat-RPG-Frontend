@@ -16,15 +16,16 @@ import { matchPasswordValidator } from '../../app/shared/validators/match-passwo
           (ngSubmit)="resetPasswordFormSubmit()"
         >
           <div>
-            <h2 class="text-center">Redefinir senha</h2>
-            <h4 class="subtext">
+            <p class="text-center titleText">Redefinir senha</p>
+            <p class="subtext">
               Sua nova senha não pode ser igual a senha anterior.
-            </h4>
+            </p>
             <div class="inputContent">
               <div class="col">
                 <label for="input-email" class="mb-2 form-label">Informe sua nova senha.</label>
                 <p>
                   <p-password
+                    type="password"
                     class="inputSenhaForm"
                     formControlName="password"
                     weakLabel="Senha muito fraca"
@@ -33,7 +34,8 @@ import { matchPasswordValidator } from '../../app/shared/validators/match-passwo
                     promptLabel="Insira sua senha"
                     [toggleMask]="true"
                     [style]="{'width':'100%'}"
-                    [inputStyle]="{'width':'100%'}">
+                    [inputStyle]="{'width':'100%'}"
+                    >
                     <ng-template pTemplate="header">
                       <div class="p-d-flex p-ai-center p-jc-between">
                         <label class="p-mb-0">Nova senha</label>
@@ -57,6 +59,7 @@ import { matchPasswordValidator } from '../../app/shared/validators/match-passwo
                 <label for="input-password" class="mb-2 form-label">Confirme sua nova senha</label>
                 <p>
                   <p-password
+                    type="password"
                     formControlName="confirmPassword"
                     [toggleMask]="true"
                     [style]="{'width':'100%'}"
@@ -83,7 +86,7 @@ import { matchPasswordValidator } from '../../app/shared/validators/match-passwo
               class="button botaoLogin ml-2 justify-content-center"
               type="submit"
               [disabled]="!validatePassword() || isLoading"
-              style="width: 93%;"
+              style="width: 96%;"
             >
               <span *ngIf="!isLoading">Redefinir senha</span>
               <div *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status">
@@ -97,9 +100,15 @@ import { matchPasswordValidator } from '../../app/shared/validators/match-passwo
   styles: [`
       .subtext {
         font-weight: 500;
+        font-size: 0.9rem;
         padding: 1rem;
         border-radius: 25px;
         background-color: rgba(48, 48, 48, 0.494);
+      }
+
+      .titleText {
+        font-weight: 700;
+        font-size: 1.5rem;
       }
 
       .passwordError {
