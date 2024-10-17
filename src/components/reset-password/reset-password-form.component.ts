@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginService } from '../../services/user/login/login.service';
 import { ToastService } from '../../app/shared/services/toast.service';
+import { matchPasswordValidator } from '../../app/shared/validators/match-password.validator';
 @Component({
   selector: 'app-login-form',
   template: `
@@ -42,7 +42,7 @@ import { ToastService } from '../../app/shared/services/toast.service';
                     <ng-template pTemplate="footer">
                     <p-divider></p-divider>
                     <p class="p-mb-0">A senha deve conter:</p>
-                    <ul class="p-ml-4 p-mt-0">
+                    <ul class="p-ml-4 p-mt-0 passwordRules">
                       <li> {{ hasMinLength() ? '✅' : '❌' }}  Pelo menos 8 caracteres</li>
                       <li> {{ hasUpperCase() ? '✅' : '❌' }} Uma letra maiúscula</li>
                       <li> {{ hasLowerCase() ? '✅' : '❌' }} Uma letra minúscula</li>
@@ -57,12 +57,24 @@ import { ToastService } from '../../app/shared/services/toast.service';
                 <label for="input-password" class="mb-2 form-label">Confirme sua nova senha</label>
                 <p>
                   <p-password
-                    formControlName="password"
-                    [feedback]="false"
+                    formControlName="confirmPassword"
                     [toggleMask]="true"
                     [style]="{'width':'100%'}"
-                    [inputStyle]="{'width':'100%'}"></p-password>
+                    [inputStyle]="{'width':'100%'}"
+                    [feedback]="false"
+                    ></p-password>
                 </p>
+                <div *ngIf="resetPasswordForm.invalid && resetPasswordForm.touched">
+                  <p>
+                    <small class="passwordError" *ngIf="resetPasswordForm.controls['confirmPassword'].errors?.['required']">A confirmação de senha é necessária.</small>
+                  </p>
+                  <p>
+                    <small class="passwordError" *ngIf="!validatePassword() && !resetPasswordForm.errors?.['passwordsDoNotMatch']">A senha deve seguir todas as regras</small>
+                  </p>
+                </div>
+                <div *ngIf="resetPasswordForm.errors?.['passwordsDoNotMatch'] && resetPasswordForm.controls['confirmPassword'].touched">
+                  <small class="passwordError">As senhas precisam ser iguais.</small>
+                </div>
               </div>
             </div>
             <button
@@ -70,7 +82,7 @@ import { ToastService } from '../../app/shared/services/toast.service';
               pRipple
               class="button botaoLogin ml-2 justify-content-center"
               type="submit"
-              [disabled]="resetPasswordForm.invalid || isLoading"
+              [disabled]="!validatePassword() || isLoading"
               style="width: 93%;"
             >
               <span *ngIf="!isLoading">Redefinir senha</span>
@@ -84,10 +96,20 @@ import { ToastService } from '../../app/shared/services/toast.service';
   `,
   styles: [`
       .subtext {
-        font-weight: semibold;
+        font-weight: 500;
         padding: 1rem;
         border-radius: 25px;
         background-color: rgba(48, 48, 48, 0.494);
+      }
+
+      .passwordError {
+        color: red;
+        font-size: 0.9rem;
+      }
+
+      .passwordRules {
+        font-size: 0.9rem;
+        list-style: none;
       }
     `],
   providers: [FormBuilder]
@@ -97,11 +119,11 @@ export class ResetPasswordComponent {
   isLoading = false;
   resetPasswordForm: FormGroup
 
-  constructor(private toastService: ToastService, private router: Router) {
-    this.resetPasswordForm = new FormGroup({
-      password: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.minLength(1)]),
-      confirmPassword: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.email]),
-    })
+  constructor(private fb: FormBuilder, private toastService: ToastService, private router: Router) {
+    this.resetPasswordForm = this.fb.group({
+      password: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])/)]),
+      confirmPassword: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])/)]),
+    }, { validators: matchPasswordValidator });
   }
 
   ngOnInit() {
@@ -113,7 +135,7 @@ export class ResetPasswordComponent {
     this.toastService.showToast('success', 'Senha redefinida com sucesso', 'Sua senha foi redefinida com sucesso. Você será redirecionado para a página de login.');
     this.isLoading = false;
     setTimeout(() => {
-      this.router.navigate(['/login']);
+      this.navitateToLogin();
     }, 2000);
   }
 
@@ -140,4 +162,11 @@ export class ResetPasswordComponent {
   hasSpecialChar(): boolean {
     return /[!@#$%^&*]/.test(this.resetPasswordForm.controls['password'].value);
   }
+
+  validatePassword(): boolean {
+    return this.hasMinLength() && this.hasUpperCase() &&
+     this.hasLowerCase() && this.hasNumber() &&
+     this.hasSpecialChar() && this.resetPasswordForm.controls['password'].value === this.resetPasswordForm.controls['confirmPassword'].value;
+  }
+
 }

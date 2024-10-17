@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ToastService } from '../../app/shared/services/toast.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login-form',
   template: `
@@ -66,7 +67,8 @@ export class ForgotPasswordComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private toast: ToastService
+    private toast: ToastService,
+    private router: Router
   ) {
     this.forgotPasswordForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email])
@@ -78,6 +80,7 @@ export class ForgotPasswordComponent {
     this.toast.showSuccessToast('Email enviado', 'Se o email informado estiver cadastrado, você receberá um email com as instruções para redefinir sua senha.');
     setTimeout(() => {
       this.isLoading = false;
+      this.router.navigate(['/auth/login']);
     }, 1000);
     return;
   }
