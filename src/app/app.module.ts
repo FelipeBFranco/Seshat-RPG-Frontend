@@ -1,44 +1,29 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LoginPageModule } from './pages/login-page/login-page.module';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SheetManagerModule } from './components/sheet-manager/sheet-manager.module';
-import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
-import { AuthInterceptor } from './interceptor/auth.interceptor';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { LoginModule } from './components/login/login.module';
-import { SignupModule } from './components/signup/signup.module';
-import { AuthScreenModule } from './components/auth-screen/auth-screen.module';
-import { AuthScreenComponent } from './components/auth-screen/auth-screen.component';
+import { ResetPasswordModule } from '../components/reset-password/reset-password-form.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    AuthScreenComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SheetManagerModule,
+    BrowserAnimationsModule ,
+    LoginPageModule,
     HttpClientModule,
-    LoginModule,
-    SignupModule,
-    AuthScreenModule
+    ToastModule,
+    ResetPasswordModule
   ],
-  providers: [
-    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
-    JwtHelperService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    provideAnimationsAsync(),
-  ],
+  providers: [provideHttpClient(withFetch()), MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
